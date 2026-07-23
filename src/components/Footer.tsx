@@ -106,24 +106,25 @@ export default function Footer() {
           {/* Contact Details */}
           <div className="md:col-span-4 text-left space-y-5">
             <h4 className="font-display font-bold text-sm text-[#0F172A] uppercase tracking-wider">Hubungi Kami</h4>
-            <li className="flex items-start gap-3">
-  <MapPin className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
-  <span className="text-xs sm:text-sm text-[#64748B] leading-relaxed font-sans">
-    Jl Swadaya Ujung No 23, Indonesia
-  </span>
-</li>
-<li className="flex items-center gap-3">
-  <Phone className="w-5 h-5 text-brand-primary flex-shrink-0" />
-  <a href="tel:+6281584229797" className="text-xs sm:text-sm text-[#64748B] hover:text-[#0F172A] transition-colors font-sans">
-    +62 815-8422-9797
-  </a>
-</li>
-<li className="flex items-center gap-3">
-  <Mail className="w-5 h-5 text-brand-primary flex-shrink-0" />
-  <a href="mailto:babehdigital2025@gmail.com" className="text-xs sm:text-sm text-[#64748B] hover:text-[#0F172A] transition-colors font-sans">
-    babehdigital2025@gmail.com
-  </a>
-</li>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
+                <span className="text-xs sm:text-sm text-[#64748B] leading-relaxed font-sans">
+                  Jl Swadaya Ujung No 23, Indonesia
+                </span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-brand-primary flex-shrink-0" />
+                <a href="tel:+6281584229797" className="text-xs sm:text-sm text-[#64748B] hover:text-[#0F172A] transition-colors font-sans">
+                  +62 815-8422-9797
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-brand-primary flex-shrink-0" />
+                <a href="mailto:babehdigital2025@gmail.com" className="text-xs sm:text-sm text-[#64748B] hover:text-[#0F172A] transition-colors font-sans">
+                  babehdigital2025@gmail.com
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -137,7 +138,7 @@ export default function Footer() {
           
           <div className="flex gap-4">
             <a
-              href="https://wa.me/6281234567890"
+              href="https://wa.me/6281584229797"
               target="_blank"
               rel="noopener noreferrer"
               className="w-8 h-8 rounded-lg bg-white border border-[#E2E8F0] hover:bg-brand-primary hover:text-white text-slate-500 flex items-center justify-center transition-all shadow"
