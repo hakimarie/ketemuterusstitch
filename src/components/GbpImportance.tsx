@@ -1,4 +1,5 @@
 import { CheckCircle2, TrendingUp, Users, Search, Star, Camera, Landmark } from "lucide-react";
+import luxuryCafeImage from "../assets/images/luxury_cafe_atmosphere_1784623343636.jpg";
 
 export default function GbpImportance() {
   const checklist = [
@@ -46,7 +47,7 @@ export default function GbpImportance() {
             <div className="absolute inset-0 bg-blue-100 rounded-[32px] rotate-2 scale-[1.02] -z-10 opacity-60"></div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-100 aspect-square sm:aspect-[4/3] lg:aspect-square">
               <img
-                src="/src/assets/images/luxury_cafe_atmosphere_1784623343636.jpg"
+                src={luxuryCafeImage}
                 alt="Luxury Coffee Shop Atmosphere"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
