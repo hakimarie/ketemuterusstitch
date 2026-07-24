@@ -106,7 +106,7 @@ export default function Navbar() {
           </button>
           <a
             id="nav-cta-whatsapp"
-            href="https://wa.me/6281234567890?text=Halo%20KetemuTerus%20-%20Saya%20tertarik%20dengan%20layanan%20optimasi%20bisnis%20saya%20agar%20lebih%20mudah%20ditemukan."
+            href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%20-%20Saya%20tertarik%20dengan%20layanan%20optimasi%20bisnis%20saya%20agar%20lebih%20mudah%20ditemukan."
             target="_blank"
             rel="noopener noreferrer"
             className="bg-brand-primary text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-blue-600 transition-all shadow-lg shadow-blue-200 hover:shadow-xl active:scale-[0.98]"
@@ -178,7 +178,7 @@ export default function Navbar() {
               Coba Audit Gratis ⚡
             </button>
             <a
-              href="https://wa.me/6281234567890?text=Halo%20KetemuTerus%20-%20Saya%20tertarik%20dengan%20layanan%20optimasi%20bisnis%20saya%20agar%20lebih%20mudah%20ditemukan."
+              href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%20-%20Saya%20tertarik%20dengan%20layanan%20optimasi%20bisnis%20saya%20agar%20lebih%20mudah%20ditemukan."
               target="_blank"
               rel="noopener noreferrer"
               className="w-full text-center py-3 bg-brand-primary hover:bg-blue-600 text-white font-semibold rounded-full transition-all shadow-lg shadow-blue-200 active:scale-[0.98]"
