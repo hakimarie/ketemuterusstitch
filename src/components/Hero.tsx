@@ -55,7 +55,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4">
               <a
                 id="hero-cta-whatsapp"
-                href="https://wa.me/6281234567890?text=Halo%20KetemuTerus%20-%20Saya%20ingin%20konsultasi%20gratis%20untuk%20mengoptimalkan%20Google%20Business%20Profile%20bisnis%20saya."
+                href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%20-%20Saya%20ingin%20konsultasi%20gratis%20untuk%20mengoptimalkan%20Google%20Business%20Profile%20bisnis%20saya."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-brand-primary text-white text-center font-bold px-8 py-4 rounded-2xl hover:bg-blue-600 transition-all shadow-xl shadow-blue-200 flex items-center justify-center gap-2 text-base active:scale-[0.98]"
