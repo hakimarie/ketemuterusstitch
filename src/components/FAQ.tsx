@@ -99,7 +99,7 @@ export default function FAQ() {
           </div>
           <a
             id="faq-whatsapp-cta"
-            href="https://wa.me/6281234567890?text=Halo%20KetemuTerus,%20saya%20memiliki%20pertanyaan%20mengenai%20layanan%20optimasi%20digital%20lokal."
+            href="https://wa.me/6281584229797?text=Halo%20KetemuTerus,%20saya%20memiliki%20pertanyaan%20mengenai%20layanan%20optimasi%20digital%20lokal."
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto bg-brand-primary text-white text-xs sm:text-sm font-semibold px-5 py-3 rounded-xl hover:bg-blue-600 transition-all flex items-center justify-center gap-2"
