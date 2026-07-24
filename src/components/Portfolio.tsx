@@ -164,7 +164,7 @@ export default function Portfolio() {
                   ))}
                 </div>
                 <a
-                  href={`https://wa.me/6281234567890?text=Halo%20KetemuTerus,%20saya%20melihat%20portfolio%20${encodeURIComponent(item.businessName)}%20dan%20tertarik%20menerapkan%20strategi%20serupa%20untuk%20bisnis%20saya.`}
+                  href={`https://wa.me/6281584229797?text=Halo%20KetemuTerus,%20saya%20melihat%20portfolio%20${encodeURIComponent(item.businessName)}%20dan%20tertarik%20menerapkan%20strategi%20serupa%20untuk%20bisnis%20saya.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-xs font-bold text-brand-primary hover:text-blue-700 transition-colors group-hover:underline"
