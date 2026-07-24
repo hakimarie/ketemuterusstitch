@@ -102,7 +102,7 @@ export default function HowItWorks() {
         {/* Final Call to Action Link */}
         <div className="mt-16 text-center">
           <a
-            href="https://wa.me/6281234567890?text=Halo%20KetemuTerus,%20saya%20ingin%20memulai%20langkah%20audit%20awal%20dan%20optimasi%20Google%20Maps%20bisnis%20saya."
+            href="https://wa.me/6281584229797?text=Halo%20KetemuTerus,%20saya%20ingin%20memulai%20langkah%20audit%20awal%20dan%20optimasi%20Google%20Maps%20bisnis%20saya."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm font-bold text-brand-primary hover:text-blue-700 hover:underline transition-all"
