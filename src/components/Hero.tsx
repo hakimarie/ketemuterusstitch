@@ -1,4 +1,5 @@
 import { MapPin, Search, Star, Phone, CheckCircle2, MessageCircle, ArrowRight, Share2, Compass, ShieldCheck } from "lucide-react";
+import luxuryCafeImage from "../assets/images/luxury_cafe_atmosphere_1784623343636.jpg";
 
 export default function Hero() {
   const scrollToAuditor = () => {
@@ -189,7 +190,7 @@ export default function Hero() {
                   <div className="space-y-2.5">
                     <div className="aspect-[16/9] w-full bg-slate-100 rounded-lg overflow-hidden relative">
                       <img
-                        src="/src/assets/images/luxury_cafe_atmosphere_1784623343636.jpg"
+                        src={luxuryCafeImage}
                         alt="Coffee Shop"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
