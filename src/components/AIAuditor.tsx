@@ -439,7 +439,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   
                   <a
                     id="audit-whatsapp-cta"
-                    href={`https://wa.me/6281234567890?text=${getWhatsAppMessage()}`}
+                    href={`https://wa.me/6281584229797?text=${getWhatsAppMessage()}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full sm:w-auto bg-brand-secondary text-white font-bold px-6 py-3.5 rounded-xl hover:bg-emerald-600 transition-all shadow-xl shadow-emerald-500/10 hover:shadow-2xl active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
