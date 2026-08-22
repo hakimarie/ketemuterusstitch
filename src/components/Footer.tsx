@@ -12,13 +12,13 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#F8FAFC] text-[#64748B] border-t border-[#E2E8F0] pt-20 pb-10 relative overflow-hidden z-10">
-      
+
       {/* Decorative linear grids */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_100%,#000_70%,transparent_100%)] opacity-35 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 space-y-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-          
+
           {/* Logo & Intro */}
           <div className="md:col-span-5 space-y-6 text-left">
             <div className="flex items-center gap-2 cursor-pointer group" onClick={() => scrollToSection("hero")}>
@@ -34,7 +34,7 @@ export default function Footer() {
                 </span>
               </div>
             </div>
-            
+
             <p className="text-[#64748B] text-xs sm:text-sm leading-relaxed max-w-sm">
               KetemuTerus adalah mitra agensi pemasaran lokal premium yang berdedikasi membantu UMKM, restoran, cafe, salon, dan klinik di Indonesia mendominasi peringkat penelusuran peta digital.
             </p>
@@ -135,40 +135,40 @@ export default function Footer() {
           <p className="text-xs text-slate-400 font-sans">
             &copy; {currentYear} KetemuTerus. All rights reserved. Made in Indonesia for Local Businesses.
           </p>
-          
-         <div className="flex gap-4">
-  
-    href="https://wa.me/6281584229797"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-8 h-8 rounded-lg bg-white border border-[#E2E8F0] hover:bg-brand-primary hover:text-white text-slate-500 flex items-center justify-center transition-all shadow"
-    aria-label="WhatsApp Link"
-  >
-    <MessageCircle className="w-4.5 h-4.5 fill-current" />
-  </a>
 
-  
-    href="https://www.instagram.com/babehdigital"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-8 h-8 rounded-lg bg-white border border-[#E2E8F0] hover:bg-brand-primary hover:text-white text-slate-500 flex items-center justify-center transition-all shadow"
-    aria-label="Instagram Link"
-  >
-    <Instagram className="w-4.5 h-4.5" />
-  </a>
+          <div className="flex gap-4">
+            <a
+              href="https://wa.me/6281584229797"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 rounded-lg bg-white border border-[#E2E8F0] hover:bg-brand-primary hover:text-white text-slate-500 flex items-center justify-center transition-all shadow"
+              aria-label="WhatsApp Link"
+            >
+              <MessageCircle className="w-4.5 h-4.5 fill-current" />
+            </a>
 
-  
-    href="https://www.tiktok.com/@ketemuterus.biz.id"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-8 h-8 rounded-lg bg-white border border-[#E2E8F0] hover:bg-brand-primary hover:text-white text-slate-500 flex items-center justify-center transition-all shadow"
-    aria-label="TikTok Link"
-  >
-    <svg viewBox="0 0 24 24" className="w-4.5 h-4.5" fill="currentColor">
-      <path d="M16.6 5.82c-.9-.98-1.4-2.26-1.4-3.62h-3.15v13.7c0 1.6-1.3 2.9-2.9 2.9a2.9 2.9 0 0 1-2.9-2.9 2.9 2.9 0 0 1 2.9-2.9c.32 0 .63.05.92.15V9.9a6.1 6.1 0 0 0-.92-.07A6.07 6.07 0 0 0 3.1 15.9 6.07 6.07 0 0 0 9.17 22a6.07 6.07 0 0 0 6.07-6.1V9.4a9.1 9.1 0 0 0 5.34 1.71V7.96a5.6 5.6 0 0 1-3.98-2.14Z"/>
-    </svg>
-  </a>
-</div>
+            <a
+              href="https://www.instagram.com/babehdigital"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 rounded-lg bg-white border border-[#E2E8F0] hover:bg-brand-primary hover:text-white text-slate-500 flex items-center justify-center transition-all shadow"
+              aria-label="Instagram Link"
+            >
+              <Instagram className="w-4.5 h-4.5" />
+            </a>
+
+            <a
+              href="https://www.tiktok.com/@ketemuterus.biz.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 rounded-lg bg-white border border-[#E2E8F0] hover:bg-brand-primary hover:text-white text-slate-500 flex items-center justify-center transition-all shadow"
+              aria-label="TikTok Link"
+            >
+              <svg viewBox="0 0 24 24" className="w-4.5 h-4.5" fill="currentColor">
+                <path d="M16.6 5.82c-.9-.98-1.4-2.26-1.4-3.62h-3.15v13.7c0 1.6-1.3 2.9-2.9 2.9a2.9 2.9 0 0 1-2.9-2.9 2.9 2.9 0 0 1 2.9-2.9c.32 0 .63.05.92.15V9.9a6.1 6.1 0 0 0-.92-.07A6.07 6.07 0 0 0 3.1 15.9 6.07 6.07 0 0 0 9.17 22a6.07 6.07 0 0 0 6.07-6.1V9.4a9.1 9.1 0 0 0 5.34 1.71V7.96a5.6 5.6 0 0 1-3.98-2.14Z"/>
+              </svg>
+            </a>
+          </div>
         </div>
 
       </div>
