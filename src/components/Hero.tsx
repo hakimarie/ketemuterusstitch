@@ -73,21 +73,13 @@ export default function Hero() {
               </button>
             </div>
 
-            {/* Trust and Rating Summary */}
-            <div className="flex items-center gap-6 pt-6 border-t border-slate-100">
-              <div className="flex items-center gap-1.5">
-                <div className="flex text-amber-500">
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                </div>
-                <span className="text-sm font-bold text-slate-800">Fokus pada data</span>
+            {/* Trust summary without unverified rating claims */}
+            <div className="flex items-center gap-3 pt-6 border-t border-slate-100">
+              <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-brand-primary">
+                <ShieldCheck className="w-5 h-5" />
               </div>
-              <div className="h-4 w-[1px] bg-slate-200"></div>
               <p className="text-xs text-slate-500 font-sans">
-                Pendekatan berbasis data, tanpa janji peringkat yang tidak bisa dijamin.
+                Pendekatan transparan, berfokus pada data yang dapat diverifikasi.
               </p>
             </div>
           </div>
