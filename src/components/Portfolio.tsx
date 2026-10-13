@@ -100,7 +100,7 @@ export default function Portfolio() {
                 <div className="grid grid-cols-2 gap-4 bg-white p-5 rounded-2xl border border-slate-100 shadow-inner">
                   {/* Before */}
                   <div className="text-left space-y-1.5 border-r border-slate-100 pr-4">
-                    <span className="text-[10px] font-bold text-rose-500 bg-rose-50 px-2 py-0.5 rounded uppercase tracking-wider">Sebelum</span>
+                    <span className="text-[10px] font-bold text-rose-500 bg-rose-50 px-2 py-0.5 rounded uppercase tracking-wider" >Fokus awal</span>
                     <div className="text-sm font-bold text-slate-400 line-through truncate font-sans">
                       {item.beforeValue}
                     </div>
@@ -108,7 +108,7 @@ export default function Portfolio() {
                   {/* After */}
                   <div className="text-left space-y-1.5 pl-2">
                     <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1 w-max">
-                      Setelah 🎉
+                      Output layanan
                     </span>
                     <div className="text-sm font-black text-emerald-600 truncate font-display">
                       {item.afterValue}
