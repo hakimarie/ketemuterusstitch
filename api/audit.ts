@@ -54,6 +54,14 @@ export default async function handler(req: Request, res: Response) {
   }
 
   const body = req.body && typeof req.body === "object" ? req.body : {};
+  // Match the Express middleware limit used in local development.
+  try {
+    if (JSON.stringify(body).length > 10 * 1024) {
+      return res.status(413).json({ error: "Ukuran data permintaan terlalu besar." });
+    }
+  } catch {
+    return res.status(400).json({ error: "Format data permintaan tidak valid." });
+  }
   const businessName = typeof body.businessName === "string" ? body.businessName.trim() : "";
   const category = typeof body.category === "string" ? body.category.trim() : "";
   const location = typeof body.location === "string" ? body.location.trim() : "";
