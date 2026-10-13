@@ -1,4 +1,4 @@
-import { MapPin, Mail, Phone, MessageCircle, ArrowRight, Star, Instagram } from "lucide-react";
+import { MapPin, Phone, MessageCircle, ArrowRight, Instagram } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -36,19 +36,10 @@ export default function Footer() {
             </div>
 
             <p className="text-[#64748B] text-xs sm:text-sm leading-relaxed max-w-sm">
-              KetemuTerus adalah mitra agensi pemasaran lokal premium yang berdedikasi membantu UMKM, restoran, cafe, salon, dan klinik di Indonesia mendominasi peringkat penelusuran peta digital.
+              KetemuTerus membantu bisnis lokal memperbaiki kehadiran digital melalui Google Business Profile, Local SEO, website, dan pengelolaan ulasan yang transparan.
             </p>
 
-            <div className="flex items-center gap-1.5 pt-2">
-              <div className="flex text-amber-500">
-                <Star className="w-4 h-4 fill-current" />
-                <Star className="w-4 h-4 fill-current" />
-                <Star className="w-4 h-4 fill-current" />
-                <Star className="w-4 h-4 fill-current" />
-                <Star className="w-4 h-4 fill-current" />
-              </div>
-              <span className="text-xs font-bold text-[#0F172A]">4.9 Ratings</span>
-            </div>
+
           </div>
 
           {/* Quick Navigation links */}
@@ -70,7 +61,7 @@ export default function Footer() {
                   className="text-xs sm:text-sm text-[#64748B] hover:text-[#0F172A] transition-colors flex items-center gap-1 group"
                 >
                   <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-brand-primary group-hover:translate-x-1 transition-all" />
-                  <span>Statistik Hasil</span>
+                  <span>Area Layanan</span>
                 </button>
               </li>
               <li>
@@ -107,22 +98,10 @@ export default function Footer() {
           <div className="md:col-span-4 text-left space-y-5">
             <h4 className="font-display font-bold text-sm text-[#0F172A] uppercase tracking-wider">Hubungi Kami</h4>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm text-[#64748B] leading-relaxed font-sans">
-                  Jl Swadaya Ujung No 23, Indonesia
-                </span>
-              </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-brand-primary flex-shrink-0" />
                 <a href="tel:+6281584229797" className="text-xs sm:text-sm text-[#64748B] hover:text-[#0F172A] transition-colors font-sans">
                   +62 815-8422-9797
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-brand-primary flex-shrink-0" />
-                <a href="mailto:babehdigital2025@gmail.com" className="text-xs sm:text-sm text-[#64748B] hover:text-[#0F172A] transition-colors font-sans">
-                  babehdigital2025@gmail.com
                 </a>
               </li>
             </ul>
@@ -148,7 +127,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://www.instagram.com/babehdigital"
+              href="https://www.instagram.com/ketemuterus.biz.id"
               target="_blank"
               rel="noopener noreferrer"
               className="w-8 h-8 rounded-lg bg-white border border-[#E2E8F0] hover:bg-brand-primary hover:text-white text-slate-500 flex items-center justify-center transition-all shadow"
