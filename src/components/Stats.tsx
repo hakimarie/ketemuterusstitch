@@ -2,34 +2,10 @@ import { Users, Heart, Calendar, ShieldCheck } from "lucide-react";
 
 export default function Stats() {
   const statsList = [
-    {
-      value: "500+",
-      label: "Mitra Bisnis",
-      description: "Bisnis lokal yang berhasil kami bantu tumbuh",
-      icon: Users,
-      colorClass: "text-blue-500 bg-blue-50",
-    },
-    {
-      value: "95%",
-      label: "Happy Clients",
-      description: "Tingkat kepuasan layanan dan pencapaian target",
-      icon: Heart,
-      colorClass: "text-emerald-500 bg-emerald-50",
-    },
-    {
-      value: "10+",
-      label: "Years Experience",
-      description: "Pengalaman di bidang pemasaran digital lokal",
-      icon: Calendar,
-      colorClass: "text-amber-500 bg-amber-50",
-    },
-    {
-      value: "24/7",
-      label: "Support",
-      description: "Konsultasi dan pendampingan tanpa henti",
-      icon: ShieldCheck,
-      colorClass: "text-indigo-500 bg-indigo-50",
-    },
+    { value: "01", label: "Google Business Profile", description: "Kelengkapan, kategori, informasi, dan pengelolaan profil bisnis.", icon: Users, colorClass: "text-blue-500 bg-blue-50" },
+    { value: "02", label: "Local SEO", description: "Fondasi pencarian lokal dan konsistensi informasi bisnis.", icon: Heart, colorClass: "text-emerald-500 bg-emerald-50" },
+    { value: "03", label: "Website & Konversi", description: "Website ramah seluler dengan jalur kontak yang jelas.", icon: Calendar, colorClass: "text-amber-500 bg-amber-50" },
+    { value: "04", label: "Review Management", description: "Permintaan ulasan yang netral dan respons profesional.", icon: ShieldCheck, colorClass: "text-indigo-500 bg-indigo-50" },
   ];
 
   return (
