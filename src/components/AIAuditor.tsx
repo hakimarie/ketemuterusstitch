@@ -180,6 +180,12 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
               </button>
             </form>
 
+            {error && (
+              <div role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-relaxed text-rose-700">
+                {error}
+              </div>
+            )}
+
             <div className="mt-6 pt-6 border-t border-slate-100 text-center">
               <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
                 🛡️ Privasi data Anda terjamin sepenuhnya. Hasil audit ini 100% rahasia dan bersifat edukatif.
@@ -195,7 +201,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                 <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center text-brand-primary mb-8 animate-pulse-subtle">
                   <Sparkles className="w-10 h-10 animate-spin-slow text-brand-primary" />
                 </div>
-                <h4 className="text-xl font-bold text-slate-800 mb-2 font-display">AI Sedang Bekerja...</h4>
+                <h4 className="text-xl font-bold text-slate-800 mb-2 font-display">Menyusun diagnosis awal...</h4>
                 <div className="w-64 h-1.5 bg-slate-100 rounded-full overflow-hidden mb-4">
                   <div
                     className="h-full bg-brand-primary rounded-full transition-all duration-500"
