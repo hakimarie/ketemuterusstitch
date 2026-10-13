@@ -1,4 +1,4 @@
-import { Search, Settings, TrendingUp, ArrowRight, MessageCircle } from "lucide-react";
+import { Search, Settings, TrendingUp, MessageCircle } from "lucide-react";
 
 export default function HowItWorks() {
   const steps = [
@@ -15,7 +15,7 @@ export default function HowItWorks() {
       stepNumber: "02",
       title: "Optimalisasi Google Profile",
       subtitle: "Penyusunan & Perbaikan Mutu",
-      description: "Tim ahli kami mendaftarkan, memverifikasi, dan merestrukturisasi 100% informasi profil bisnis lokal Anda. Kami optimalkan foto premium, jam libur, ulasan otomatis, dan integrasi WhatsApp.",
+      description: "Kami membantu merapikan informasi profil bisnis, jam operasional, foto, dan jalur kontak sesuai akses dan kebutuhan bisnis Anda.",
       icon: Settings,
       badgeText: "Langkah 2",
       colorClass: "from-emerald-500 to-emerald-600 shadow-emerald-500/20",
@@ -24,7 +24,7 @@ export default function HowItWorks() {
       stepNumber: "03",
       title: "Pertumbuhan & Dominasi",
       subtitle: "Peningkatan Konversi & Pelanggan",
-      description: "Melalui dorongan ulasan berkala, pengelolaan postingan GBP, serta kampanye iklan berbayar (Meta Ads) bertarget lokal, kami dorong bisnis Anda ke puncak radar 3-Pack Maps Google secara berkelanjutan.",
+      description: "Melalui pengelolaan postingan, permintaan ulasan yang netral, dan kampanye lokal bila dibutuhkan, kami memantau indikator performa tanpa menjanjikan posisi tertentu di Google Maps.",
       icon: TrendingUp,
       badgeText: "Langkah 3",
       colorClass: "from-amber-500 to-amber-600 shadow-amber-500/20",
@@ -90,8 +90,7 @@ export default function HowItWorks() {
 
                 {/* Footer status/arrow */}
                 <div className="pt-4 border-t border-slate-50 flex items-center gap-2 text-xs font-semibold text-brand-primary">
-                  <span>Lihat Selengkapnya</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Langkah kerja</span>
                 </div>
 
               </div>
