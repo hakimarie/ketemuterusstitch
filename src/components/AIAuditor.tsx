@@ -48,12 +48,26 @@ export default function AIAuditor() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ businessName: cleanBusinessName, category: cleanCategory, location: cleanLocation }),
       });
-      if (!response.ok) throw new Error("Layanan audit sedang tidak tersedia.");
-      const data: AuditReport = await response.json();
+      const payload = await response.json().catch(() => null);
+      if (!response.ok) {
+        const serverMessage =
+          payload && typeof payload.error === "string" ? payload.error : "";
+        throw new Error(
+          serverMessage || `Layanan audit sedang tidak tersedia (HTTP ${response.status}).`
+        );
+      }
+      const data = payload as AuditReport | null;
+      if (!data || typeof data.overallScore !== "number" || !Array.isArray(data.auditMetrics)) {
+        throw new Error("Layanan audit mengembalikan format hasil yang tidak valid. Silakan coba lagi.");
+      }
       setReport(data);
     } catch (err) {
       console.error("Audit request failed:", err);
-      setError("Audit belum dapat diproses saat ini. Silakan coba lagi atau hubungi KetemuTerus melalui WhatsApp untuk audit manual.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Audit belum dapat diproses saat ini. Silakan coba lagi atau hubungi KetemuTerus melalui WhatsApp untuk audit manual."
+      );
     } finally {
       setLoading(false);
     }
