@@ -188,8 +188,27 @@ PENTING: Anda TIDAK memiliki akses live ke Google Maps, Google Business Profile,
     return res.status(200).json(auditData);
   } catch (error) {
     console.error("Audit request failed:", error);
-    return res.status(500).json({
-      error: "Audit gagal diproses. Silakan coba lagi atau hubungi KetemuTerus untuk audit manual.",
+
+    // Give the user actionable but non-sensitive guidance; keep provider details in server logs.
+    const providerError = error as { status?: number; code?: number | string; message?: string };
+    const statusCode = Number(providerError?.status ?? providerError?.code);
+    if (statusCode === 401 || statusCode === 403) {
+      return res.status(502).json({
+        error: "Layanan AI menolak autentikasi. Periksa apakah GEMINI_API_KEY di Vercel valid dan aktif.",
+      });
+    }
+    if (statusCode === 404) {
+      return res.status(502).json({
+        error: "Model AI tidak ditemukan atau tidak tersedia. Periksa nama model yang dikonfigurasi pada endpoint audit.",
+      });
+    }
+    if (statusCode === 429) {
+      return res.status(503).json({
+        error: "Kuota atau batas permintaan layanan AI sedang tercapai. Coba lagi nanti atau hubungi KetemuTerus untuk audit manual.",
+      });
+    }
+    return res.status(502).json({
+      error: "Layanan AI gagal memproses permintaan. Periksa Vercel Function Logs untuk detail teknis, lalu coba lagi.",
     });
   }
 }
