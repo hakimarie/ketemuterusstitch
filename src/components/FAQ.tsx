@@ -14,17 +14,17 @@ export default function FAQ() {
     {
       id: "2",
       question: "Berapa lama waktu yang dibutuhkan untuk melihat hasil optimasi Google Maps?",
-      answer: "Biasanya, perbaikan profil dasar (seperti kelengkapan data, pembenahan koordinat, dan jam operasional) dapat terlihat perubahannya di Google Maps dalam 3-5 hari kerja. Namun, untuk melihat peningkatan peringkat penelusuran kata kunci utama Anda masuk ke dalam radar Top 3-Pack lokal secara konsisten, dibutuhkan waktu penguatan sekitar 15-30 hari.",
+      answer: "Biasanya, perbaikan profil dasar (seperti kelengkapan data, pembenahan koordinat, dan jam operasional) dapat terlihat perubahannya di Google Maps dalam 3-5 hari kerja. Peringkat lokal dipengaruhi relevansi, jarak, dan popularitas. Waktu dan posisi hasil tidak dapat dijamin; kami memantau indikator yang relevan dan melaporkan progres secara transparan.",
     },
     {
       id: "3",
       question: "Apakah optimasi ini aman dan mematuhi kebijakan Google?",
-      answer: "Ya, 100% aman. Tim KetemuTerus selalu mengikuti pedoman resmi (Official Guidelines) dari Google Business Profile. Kami tidak menggunakan teknik 'Black-Hat' maupun manipulasi ulasan palsu, melainkan mengandalkan optimasi struktur data, sitasi lokal berkualitas, serta sistem pengumpulan ulasan asli dari pelanggan loyal Anda.",
+      answer: "Kami menerapkan praktik yang ditujukan untuk mematuhi pedoman Google. Setiap pelanggan harus mendapat kesempatan yang sama untuk memberikan ulasan jujur; kami tidak menyaring pelanggan berdasarkan kepuasan, meminta rating tertentu, atau menawarkan insentif untuk ulasan.",
     },
     {
       id: "4",
       question: "Bagaimana cara kerja sistem pengumpul ulasan otomatis (Review Management)?",
-      answer: "Kami merancang QR-Code khusus yang ditempatkan secara elegan di meja kasir atau diintegrasikan ke sistem struk digital bisnis Anda. Ketika pelanggan memindai QR tersebut, mereka diarahkan ke halaman penyaringan ulasan pintar. Pelanggan yang puas akan dipandu langsung untuk memberikan ulasan bintang 5 secara mudah di Google Maps Anda.",
+      answer: "Kami menyediakan QR-Code yang mengarahkan pelanggan ke halaman ulasan Google bisnis Anda. Semua pelanggan diarahkan dengan cara yang sama agar mereka dapat memberikan ulasan jujur tanpa penyaringan berdasarkan tingkat kepuasan atau permintaan rating tertentu.",
     },
     {
       id: "5",

@@ -24,115 +24,40 @@ export default function AIAuditor() {
     "UMKM / Toko Retail"
   ];
 
-  const loadingMessages = [
-    "Menganalisis pencarian Google Business Profile...",
-    "Memeriksa koordinat titik Google Maps...",
-    "Menilai performa ulasan dan rating pelanggan...",
-    "Mengevaluasi kecepatan website dan Local SEO mobile...",
-    "Menghitung skor visibilitas online akhir...",
-    "Menyusun langkah perbaikan cepat (Quick Wins)..."
-  ];
-
-  const triggerLoadingCycle = (callback: () => void) => {
-    setLoadingStep(0);
-    const interval = setInterval(() => {
-      setLoadingStep((prev) => {
-        if (prev >= loadingMessages.length - 1) {
-          clearInterval(interval);
-          callback();
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, 1500);
-  };
+  const loadingMessages = ["Menghubungi layanan audit awal..."];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!businessName || !category || !location) {
+    const cleanBusinessName = businessName.trim();
+    const cleanCategory = category.trim();
+    const cleanLocation = location.trim();
+
+    if (!cleanBusinessName || !cleanCategory || !cleanLocation) {
       setError("Silakan isi semua kolom input.");
       return;
     }
 
     setError(null);
     setLoading(true);
+    setLoadingStep(0);
     setReport(null);
 
-    // Start loading messaging cycles
-    triggerLoadingCycle(async () => {
-      try {
-        const response = await fetch("/api/audit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ businessName, category, location })
-        });
-
-        if (!response.ok) {
-          throw new Error("Gagal mengambil respon dari server.");
-        }
-
-        const data: AuditReport = await response.json();
-        setReport(data);
-      } catch (err: any) {
-        console.warn("Real API failed, fallback to highly realistic simulated template:", err);
-        
-        // Premium Fallback Data Generator based on input category
-        const mockScore = Math.floor(Math.random() * 20) + 45; // Scores between 45 and 65 are common for unoptimized
-        const fallbackData: AuditReport = {
-          businessName: businessName,
-          category: category,
-          location: location,
-          overallScore: mockScore,
-          statusGoogleMaps: `Profil Google Maps untuk ${businessName} sudah terdaftar di ${location}, namun memiliki visibilitas yang rendah untuk kata kunci relevan karena kurangnya optimasi kata kunci pada penamaan dan kategori bisnis.`,
-          statusGoogleSearch: `Dalam pencarian Google Search, website atau listing sosial media ${businessName} sulit bersaing di halaman utama karena struktur local SEO dasar belum terkonfigurasi.`,
-          auditMetrics: [
-            {
-              name: "Google Business Profile",
-              score: Math.floor(Math.random() * 20) + 40,
-              status: "Perlu Optimalisasi",
-              details: "Atribut profil penting seperti jam operasional libur, tautan menu/layanan, dan deskripsi ramah SEO belum terisi lengkap."
-            },
-            {
-              name: "Google Maps Ranking",
-              score: Math.floor(Math.random() * 25) + 35,
-              status: "Sangat Kurang",
-              details: "Bisnis Anda belum muncul di radar 3-Pack teratas untuk area pencarian utama Anda karena minimnya sitasi lokal."
-            },
-            {
-              name: "Review Management",
-              score: Math.floor(Math.random() * 20) + 50,
-              status: "Perlu Optimalisasi",
-              details: "Rating ulasan cukup baik, namun interaksi balas ulasan rendah dan rasio pertambahan ulasan bulanan belum konsisten."
-            },
-            {
-              name: "Local SEO Content",
-              score: Math.floor(Math.random() * 20) + 30,
-              status: "Sangat Kurang",
-              details: "Tidak adanya konten penunjang lokal seperti postingan berkala di Google Business Profile dan penargetan kata kunci kota."
-            },
-            {
-              name: "Website Mobile Performance",
-              score: Math.floor(Math.random() * 25) + 45,
-              status: "Perlu Optimalisasi",
-              details: "Kecepatan akses halaman di perangkat seluler tergolong lambat dan tidak memiliki integrasi konversi WhatsApp yang efektif."
-            }
-          ],
-          quickWins: [
-            "Lengkapi 100% foto berkualitas tinggi di Google Business Profile untuk meningkatkan interaksi hingga 42%.",
-            "Ubah deskripsi GBP utama dengan menyematkan 3 kata kunci pencarian lokal teratas beserta lokasi kota Anda.",
-            "Buat balasan ulasan otomatis/terstruktur pada setiap ulasan bintang 5 baru untuk memicu penilaian algoritma Google Maps."
-          ],
-          strategicAdvice: `Bisnis ${businessName} memiliki potensi pertumbuhan pelanggan yang sangat besar di area ${location} jika dioptimalkan dengan benar. Kami menyarankan Anda segera melakukan pembenahan sitasi lokal, penguatan kategori utama Google Maps, dan pengalokasian anggaran ulasan positif. Tim KetemuTerus siap membantu Anda mendominasi kompetisi lokal dalam waktu 30 hari.`
-        };
-        setReport(fallbackData);
-      } finally {
-        setLoading(false);
-      }
-    });
+    try {
+      const response = await fetch("/api/audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ businessName: cleanBusinessName, category: cleanCategory, location: cleanLocation }),
+      });
+      if (!response.ok) throw new Error("Layanan audit sedang tidak tersedia.");
+      const data: AuditReport = await response.json();
+      setReport(data);
+    } catch (err) {
+      console.error("Audit request failed:", err);
+      setError("Audit belum dapat diproses saat ini. Silakan coba lagi atau hubungi KetemuTerus melalui WhatsApp untuk audit manual.");
+    } finally {
+      setLoading(false);
+    }
   };
-
   const getScoreColor = (score: number) => {
     if (score >= 80) return "text-emerald-500 stroke-emerald-500 bg-emerald-50 border-emerald-100";
     if (score >= 60) return "text-amber-500 stroke-amber-500 bg-amber-50 border-amber-100";
@@ -177,7 +102,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
             Audit Visibilitas Online Bisnis Anda Secara <span className="text-brand-primary">Gratis</span>
           </h2>
           <p className="text-slate-600 text-base max-w-2xl mx-auto">
-            Dapatkan laporan evaluasi mendalam mengenai peringkat Google Maps, efektivitas Local SEO, dan Google Business Profile bisnis Anda dalam hitungan detik.
+            Dapatkan diagnosis awal dan daftar pemeriksaan Local SEO. Hasil AI bersifat indikatif dan perlu diverifikasi dengan profil Google, website, serta data bisnis aktual.
           </p>
         </div>
 
@@ -255,9 +180,15 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
               </button>
             </form>
 
+            {error && (
+              <div role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-relaxed text-rose-700">
+                {error}
+              </div>
+            )}
+
             <div className="mt-6 pt-6 border-t border-slate-100 text-center">
               <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
-                🛡️ Privasi data Anda terjamin sepenuhnya. Hasil audit ini 100% rahasia dan bersifat edukatif.
+                🛡️ Hindari memasukkan informasi sensitif. Diagnosis AI bersifat indikatif dan perlu diverifikasi secara manual.
               </p>
             </div>
           </div>
@@ -270,7 +201,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                 <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center text-brand-primary mb-8 animate-pulse-subtle">
                   <Sparkles className="w-10 h-10 animate-spin-slow text-brand-primary" />
                 </div>
-                <h4 className="text-xl font-bold text-slate-800 mb-2 font-display">AI Sedang Bekerja...</h4>
+                <h4 className="text-xl font-bold text-slate-800 mb-2 font-display">Menyusun diagnosis awal...</h4>
                 <div className="w-64 h-1.5 bg-slate-100 rounded-full overflow-hidden mb-4">
                   <div
                     className="h-full bg-brand-primary rounded-full transition-all duration-500"
@@ -290,7 +221,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                 </div>
                 <h4 className="text-lg font-bold text-slate-700 font-display">Menunggu Input Bisnis Anda</h4>
                 <p className="text-slate-500 text-sm max-w-sm mx-auto mt-2 leading-relaxed">
-                  Isi formulir di samping kiri dengan lengkap dan jalankan audit untuk melihat skor visibilitas online bisnis Anda beserta strategi peningkatannya.
+                  Isi formulir untuk mendapatkan diagnosis awal. Kami tidak menampilkan hasil jika layanan audit gagal, agar informasi yang belum diverifikasi tidak dianggap sebagai temuan nyata.
                 </p>
               </div>
             )}
@@ -321,7 +252,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                         {report.overallScore}
                       </span>
                       <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider -mt-1">
-                        Skor Visibilitas
+                        Skor Indikatif AI
                       </span>
                     </div>
                   </div>
@@ -338,7 +269,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                       <span>{report.location}, Indonesia</span>
                     </div>
                     <p className="text-xs font-semibold text-slate-500 leading-relaxed font-sans">
-                      Laporan audit dihasilkan menggunakan algoritma analisis lokal KetemuTerus AI.
+                      Ini adalah diagnosis awal berbasis AI, bukan pemeriksaan langsung atas data Google Maps atau website.
                     </p>
                   </div>
                 </div>

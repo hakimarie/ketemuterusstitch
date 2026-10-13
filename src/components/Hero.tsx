@@ -37,7 +37,7 @@ export default function Hero() {
                 <span className="text-brand-secondary relative inline-block">Lebih Banyak<span className="absolute bottom-1.5 left-0 w-full h-[6px] bg-brand-secondary/10 -z-10 rounded-full"></span></span> Pelanggan.
               </h1>
               <p className="text-base sm:text-lg text-slate-600 font-sans leading-relaxed">
-                KetemuTerus membantu bisnis lokal Anda muncul di peringkat teratas **Google Maps** dan **Google Search**. Dapatkan ulasan positif, bangun reputasi terpercaya, dan datangkan pembeli baru setiap hari.
+                KetemuTerus membantu bisnis lokal memperbaiki visibilitas di <strong>Google Maps</strong> dan <strong>Google Search</strong>, membangun reputasi yang tepercaya, dan memudahkan pelanggan menghubungi bisnis Anda.
               </p>
             </div>
 
@@ -73,21 +73,13 @@ export default function Hero() {
               </button>
             </div>
 
-            {/* Trust and Rating Summary */}
-            <div className="flex items-center gap-6 pt-6 border-t border-slate-100">
-              <div className="flex items-center gap-1.5">
-                <div className="flex text-amber-500">
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                  <Star className="w-4 h-4 fill-current" />
-                </div>
-                <span className="text-sm font-bold text-slate-800">4.9 / 5.0</span>
+            {/* Trust summary without unverified rating claims */}
+            <div className="flex items-center gap-3 pt-6 border-t border-slate-100">
+              <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-brand-primary">
+                <ShieldCheck className="w-5 h-5" />
               </div>
-              <div className="h-4 w-[1px] bg-slate-200"></div>
               <p className="text-xs text-slate-500 font-sans">
-                Telah dipercaya oleh <span className="font-semibold text-slate-700">500+ bisnis lokal</span> di seluruh Indonesia.
+                Pendekatan transparan, berfokus pada data yang dapat diverifikasi.
               </p>
             </div>
           </div>
@@ -176,10 +168,10 @@ export default function Hero() {
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-slate-800">Navigasi Rute Aktif</h4>
-                      <p className="text-[10px] text-slate-500 mt-0.5">Selalu Berada di Peringkat #1 Teratas</p>
+                      <p className="text-[10px] text-slate-500 mt-0.5">Contoh tampilan pencarian lokal</p>
                       <div className="flex items-center gap-1 mt-2">
                         <span className="text-[9px] font-bold bg-blue-100 text-brand-primary px-1.5 py-0.5 rounded">Tiba dalam 3 Mins</span>
-                        <span className="text-[9px] text-slate-400">1.2 km</span>
+                        <span className="text-[9px] text-slate-400">Ilustrasi</span>
                       </div>
                     </div>
                   </div>
@@ -212,7 +204,7 @@ export default function Hero() {
                           <Star className="w-2.5 h-2.5 fill-current" />
                           <Star className="w-2.5 h-2.5 fill-current" />
                         </div>
-                        <span className="text-[9px] font-bold text-slate-600">4.9 (1.2k)</span>
+                        <span className="text-[9px] font-bold text-slate-600">Contoh tampilan</span>
                       </div>
                       <p className="text-[9px] text-slate-400 mt-0.5">Kedai Kopi Premium · Jakarta</p>
                       <div className="flex items-center gap-1.5 mt-2.5 pt-2 border-t border-slate-100">
@@ -238,8 +230,8 @@ export default function Hero() {
                 <Compass className="w-6 h-6" />
               </div>
               <div className="text-left">
-                <span className="block text-2xl font-extrabold text-brand-primary tracking-tight font-display">+180%</span>
-                <span className="text-xs font-medium text-slate-600 font-sans block">Google Search Visibility</span>
+                <span className="block text-lg font-extrabold text-brand-primary tracking-tight font-display">Local SEO</span>
+                <span className="text-xs font-medium text-slate-600 font-sans block">Visibilitas pencarian lokal</span>
               </div>
             </div>
 
@@ -250,9 +242,9 @@ export default function Hero() {
               </div>
               <div className="text-left">
                 <div className="flex items-center gap-1">
-                  <span className="text-sm font-bold text-slate-800">★★★★★ 4.9</span>
+                  <span className="text-sm font-bold text-slate-800">Review Management</span>
                 </div>
-                <span className="text-xs font-medium text-slate-500 font-sans block">1,250 Reviews Aktif</span>
+                <span className="text-xs font-medium text-slate-500 font-sans block">Permintaan ulasan yang netral</span>
               </div>
             </div>
 
@@ -265,7 +257,7 @@ export default function Hero() {
                 </div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-brand-primary fill-current text-white" />
-                  <span className="text-xs font-semibold text-slate-700">Google Business Verified</span>
+                  <span className="text-xs font-semibold text-slate-700">Profil bisnis terkelola</span>
                 </div>
               </div>
             </div>
