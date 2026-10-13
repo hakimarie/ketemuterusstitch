@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Search, MapPin, Sparkles, AlertCircle, CheckCircle2, Star, HelpCircle, ArrowRight, MessageCircle, RefreshCw, Trophy, Target, Zap, Compass } from "lucide-react";
 import { AuditReport } from "../types";
+import LocalRankGrid from "./LocalRankGrid";
 
 export default function AIAuditor() {
   const [businessName, setBusinessName] = useState("");
@@ -401,6 +402,8 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
           </div>
 
         </div>
+
+        <LocalRankGrid />
       </div>
     </section>
   );
