@@ -188,7 +188,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
 
             <div className="mt-6 pt-6 border-t border-slate-100 text-center">
               <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
-                🛡️ Privasi data Anda terjamin sepenuhnya. Hasil audit ini 100% rahasia dan bersifat edukatif.
+                🛡️ Hindari memasukkan informasi sensitif. Diagnosis AI bersifat indikatif dan perlu diverifikasi secara manual.
               </p>
             </div>
           </div>
@@ -252,7 +252,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                         {report.overallScore}
                       </span>
                       <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider -mt-1">
-                        Skor Visibilitas
+                        Skor Indikatif AI
                       </span>
                     </div>
                   </div>
