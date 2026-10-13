@@ -11,7 +11,7 @@ export default function Services() {
     },
     {
       title: "Google Maps Ranking",
-      description: "Dominasi persaingan lokal dengan menempatkan posisi bisnis Anda di peringkat 3 teratas (Local 3-Pack) Google Maps untuk menarik perhatian pencari terdekat.",
+      description: "Perkuat peluang ditemukan dalam pencarian lokal melalui perbaikan profil, kategori yang relevan, dan pemantauan visibilitas. Peringkat dipengaruhi faktor yang tidak sepenuhnya dapat dikendalikan.",
       icon: MapPin,
       colorClass: "text-emerald-500 bg-emerald-50 border-emerald-100",
       bullets: ["Kategori Utama Akurat", "Optimasi Koordinat Titik", "Pembersihan Duplikat"],
@@ -32,10 +32,10 @@ export default function Services() {
     },
     {
       title: "Review Management",
-      description: "Tingkatkan kredibilitas bisnis Anda dengan ulasan positif bintang 5 dari pelanggan asli secara konsisten. Kelola tanggapan ulasan secara profesional untuk memicu algoritma.",
+      description: "Bangun reputasi melalui permintaan ulasan yang netral kepada semua pelanggan dan tanggapan profesional terhadap ulasan positif maupun negatif.",
       icon: MessageSquare,
       colorClass: "text-rose-500 bg-rose-50 border-rose-100",
-      bullets: ["Sistem Pengumpul Ulasan Otomatis", "Manajemen Ulasan Negatif", "Templat Balasan Ulasan Profesional"],
+      bullets: ["QR untuk Ulasan yang Netral", "Manajemen Ulasan Negatif", "Templat Balasan Ulasan Profesional"],
     },
     {
       title: "Meta Ads (Facebook & Instagram)",
