@@ -6,46 +6,10 @@ export default function Portfolio() {
   const [activeTab, setActiveTab] = useState<"all" | "maps" | "reviews" | "websites">("all");
 
   const items: PortfolioItem[] = [
-    {
-      id: "1",
-      businessName: "Selasih Coffee & Eatery",
-      category: "Cafe & Coffee Shop",
-      metric: "Google Maps Ranking",
-      beforeValue: "Peringkat #25 (Halaman 3)",
-      afterValue: "Peringkat #1 (Halaman 1)",
-      description: "Optimasi Google Business Profile lengkap beserta penataan kategori sekunder, atribut menu makanan, dan dorongan sitasi lokal yang memicu kenaikan peringkat instan.",
-      tags: ["Maps Ranking", "Cafe"],
-    },
-    {
-      id: "2",
-      businessName: "Glow Hair & Beauty Salon",
-      category: "Salon Kecantikan",
-      metric: "Review & Rating Volume",
-      beforeValue: "12 Ulasan (Rating 3.2)",
-      afterValue: "520+ Ulasan (Rating 4.9)",
-      description: "Pemasangan sistem filter ulasan otomatis lewat QR-Code kasir, memicu pelanggan setia memberikan ulasan bintang 5 secara berkelanjutan dalam waktu 45 hari saja.",
-      tags: ["Reviews", "Salon"],
-    },
-    {
-      id: "3",
-      businessName: "Sehat Dental & Skin Clinic",
-      category: "Klinik Medis",
-      metric: "Website Conversion Rate",
-      beforeValue: "0.5% (1-2 reservasi/bulan)",
-      afterValue: "9.2% (140+ reservasi/bulan)",
-      description: "Membangun ulang website modern yang sangat cepat (ultra-fast) diakses via smartphone, menyematkan penawaran menarik, dan mengoptimalkan rute klik tombol WhatsApp langsung.",
-      tags: ["Web Dev", "Clinic"],
-    },
-    {
-      id: "4",
-      businessName: "Rapi Premium Laundry",
-      category: "Laundry / Jasa",
-      metric: "Kunjungan Rute Fisik",
-      beforeValue: "45 kunjungan rute/bulan",
-      afterValue: "310+ kunjungan rute/bulan",
-      description: "Melakukan integrasi kata kunci lokal 'laundry kiloan terdekat' pada penamaan Google Business Profile dan melakukan optimasi deskripsi GBP yang ramah pencarian lokal.",
-      tags: ["Maps Ranking", "Laundry"],
-    }
+    { id: "1", businessName: "Skenario: Cafe / Restoran", category: "Ilustrasi layanan", metric: "Google Business Profile", beforeValue: "Audit baseline", afterValue: "Rencana optimasi", description: "Memeriksa kelengkapan profil, kategori, jam operasional, foto, menu, dan tautan kontak sebelum menentukan prioritas perbaikan.", tags: ["Maps Ranking", "Cafe"] },
+    { id: "2", businessName: "Skenario: Salon / Klinik", category: "Ilustrasi layanan", metric: "Review Management", beforeValue: "Evaluasi proses", afterValue: "Alur ulasan netral", description: "Membuat QR ulasan yang mudah digunakan dan mengarahkan semua pelanggan dengan cara yang sama, tanpa penyaringan kepuasan atau permintaan rating tertentu.", tags: ["Reviews", "Salon"] },
+    { id: "3", businessName: "Skenario: Website UMKM", category: "Ilustrasi layanan", metric: "Website & Konversi", beforeValue: "Periksa pengalaman", afterValue: "Prioritas perbaikan", description: "Meninjau tampilan seluler, informasi layanan, jalur WhatsApp, serta dasar SEO teknis untuk menyusun daftar perbaikan.", tags: ["Web Dev", "Clinic"] },
+    { id: "4", businessName: "Skenario: Bisnis Jasa Lokal", category: "Ilustrasi layanan", metric: "Local SEO", beforeValue: "Cek visibilitas", afterValue: "Pemantauan berkala", description: "Menyelaraskan informasi nama, alamat, dan telepon serta memantau visibilitas untuk kata kunci dan area yang disepakati.", tags: ["Maps Ranking", "Laundry"] }
   ];
 
   const filteredItems = activeTab === "all"
@@ -63,12 +27,12 @@ export default function Portfolio() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <span className="text-xs font-bold text-brand-primary uppercase tracking-widest block">Kisah Sukses Mitra</span>
+          <span className="text-xs font-bold text-brand-primary uppercase tracking-widest block">Contoh Area Pekerjaan</span>
           <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-brand-text tracking-tight">
-            Hasil Nyata yang Telah Kami <span className="text-brand-primary">Buktikan</span>
+            Fokus pada Perbaikan yang <span className="text-brand-primary">Terukur</span>
           </h2>
           <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-            Lihat perbandingan performa sebelum dan sesudah optimasi digital dilakukan oleh tim profesional KetemuTerus.
+            Berikut contoh jenis pekerjaan yang dapat dilakukan. Studi kasus dan angka hasil akan ditampilkan setelah data klien terverifikasi dan izin publikasi tersedia.
           </p>
         </div>
 
