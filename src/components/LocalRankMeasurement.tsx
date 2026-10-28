@@ -100,7 +100,7 @@ export default function LocalRankMeasurement() {
           </div>
           <div className="grid grid-cols-3 gap-2">
             {result.results.map(point => <div key={point.row + "-" + point.col} className={`rounded-xl border p-3 text-center ${point.rank !== null ? "border-emerald-200 bg-emerald-50" : "border-slate-200 bg-slate-50"}`}>
-              <span className="block text-[10px] text-slate-500">Titik ${point.row}-${point.col}</span>
+              <span className="block text-[10px] text-slate-500">Titik {point.row}-{point.col}</span>
               <strong className="text-xl text-slate-800">{point.rank !== null ? `#${point.rank}` : "—"}</strong>
               <span className="block text-[10px] text-slate-500">{point.rank !== null ? "Ditemukan" : "Tidak di top 20"}</span>
             </div>)}
