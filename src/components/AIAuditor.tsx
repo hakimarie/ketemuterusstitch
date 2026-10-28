@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { Search, MapPin, Sparkles, AlertCircle, CheckCircle2, Star, HelpCircle, ArrowRight, MessageCircle, RefreshCw, Trophy, Target, Zap, Compass } from "lucide-react";
+import { Search, MapPin, Sparkles, CheckCircle2, ArrowRight, MessageCircle, RefreshCw, Trophy, Target, Zap, Compass, AlertCircle } from "lucide-react";
 import { AuditReport } from "../types";
+import LocalRankMeasurement from "./LocalRankMeasurement";
 
 export default function AIAuditor() {
   const [businessName, setBusinessName] = useState("");
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
+  const [mapsProfileUrl, setMapsProfileUrl] = useState("");
+  const [observedRating, setObservedRating] = useState("");
+  const [observedReviewCount, setObservedReviewCount] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [recentReviews30d, setRecentReviews30d] = useState("");
   
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
@@ -24,113 +30,70 @@ export default function AIAuditor() {
     "UMKM / Toko Retail"
   ];
 
-  const loadingMessages = [
-    "Menganalisis pencarian Google Business Profile...",
-    "Memeriksa koordinat titik Google Maps...",
-    "Menilai performa ulasan dan rating pelanggan...",
-    "Mengevaluasi kecepatan website dan Local SEO mobile...",
-    "Menghitung skor visibilitas online akhir...",
-    "Menyusun langkah perbaikan cepat (Quick Wins)..."
-  ];
-
-  const triggerLoadingCycle = (callback: () => void) => {
-    setLoadingStep(0);
-    const interval = setInterval(() => {
-      setLoadingStep((prev) => {
-        if (prev >= loadingMessages.length - 1) {
-          clearInterval(interval);
-          callback();
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, 1500);
-  };
+  const loadingMessages = ["Mengirim data bisnis ke layanan analisis AI..."];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!businessName || !category || !location) {
+    const cleanBusinessName = businessName.trim();
+    const cleanLocation = location.trim();
+    if (!cleanBusinessName || !category || !cleanLocation) {
       setError("Silakan isi semua kolom input.");
+      return;
+    }
+    if (cleanBusinessName.length > 120 || cleanLocation.length > 120) {
+      setError("Nama bisnis dan lokasi maksimal 120 karakter.");
       return;
     }
 
     setError(null);
     setLoading(true);
+    setLoadingStep(0);
     setReport(null);
-
-    // Start loading messaging cycles
-    triggerLoadingCycle(async () => {
+    try {
+      const response = await fetch("/api/audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          businessName: cleanBusinessName, category, location: cleanLocation,
+          mapsProfileUrl: mapsProfileUrl.trim(),
+          observedRating: observedRating === "" ? null : Number(observedRating),
+          observedReviewCount: observedReviewCount === "" ? null : Number(observedReviewCount),
+          websiteUrl: websiteUrl.trim(),
+          recentReviews30d: recentReviews30d === "" ? null : Number(recentReviews30d),
+        })
+      });
+      const responseText = await response.text();
+      let payload: unknown = null;
       try {
-        const response = await fetch("/api/audit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ businessName, category, location })
-        });
-
-        if (!response.ok) {
-          throw new Error("Gagal mengambil respon dari server.");
-        }
-
-        const data: AuditReport = await response.json();
-        setReport(data);
-      } catch (err: any) {
-        console.warn("Real API failed, fallback to highly realistic simulated template:", err);
-        
-        // Premium Fallback Data Generator based on input category
-        const mockScore = Math.floor(Math.random() * 20) + 45; // Scores between 45 and 65 are common for unoptimized
-        const fallbackData: AuditReport = {
-          businessName: businessName,
-          category: category,
-          location: location,
-          overallScore: mockScore,
-          statusGoogleMaps: `Profil Google Maps untuk ${businessName} sudah terdaftar di ${location}, namun memiliki visibilitas yang rendah untuk kata kunci relevan karena kurangnya optimasi kata kunci pada penamaan dan kategori bisnis.`,
-          statusGoogleSearch: `Dalam pencarian Google Search, website atau listing sosial media ${businessName} sulit bersaing di halaman utama karena struktur local SEO dasar belum terkonfigurasi.`,
-          auditMetrics: [
-            {
-              name: "Google Business Profile",
-              score: Math.floor(Math.random() * 20) + 40,
-              status: "Perlu Optimalisasi",
-              details: "Atribut profil penting seperti jam operasional libur, tautan menu/layanan, dan deskripsi ramah SEO belum terisi lengkap."
-            },
-            {
-              name: "Google Maps Ranking",
-              score: Math.floor(Math.random() * 25) + 35,
-              status: "Sangat Kurang",
-              details: "Bisnis Anda belum muncul di radar 3-Pack teratas untuk area pencarian utama Anda karena minimnya sitasi lokal."
-            },
-            {
-              name: "Review Management",
-              score: Math.floor(Math.random() * 20) + 50,
-              status: "Perlu Optimalisasi",
-              details: "Rating ulasan cukup baik, namun interaksi balas ulasan rendah dan rasio pertambahan ulasan bulanan belum konsisten."
-            },
-            {
-              name: "Local SEO Content",
-              score: Math.floor(Math.random() * 20) + 30,
-              status: "Sangat Kurang",
-              details: "Tidak adanya konten penunjang lokal seperti postingan berkala di Google Business Profile dan penargetan kata kunci kota."
-            },
-            {
-              name: "Website Mobile Performance",
-              score: Math.floor(Math.random() * 25) + 45,
-              status: "Perlu Optimalisasi",
-              details: "Kecepatan akses halaman di perangkat seluler tergolong lambat dan tidak memiliki integrasi konversi WhatsApp yang efektif."
-            }
-          ],
-          quickWins: [
-            "Lengkapi 100% foto berkualitas tinggi di Google Business Profile untuk meningkatkan interaksi hingga 42%.",
-            "Ubah deskripsi GBP utama dengan menyematkan 3 kata kunci pencarian lokal teratas beserta lokasi kota Anda.",
-            "Buat balasan ulasan otomatis/terstruktur pada setiap ulasan bintang 5 baru untuk memicu penilaian algoritma Google Maps."
-          ],
-          strategicAdvice: `Bisnis ${businessName} memiliki potensi pertumbuhan pelanggan yang sangat besar di area ${location} jika dioptimalkan dengan benar. Kami menyarankan Anda segera melakukan pembenahan sitasi lokal, penguatan kategori utama Google Maps, dan pengalokasian anggaran ulasan positif. Tim KetemuTerus siap membantu Anda mendominasi kompetisi lokal dalam waktu 30 hari.`
-        };
-        setReport(fallbackData);
-      } finally {
-        setLoading(false);
+        payload = responseText ? JSON.parse(responseText) : null;
+      } catch {
+        // A deployment/proxy error may return HTML or an empty body instead of the API's JSON contract.
       }
-    });
+
+      if (!response.ok) {
+        const apiError =
+          typeof payload === "object" && payload !== null &&
+          "error" in payload && typeof payload.error === "string"
+            ? payload.error
+            : null;
+        if (apiError) throw new Error(apiError);
+
+        const contentType = response.headers.get("content-type") || "unknown";
+        throw new Error(
+          `Endpoint audit gagal (HTTP ${response.status}; respons ${contentType}). Periksa deployment fungsi /api/audit lalu coba lagi.`
+        );
+      }
+      if (!payload || typeof payload !== "object") {
+        throw new Error("Layanan audit mengirim respons yang tidak valid. Periksa log fungsi /api/audit.");
+      }
+      const data = payload as AuditReport;
+      setReport(data);
+    } catch (err: unknown) {
+      console.error("Audit request failed:", err);
+      setError(err instanceof Error ? err.message : "Terjadi kesalahan saat menjalankan audit. Silakan coba lagi.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getScoreColor = (score: number) => {
@@ -156,7 +119,7 @@ export default function AIAuditor() {
 Nama Bisnis: ${report.businessName}
 Kategori: ${report.category}
 Lokasi: ${report.location}
-Skor Akhir: ${report.overallScore}/100
+Estimasi AI (bukan hasil pengukuran): ${report.overallScore}/100
 
 Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatkannya agar lebih banyak pelanggan baru berdatangan.`;
     return encodeURIComponent(text);
@@ -177,7 +140,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
             Audit Visibilitas Online Bisnis Anda Secara <span className="text-brand-primary">Gratis</span>
           </h2>
           <p className="text-slate-600 text-base max-w-2xl mx-auto">
-            Dapatkan laporan evaluasi mendalam mengenai peringkat Google Maps, efektivitas Local SEO, dan Google Business Profile bisnis Anda dalam hitungan detik.
+            Dapatkan evaluasi awal dan rekomendasi optimasi lokal berbasis AI dari informasi bisnis yang Anda masukkan. Data Google Maps, ulasan, dan website tidak diperiksa secara langsung oleh fitur ini.
           </p>
         </div>
 
@@ -198,6 +161,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   <input
                     type="text"
                     required
+                    maxLength={120}
                     placeholder="Contoh: Kopi Senja, Klinik Gigiku"
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
@@ -228,6 +192,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   <input
                     type="text"
                     required
+                    maxLength={120}
                     placeholder="Contoh: Jakarta Selatan, Bandung"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
@@ -235,6 +200,35 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   />
                 </div>
               </div>
+
+              <details className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <summary className="cursor-pointer text-sm font-bold text-slate-700">Tambahkan bukti manual (opsional)</summary>
+                <p className="mt-2 text-xs leading-relaxed text-slate-500">Salin data yang kamu lihat sendiri di Google Maps. Sistem tidak membuka atau memverifikasi tautan ini. Jangan masukkan informasi sensitif.</p>
+                <div className="mt-4 space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-600">Tautan profil Google Maps</label>
+                    <input type="url" maxLength={500} value={mapsProfileUrl} onChange={e=>setMapsProfileUrl(e.target.value)} placeholder="https://maps.app.goo.gl/..." className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-slate-600">Rating yang terlihat (0–5)</label>
+                      <input type="number" min="0" max="5" step="0.1" value={observedRating} onChange={e=>setObservedRating(e.target.value)} placeholder="4.7" className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-slate-600">Jumlah ulasan</label>
+                      <input type="number" min="0" max="100000000" step="1" value={observedReviewCount} onChange={e=>setObservedReviewCount(e.target.value)} placeholder="125" className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-600">Website bisnis (jika ada)</label>
+                    <input type="url" maxLength={500} value={websiteUrl} onChange={e=>setWebsiteUrl(e.target.value)} placeholder="https://bisnisanda.id" className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-600">Ulasan baru dalam 30 hari terakhir (opsional)</label>
+                    <input type="number" min="0" max="1000000" step="1" value={recentReviews30d} onChange={e=>setRecentReviews30d(e.target.value)} placeholder="Misalnya 8" className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
+                  </div>
+                </div>
+              </details>
 
               <button
                 type="submit"
@@ -254,10 +248,16 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                 )}
               </button>
             </form>
+            {error && (
+              <div role="alert" className="mt-4 flex items-start gap-2 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
 
             <div className="mt-6 pt-6 border-t border-slate-100 text-center">
               <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
-                🛡️ Privasi data Anda terjamin sepenuhnya. Hasil audit ini 100% rahasia dan bersifat edukatif.
+                Hasil merupakan analisis awal berbasis AI, bukan pemeriksaan langsung atau verifikasi resmi Google. Hindari memasukkan data sensitif.
               </p>
             </div>
           </div>
@@ -321,7 +321,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                         {report.overallScore}
                       </span>
                       <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider -mt-1">
-                        Skor Visibilitas
+                        Estimasi AI (bukan pengukuran)
                       </span>
                     </div>
                   </div>
@@ -338,16 +338,45 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                       <span>{report.location}, Indonesia</span>
                     </div>
                     <p className="text-xs font-semibold text-slate-500 leading-relaxed font-sans">
-                      Laporan audit dihasilkan menggunakan algoritma analisis lokal KetemuTerus AI.
+                      Evaluasi awal berbasis AI; temuan perlu diverifikasi dengan data bisnis aktual.
                     </p>
                   </div>
+                </div>
+
+                {report.submittedEvidence && (report.submittedEvidence.mapsProfileUrl || report.submittedEvidence.observedRating !== null || report.submittedEvidence.observedReviewCount !== null || report.submittedEvidence.websiteUrl || report.submittedEvidence.recentReviews30d !== null) && (
+                  <div className="rounded-2xl border border-violet-100 bg-violet-50/60 p-5 text-left space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h4 className="text-sm font-bold text-slate-800">Bukti yang dimasukkan pengguna</h4>
+                      <span className="rounded-full border border-violet-200 bg-white px-2.5 py-1 text-[11px] font-bold text-violet-700">Belum diverifikasi otomatis</span>
+                    </div>
+                    <p className="text-xs leading-relaxed text-slate-600">Diagnosis di bawah menggunakan informasi yang kamu masukkan sebagai konteks, bukan data yang diambil langsung dari Google. Cocokkan lagi dengan profil aktual.</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Rating input</span><strong className="text-lg text-slate-800">{report.submittedEvidence.observedRating ?? "—"}{report.submittedEvidence.observedRating !== null ? "/5" : ""}</strong></div>
+                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Jumlah ulasan input</span><strong className="text-lg text-slate-800">{report.submittedEvidence.observedReviewCount ?? "—"}</strong></div>
+                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Ulasan 30 hari</span><strong className="text-lg text-slate-800">{report.submittedEvidence.recentReviews30d ?? "—"}</strong></div>
+                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Website input</span><strong className="text-sm text-slate-800">{report.submittedEvidence.websiteUrl ? "Dimasukkan" : "Belum diisi"}</strong></div>
+                    </div>
+                    <div className="flex flex-wrap gap-3 text-xs font-bold">
+                      {report.submittedEvidence.mapsProfileUrl && <a href={report.submittedEvidence.mapsProfileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">Buka tautan Maps yang dimasukkan</a>}
+                      {report.submittedEvidence.websiteUrl && <a href={report.submittedEvidence.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">Buka website yang dimasukkan</a>}
+                    </div>
+                  </div>
+                )}
+                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left">
+                  <h4 className="text-sm font-bold text-amber-900">Data Google Maps belum diverifikasi otomatis</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-amber-800">Untuk menghindari billing Google Maps API, sistem tidak mengambil data profil secara otomatis. Tautan dan angka yang dimasukkan di formulir hanya menjadi bukti yang dilaporkan pengguna, bukan verifikasi independen. Buka profil Maps dan periksa kembali sebelum mengambil keputusan.</p>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 text-left space-y-2">
+                  <div className="flex items-center gap-2"><Target className="h-4 w-4 text-slate-500" /><h4 className="text-sm font-bold text-slate-800">Pengukuran ranking lokal</h4></div>
+                  <p className="text-xs leading-relaxed text-slate-600">{report.rankingMeasurement?.message ?? "Ranking lokal belum diukur. Skor pada laporan ini adalah estimasi AI, bukan posisi hasil Google Maps."}</p>
+                  <p className="text-[11px] text-slate-500">Data pemilik Google Business Profile dan Search Console: {report.ownerDataStatus === "not_connected" ? "belum terhubung" : "belum diverifikasi"}.</p>
                 </div>
 
                 {/* Search & Maps Diagnosis Panels */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 text-left space-y-1.5">
                     <h5 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Compass className="w-4 h-4 text-brand-primary" /> Diagnosis Google Maps
+                      <Compass className="w-4 h-4 text-brand-primary" /> Panduan Evaluasi Google Maps
                     </h5>
                     <p className="text-xs text-slate-600 leading-relaxed font-sans">
                       {report.statusGoogleMaps}
@@ -355,11 +384,51 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   </div>
                   <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 text-left space-y-1.5">
                     <h5 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Search className="w-4 h-4 text-brand-secondary" /> Diagnosis Google Search
+                      <Search className="w-4 h-4 text-brand-secondary" /> Panduan Evaluasi Google Search
                     </h5>
                     <p className="text-xs text-slate-600 leading-relaxed font-sans">
                       {report.statusGoogleSearch}
                     </p>
+                  </div>
+                </div>
+
+                {/* Evidence-grounded diagnoses */}
+                <div className="space-y-4 text-left">
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Diagnosis berbasis bukti</h4>
+                    <p className="mt-1 text-xs text-slate-500">Pisahkan input, hipotesis, dan langkah verifikasi. Tingkat keyakinan dibatasi karena data belum diverifikasi otomatis.</p>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    {report.diagnoses.map((diagnosis, idx) => (
+                      <article key={idx} className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <h5 className="text-sm font-bold text-slate-800">{diagnosis.title}</h5>
+                          <div className="flex flex-wrap gap-1.5">
+                            <span className={`rounded-full border px-2.5 py-1 text-[10px] font-bold ${diagnosis.evidenceStatus === "input_available" ? "border-blue-200 bg-blue-50 text-blue-700" : "border-slate-200 bg-slate-50 text-slate-600"}`}>
+                              {diagnosis.evidenceStatus === "input_available" ? "Ada input pengguna" : "Bukti belum tersedia"}
+                            </span>
+                            <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[10px] font-bold text-amber-700">
+                              Keyakinan {diagnosis.confidence === "medium" ? "menengah" : "rendah"}
+                            </span>
+                            <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${diagnosis.severity === "high" ? "bg-rose-50 text-rose-700" : diagnosis.severity === "medium" ? "bg-amber-50 text-amber-700" : "bg-slate-100 text-slate-600"}`}>
+                              Prioritas {diagnosis.severity === "high" ? "tinggi" : diagnosis.severity === "medium" ? "sedang" : "rendah"}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[11px] font-bold uppercase tracking-wide text-slate-400">Interpretasi saat ini</p>
+                          <p className="text-xs leading-relaxed text-slate-600">{diagnosis.finding}</p>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[11px] font-bold uppercase tracking-wide text-slate-400">Rekomendasi</p>
+                          <p className="text-xs leading-relaxed text-slate-700">{diagnosis.recommendation}</p>
+                        </div>
+                        <div className="rounded-xl bg-slate-50 p-3 space-y-1">
+                          <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">Cara verifikasi</p>
+                          <p className="text-xs leading-relaxed text-slate-600">{diagnosis.validationStep}</p>
+                        </div>
+                      </article>
+                    ))}
                   </div>
                 </div>
 
@@ -457,6 +526,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
 
         </div>
       </div>
+      <div className="max-w-5xl mx-auto px-6 mt-16 relative z-10"><LocalRankMeasurement /></div>
     </section>
   );
 }

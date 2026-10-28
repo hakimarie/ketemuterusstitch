@@ -8,42 +8,42 @@ export default function Portfolio() {
   const items: PortfolioItem[] = [
     {
       id: "1",
-      businessName: "Selasih Coffee & Eatery",
-      category: "Cafe & Coffee Shop",
-      metric: "Google Maps Ranking",
-      beforeValue: "Peringkat #25 (Halaman 3)",
-      afterValue: "Peringkat #1 (Halaman 1)",
-      description: "Optimasi Google Business Profile lengkap beserta penataan kategori sekunder, atribut menu makanan, dan dorongan sitasi lokal yang memicu kenaikan peringkat instan.",
+      businessName: "Optimasi Google Business Profile",
+      category: "Visibilitas Lokal",
+      metric: "Profil Bisnis",
+      beforeValue: "Audit data & kelengkapan profil",
+      afterValue: "Profil lebih lengkap dan konsisten",
+      description: "Pemeriksaan kategori, jam operasional, layanan, foto, deskripsi, dan tautan profil. Dampak terhadap peringkat harus diukur setelah implementasi.",
       tags: ["Maps Ranking", "Cafe"],
     },
     {
       id: "2",
-      businessName: "Glow Hair & Beauty Salon",
-      category: "Salon Kecantikan",
-      metric: "Review & Rating Volume",
-      beforeValue: "12 Ulasan (Rating 3.2)",
-      afterValue: "520+ Ulasan (Rating 4.9)",
-      description: "Pemasangan sistem filter ulasan otomatis lewat QR-Code kasir, memicu pelanggan setia memberikan ulasan bintang 5 secara berkelanjutan dalam waktu 45 hari saja.",
+      businessName: "Pengelolaan Ulasan Pelanggan",
+      category: "Reputasi Digital",
+      metric: "Review Management",
+      beforeValue: "Alur permintaan ulasan belum terstruktur",
+      afterValue: "Permintaan ulasan yang netral dan konsisten",
+      description: "Menyusun alur permintaan ulasan yang memudahkan semua pelanggan berbagi pengalaman secara jujur, tanpa menyaring hanya pelanggan yang diperkirakan memberi rating positif.",
       tags: ["Reviews", "Salon"],
     },
     {
       id: "3",
-      businessName: "Sehat Dental & Skin Clinic",
-      category: "Klinik Medis",
-      metric: "Website Conversion Rate",
-      beforeValue: "0.5% (1-2 reservasi/bulan)",
-      afterValue: "9.2% (140+ reservasi/bulan)",
-      description: "Membangun ulang website modern yang sangat cepat (ultra-fast) diakses via smartphone, menyematkan penawaran menarik, dan mengoptimalkan rute klik tombol WhatsApp langsung.",
+      businessName: "Website & Jalur Konversi",
+      category: "Website Bisnis",
+      metric: "Website Conversion",
+      beforeValue: "Alur pengunjung perlu dievaluasi",
+      afterValue: "CTA dan jalur kontak lebih jelas",
+      description: "Mengevaluasi tampilan mobile, kejelasan layanan, kecepatan, formulir, dan tombol WhatsApp. Hasil diukur menggunakan analitik setelah implementasi.",
       tags: ["Web Dev", "Clinic"],
     },
     {
       id: "4",
-      businessName: "Rapi Premium Laundry",
-      category: "Laundry / Jasa",
-      metric: "Kunjungan Rute Fisik",
-      beforeValue: "45 kunjungan rute/bulan",
-      afterValue: "310+ kunjungan rute/bulan",
-      description: "Melakukan integrasi kata kunci lokal 'laundry kiloan terdekat' pada penamaan Google Business Profile dan melakukan optimasi deskripsi GBP yang ramah pencarian lokal.",
+      businessName: "Strategi Konten Lokal",
+      category: "Konten & SEO Lokal",
+      metric: "Local SEO",
+      beforeValue: "Kebutuhan pencarian lokal dipetakan",
+      afterValue: "Rencana konten dan pengukuran disusun",
+      description: "Memetakan layanan, area layanan, pertanyaan calon pelanggan, dan konten yang relevan. Hindari menambahkan kata kunci secara tidak wajar ke nama bisnis.",
       tags: ["Maps Ranking", "Laundry"],
     }
   ];
@@ -63,12 +63,12 @@ export default function Portfolio() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <span className="text-xs font-bold text-brand-primary uppercase tracking-widest block">Kisah Sukses Mitra</span>
+          <span className="text-xs font-bold text-brand-primary uppercase tracking-widest block">Ruang Lingkup Layanan</span>
           <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-brand-text tracking-tight">
-            Hasil Nyata yang Telah Kami <span className="text-brand-primary">Buktikan</span>
+            Area Optimasi yang Kami <span className="text-brand-primary">Buktikan</span>
           </h2>
           <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-            Lihat perbandingan performa sebelum dan sesudah optimasi digital dilakukan oleh tim profesional KetemuTerus.
+            Berikut contoh area pekerjaan yang dapat disesuaikan dengan kondisi bisnis. Hasil spesifik perlu diukur dan didukung data proyek yang terverifikasi.
           </p>
         </div>
 
@@ -144,7 +144,7 @@ export default function Portfolio() {
                   {/* After */}
                   <div className="text-left space-y-1.5 pl-2">
                     <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1 w-max">
-                      Setelah 🎉
+                      Output yang ditargetkan
                     </span>
                     <div className="text-sm font-black text-emerald-600 truncate font-display">
                       {item.afterValue}
@@ -169,7 +169,7 @@ export default function Portfolio() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-xs font-bold text-brand-primary hover:text-blue-700 transition-colors group-hover:underline"
                 >
-                  Gunakan Strategi Ini <ArrowUpRight className="w-4 h-4" />
+                  Konsultasikan Kebutuhan <ArrowUpRight className="w-4 h-4" />
                 </a>
               </div>
 

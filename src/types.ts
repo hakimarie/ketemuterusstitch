@@ -5,6 +5,16 @@ export interface AuditMetric {
   details: string;
 }
 
+export interface AuditDiagnosis {
+  title: string;
+  evidenceStatus: "input_available" | "missing";
+  confidence: "low" | "medium";
+  severity: "high" | "medium" | "low";
+  finding: string;
+  recommendation: string;
+  validationStep: string;
+}
+
 export interface AuditReport {
   businessName: string;
   category: string;
@@ -14,7 +24,34 @@ export interface AuditReport {
   statusGoogleSearch: string;
   auditMetrics: AuditMetric[];
   quickWins: string[];
+  diagnoses: AuditDiagnosis[];
   strategicAdvice: string;
+  dataMode?: "ai_estimate";
+  scoreType?: "heuristic_estimate";
+  dataSources?: string[];
+  placesLookupStatus?: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "configuration_error" | "provider_error";
+  publicData?: {
+    placeId: string | null;
+    name: string;
+    address: string | null;
+    rating: number | null;
+    reviewCount: number | null;
+    website: string | null;
+    googleMapsUrl: string | null;
+    primaryType: string | null;
+    businessStatus: string | null;
+    coordinates: { latitude: number; longitude: number } | null;
+  } | null;
+  rankingMeasurement?: { status: "not_measured"; message: string };
+  ownerDataStatus?: "not_connected";
+  submittedEvidence?: {
+    mapsProfileUrl: string | null;
+    observedRating: number | null;
+    observedReviewCount: number | null;
+    websiteUrl: string | null;
+    recentReviews30d: number | null;
+    verificationStatus: "user_submitted_unverified";
+  };
 }
 
 export interface ServiceItem {
