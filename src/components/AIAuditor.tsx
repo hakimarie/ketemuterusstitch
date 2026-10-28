@@ -24,11 +24,7 @@ export default function AIAuditor() {
     "UMKM / Toko Retail"
   ];
 
-  const loadingMessages = [
-    "Mengirim data bisnis ke layanan analisis AI...",
-    "Menyusun evaluasi awal berdasarkan informasi yang diberikan...",
-    "Menyiapkan rekomendasi yang perlu diverifikasi..."
-  ];
+  const loadingMessages = ["Mengirim data bisnis ke layanan analisis AI..."];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
