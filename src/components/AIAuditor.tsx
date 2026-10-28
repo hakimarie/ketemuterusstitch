@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Search, MapPin, Sparkles, CheckCircle2, ArrowRight, MessageCircle, RefreshCw, Trophy, Target, Zap, Compass, AlertCircle } from "lucide-react";
 import { AuditReport } from "../types";
+import LocalRankMeasurement from "./LocalRankMeasurement";
 
 export default function AIAuditor() {
   const [businessName, setBusinessName] = useState("");
@@ -434,6 +435,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
 
         </div>
       </div>
+      <div className="max-w-5xl mx-auto px-6 mt-16 relative z-10"><LocalRankMeasurement /></div>
     </section>
   );
 }
