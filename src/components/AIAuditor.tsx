@@ -7,6 +7,11 @@ export default function AIAuditor() {
   const [businessName, setBusinessName] = useState("");
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
+  const [mapsProfileUrl, setMapsProfileUrl] = useState("");
+  const [observedRating, setObservedRating] = useState("");
+  const [observedReviewCount, setObservedReviewCount] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [recentReviews30d, setRecentReviews30d] = useState("");
   
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
@@ -48,7 +53,14 @@ export default function AIAuditor() {
       const response = await fetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ businessName: cleanBusinessName, category, location: cleanLocation })
+        body: JSON.stringify({
+          businessName: cleanBusinessName, category, location: cleanLocation,
+          mapsProfileUrl: mapsProfileUrl.trim(),
+          observedRating: observedRating === "" ? null : Number(observedRating),
+          observedReviewCount: observedReviewCount === "" ? null : Number(observedReviewCount),
+          websiteUrl: websiteUrl.trim(),
+          recentReviews30d: recentReviews30d === "" ? null : Number(recentReviews30d),
+        })
       });
       if (!response.ok) {
         const payload = await response.json().catch(() => null);
@@ -169,6 +181,35 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                 </div>
               </div>
 
+              <details className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <summary className="cursor-pointer text-sm font-bold text-slate-700">Tambahkan bukti manual (opsional)</summary>
+                <p className="mt-2 text-xs leading-relaxed text-slate-500">Salin data yang kamu lihat sendiri di Google Maps. Sistem tidak membuka atau memverifikasi tautan ini. Jangan masukkan informasi sensitif.</p>
+                <div className="mt-4 space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-600">Tautan profil Google Maps</label>
+                    <input type="url" maxLength={500} value={mapsProfileUrl} onChange={e=>setMapsProfileUrl(e.target.value)} placeholder="https://maps.app.goo.gl/..." className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-slate-600">Rating yang terlihat (0–5)</label>
+                      <input type="number" min="0" max="5" step="0.1" value={observedRating} onChange={e=>setObservedRating(e.target.value)} placeholder="4.7" className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-slate-600">Jumlah ulasan</label>
+                      <input type="number" min="0" max="100000000" step="1" value={observedReviewCount} onChange={e=>setObservedReviewCount(e.target.value)} placeholder="125" className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-600">Website bisnis (jika ada)</label>
+                    <input type="url" maxLength={500} value={websiteUrl} onChange={e=>setWebsiteUrl(e.target.value)} placeholder="https://bisnisanda.id" className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-600">Ulasan baru dalam 30 hari terakhir (opsional)</label>
+                    <input type="number" min="0" max="1000000" step="1" value={recentReviews30d} onChange={e=>setRecentReviews30d(e.target.value)} placeholder="Misalnya 8" className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
+                  </div>
+                </div>
+              </details>
+
               <button
                 type="submit"
                 disabled={loading}
@@ -282,6 +323,25 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   </div>
                 </div>
 
+                {report.submittedEvidence && (
+                  <div className="rounded-2xl border border-violet-100 bg-violet-50/60 p-5 text-left space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h4 className="text-sm font-bold text-slate-800">Bukti yang dimasukkan pengguna</h4>
+                      <span className="rounded-full border border-violet-200 bg-white px-2.5 py-1 text-[11px] font-bold text-violet-700">Belum diverifikasi otomatis</span>
+                    </div>
+                    <p className="text-xs leading-relaxed text-slate-600">Diagnosis di bawah menggunakan informasi yang kamu masukkan sebagai konteks, bukan data yang diambil langsung dari Google. Cocokkan lagi dengan profil aktual.</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Rating input</span><strong className="text-lg text-slate-800">{report.submittedEvidence.observedRating ?? "—"}{report.submittedEvidence.observedRating !== null ? "/5" : ""}</strong></div>
+                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Jumlah ulasan input</span><strong className="text-lg text-slate-800">{report.submittedEvidence.observedReviewCount ?? "—"}</strong></div>
+                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Ulasan 30 hari</span><strong className="text-lg text-slate-800">{report.submittedEvidence.recentReviews30d ?? "—"}</strong></div>
+                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Website input</span><strong className="text-sm text-slate-800">{report.submittedEvidence.websiteUrl ? "Dimasukkan" : "Belum diisi"}</strong></div>
+                    </div>
+                    <div className="flex flex-wrap gap-3 text-xs font-bold">
+                      {report.submittedEvidence.mapsProfileUrl && <a href={report.submittedEvidence.mapsProfileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">Buka tautan Maps yang dimasukkan</a>}
+                      {report.submittedEvidence.websiteUrl && <a href={report.submittedEvidence.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">Buka website yang dimasukkan</a>}
+                    </div>
+                  </div>
+                )}
                 {report.publicData && (
                   <div className="rounded-2xl border border-sky-100 bg-sky-50/60 p-5 text-left space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
