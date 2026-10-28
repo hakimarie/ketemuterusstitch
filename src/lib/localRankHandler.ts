@@ -86,7 +86,7 @@ export default async function handleLocalRank(req: any, res: any) {
       !finiteRange(spacingMeters, 100, 2000) || confirmPaidLookup !== true) {
     return res.status(400).json({ error: "Isi nama bisnis, keyword, koordinat valid, jarak 100–2.000 meter, dan konfirmasi biaya provider." });
   }
-  const requestKey = String(req.headers["x-forwarded-for"] ?? req.socket?.remoteAddress ?? "unknown").split(",")[0].trim();
+  const requestKey = String(req.ip ?? req.socket?.remoteAddress ?? "unknown");
   if (!allowRankRequest(requestKey)) {
     return res.status(429).json({ error: "Batas pengukuran ranking tercapai. Coba lagi dalam 15 menit." });
   }
