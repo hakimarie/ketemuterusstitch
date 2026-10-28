@@ -16,6 +16,11 @@ function buildGrid(latitude: number, longitude: number, spacingMeters: number): 
 function mapsSearchUrl(keyword: string, latitude: number, longitude: number) {
   return `https://www.google.com/maps/search/${encodeURIComponent(keyword.trim())}/@${latitude},${longitude},15z`;
 }
+function csvTextCell(value: string) {
+  // Prevent spreadsheet formula execution when a user-controlled text field starts with a formula marker.
+  const safeValue = /^[\\t\\r ]*[=+\\-@]/.test(value) ? `'${value}` : value;
+  return `"${safeValue.replace(/"/g, '""')}"`;
+}
 export default function LocalRankMeasurement() {
   const [businessName, setBusinessName] = useState("");
   const [keyword, setKeyword] = useState("");
@@ -36,8 +41,8 @@ export default function LocalRankMeasurement() {
   function startGrid(event: React.FormEvent) { event.preventDefault(); setRanks({}); setRun(true); }
   function exportCsv() {
     const lines = [["Nama bisnis","Keyword","Titik","Latitude","Longitude","Posisi manual","Waktu ekspor"].join(","),
-      ...points.map(p => [JSON.stringify(businessName),JSON.stringify(keyword),`${p.row}-${p.col}`,p.latitude,p.longitude,
-        JSON.stringify(ranks[`${p.row}-${p.col}`] || "Belum dicek"),JSON.stringify(new Date().toISOString())].join(","))];
+      ...points.map(p => [csvTextCell(businessName),csvTextCell(keyword),`${p.row}-${p.col}`,p.latitude,p.longitude,
+        csvTextCell(ranks[`${p.row}-${p.col}`] || "Belum dicek"),JSON.stringify(new Date().toISOString())].join(","))];
     const url = URL.createObjectURL(new Blob(["\uFEFF" + lines.join("\n")], { type: "text/csv;charset=utf-8;" }));
     const anchor = document.createElement("a"); anchor.href = url; anchor.download = "ketemuterus-local-rank-manual.csv";
     anchor.click(); URL.revokeObjectURL(url);
