@@ -67,7 +67,7 @@ async function lookupPublicPlace(businessName: string, location: string, apiKey:
   const exactCandidates = (payload.places as PublicPlace[]).filter((place) =>
     normalize(place.displayName?.text ?? "") === wantedName &&
     Boolean(place.formattedAddress) &&
-    locationTokens.some((token) => normalize(place.formattedAddress ?? "").includes(token))
+    locationTokens.every((token) => normalize(place.formattedAddress ?? "").includes(token))
   );
   if (exactCandidates.length !== 1) return { place: null, status: exactCandidates.length > 1 ? "ambiguous_match" : "no_match" };
   return { place: exactCandidates[0], status: "matched" };
