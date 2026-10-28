@@ -62,11 +62,31 @@ export default function AIAuditor() {
           recentReviews30d: recentReviews30d === "" ? null : Number(recentReviews30d),
         })
       });
-      if (!response.ok) {
-        const payload = await response.json().catch(() => null);
-        throw new Error(payload?.error || "Audit belum berhasil diproses. Silakan coba lagi.");
+      const responseText = await response.text();
+      let payload: unknown = null;
+      try {
+        payload = responseText ? JSON.parse(responseText) : null;
+      } catch {
+        // A deployment/proxy error may return HTML or an empty body instead of the API's JSON contract.
       }
-      const data: AuditReport = await response.json();
+
+      if (!response.ok) {
+        const apiError =
+          typeof payload === "object" && payload !== null &&
+          "error" in payload && typeof payload.error === "string"
+            ? payload.error
+            : null;
+        if (apiError) throw new Error(apiError);
+
+        const contentType = response.headers.get("content-type") || "unknown";
+        throw new Error(
+          `Endpoint audit gagal (HTTP ${response.status}; respons ${contentType}). Periksa deployment fungsi /api/audit lalu coba lagi.`
+        );
+      }
+      if (!payload || typeof payload !== "object") {
+        throw new Error("Layanan audit mengirim respons yang tidak valid. Periksa log fungsi /api/audit.");
+      }
+      const data = payload as AuditReport;
       setReport(data);
     } catch (err: unknown) {
       console.error("Audit request failed:", err);
