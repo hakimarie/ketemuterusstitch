@@ -1,7 +1,6 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import handleAudit from "./src/lib/auditHandler";
 import handleLocalRank from "./src/lib/localRankHandler";
