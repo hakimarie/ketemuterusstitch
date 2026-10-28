@@ -55,7 +55,7 @@ async function measurePoint(point: GridPoint, keyword: string, businessName: str
   const match = candidates.length === 1 ? candidates[0] : null;
   return {
     row: point.row, col: point.col, latitude: point.latitude, longitude: point.longitude,
-    rank: match && Number.isInteger(match.rank_group) ? match.rank_group as number : null,
+    rank: match && Number.isInteger(match.rank_absolute) ? match.rank_absolute as number : null,
     title: match?.title ?? null,
     resultsScanned: items.filter((item: unknown) => isRecord(item) && item.type === "maps_search").length,
     status: candidates.length > 1 ? "ambiguous_match" : match ? "measured" : "not_found_in_top_20",
