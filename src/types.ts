@@ -5,6 +5,16 @@ export interface AuditMetric {
   details: string;
 }
 
+export interface AuditDiagnosis {
+  title: string;
+  evidenceStatus: "input_available" | "missing";
+  confidence: "low" | "medium";
+  severity: "high" | "medium" | "low";
+  finding: string;
+  recommendation: string;
+  validationStep: string;
+}
+
 export interface AuditReport {
   businessName: string;
   category: string;
@@ -14,6 +24,7 @@ export interface AuditReport {
   statusGoogleSearch: string;
   auditMetrics: AuditMetric[];
   quickWins: string[];
+  diagnoses: AuditDiagnosis[];
   strategicAdvice: string;
   dataMode?: "ai_estimate";
   scoreType?: "heuristic_estimate";
