@@ -288,7 +288,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                       <h4 className="text-sm font-bold text-slate-800">Data publik Google Maps</h4>
                       <span className="rounded-full border border-sky-200 bg-white px-2.5 py-1 text-[11px] font-bold text-sky-700">Profil cocok</span>
                     </div>
-                    <p className="text-xs text-slate-600">Data berikut berasal dari Google Places API. Ini bukan data performa pemilik dan bukan pengukuran ranking.</p>
+                    <p className="text-xs text-slate-600">Data publik ini belum diambil otomatis. Profil pemilik dan ranking tidak diverifikasi oleh API.</p>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Rating publik</span><strong className="text-lg text-slate-800">{report.publicData.rating ?? "Tidak tersedia"}{report.publicData.rating !== null ? "/5" : ""}</strong></div>
                       <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Jumlah ulasan</span><strong className="text-lg text-slate-800">{report.publicData.reviewCount ?? "Tidak tersedia"}</strong></div>
@@ -304,13 +304,13 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                     <h4 className="text-sm font-bold text-amber-900">Data publik belum terverifikasi</h4>
                     <p className="mt-1 text-xs leading-relaxed text-amber-800">
                       {report.placesLookupStatus === "not_configured"
-                        ? "Integrasi Google Places belum dikonfigurasi. Laporan saat ini hanya estimasi AI."
+                        ? "Google Maps API sengaja tidak dipanggil agar menghindari billing. Verifikasi rating, ulasan, alamat, dan website secara manual melalui Google Maps."
                         : report.placesLookupStatus === "ambiguous_match"
                           ? "Ada lebih dari satu kemungkinan profil dengan nama/lokasi serupa. Data tidak dipakai agar profil yang salah tidak terpilih."
                           : report.placesLookupStatus === "configuration_error"
-                            ? "Google Places menolak permintaan. Periksa konfigurasi API key, izin API, dan billing."
+                            ? "Data publik tidak diambil otomatis. Buka profil Google Maps secara manual untuk memverifikasi detail."
                             : report.placesLookupStatus === "provider_error"
-                              ? "Sumber Google Places sedang gagal diakses. Tidak ada data publik yang diasumsikan."
+                              ? "Data publik tidak diambil otomatis untuk menghindari biaya API. Tidak ada data yang diasumsikan."
                               : "Profil belum berhasil dicocokkan dengan yakin. Ini tidak berarti bisnis tidak ada."}
                     </p>
                   </div>
