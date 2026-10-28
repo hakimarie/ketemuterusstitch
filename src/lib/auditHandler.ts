@@ -27,52 +27,6 @@ function isValidAuditResult(value: unknown): boolean {
     value.quickWins.every((item) => isText(item, 500));
 }
 
-function normalize(value: string): string {
-  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().replace(/\s+/g, " ");
-}
-
-type PublicPlace = {
-  id?: string;
-  displayName?: { text?: string };
-  formattedAddress?: string;
-  location?: { latitude?: number; longitude?: number };
-  rating?: number;
-  userRatingCount?: number;
-  websiteUri?: string;
-  googleMapsUri?: string;
-  primaryTypeDisplayName?: { text?: string };
-  businessStatus?: string;
-};
-
-async function lookupPublicPlace(businessName: string, location: string, apiKey: string) {
-  const response = await fetch("https://places.googleapis.com/v1/places:searchText", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Goog-Api-Key": apiKey,
-      "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress,places.location,places.rating,places.userRatingCount,places.websiteUri,places.googleMapsUri,places.primaryTypeDisplayName,places.businessStatus",
-    },
-    body: JSON.stringify({ textQuery: `${businessName} ${location}`, maxResultCount: 5 }),
-  });
-  if (!response.ok) {
-    const providerStatus = response.status;
-    console.error("Google Places lookup failed with status:", providerStatus);
-    return { place: null as PublicPlace | null, status: providerStatus === 401 || providerStatus === 403 ? "configuration_error" : "provider_error" };
-  }
-  const payload: unknown = await response.json();
-  if (!isRecord(payload) || !Array.isArray(payload.places)) return { place: null, status: "no_match" };
-  const wantedName = normalize(businessName);
-  const locationTokens = normalize(location).split(" ").filter((token) => token.length > 2);
-  const exactCandidates = (payload.places as PublicPlace[]).filter((place) =>
-    normalize(place.displayName?.text ?? "") === wantedName &&
-    Boolean(place.formattedAddress) &&
-    locationTokens.every((token) => normalize(place.formattedAddress ?? "").includes(token))
-  );
-  if (exactCandidates.length !== 1) return { place: null, status: exactCandidates.length > 1 ? "ambiguous_match" : "no_match" };
-  return { place: exactCandidates[0], status: "matched" };
-}
-
 export default async function handleAudit(req: any, res: any) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -91,36 +45,8 @@ export default async function handleAudit(req: any, res: any) {
     return res.status(500).json({ error: "Layanan audit belum dikonfigurasi dengan benar. Silakan hubungi tim KetemuTerus." });
   }
 
-  let publicPlace: PublicPlace | null = null;
-  let placesStatus = "not_configured";
-  const placesKey = process.env.GOOGLE_MAPS_API_KEY || process.env.GOOGLE_PLACES_API_KEY;
-  if (placesKey) {
-    try {
-      const lookup = await lookupPublicPlace(businessName.trim(), location.trim(), placesKey);
-      publicPlace = lookup.place;
-      placesStatus = lookup.status;
-    } catch (error) {
-      console.error("Google Places lookup failed:", error);
-      placesStatus = "provider_error";
-    }
-  }
-
-  const publicData = publicPlace ? {
-    placeId: publicPlace.id ?? null,
-    name: publicPlace.displayName?.text ?? businessName.trim(),
-    address: publicPlace.formattedAddress ?? null,
-    rating: typeof publicPlace.rating === "number" ? publicPlace.rating : null,
-    reviewCount: typeof publicPlace.userRatingCount === "number" ? publicPlace.userRatingCount : null,
-    website: publicPlace.websiteUri ?? null,
-    googleMapsUrl: publicPlace.googleMapsUri ?? null,
-    primaryType: publicPlace.primaryTypeDisplayName?.text ?? null,
-    businessStatus: publicPlace.businessStatus ?? null,
-    coordinates: publicPlace.location &&
-      typeof publicPlace.location.latitude === "number" &&
-      typeof publicPlace.location.longitude === "number"
-        ? { latitude: publicPlace.location.latitude, longitude: publicPlace.location.longitude }
-        : null,
-  } : null;
+  const publicData = null;
+  const placesStatus = "not_configured";
 
   const prompt = `Buat audit awal visibilitas digital lokal dalam bahasa Indonesia.
 Nama bisnis: ${businessName.trim()}
@@ -144,7 +70,7 @@ Aturan wajib:
       model: "gemini-2.5-flash",
       contents: prompt,
       config: {
-        systemInstruction: "Anda adalah edukator Local SEO yang berhati-hati. Data publik yang disediakan boleh dipakai hanya sebagai fakta yang tercantum. Jangan mengklaim memiliki akses owner GBP, Search Console, analytics, website live, atau ranking grid. Semua skor adalah estimasi dan semua klaim yang tidak didukung harus dinyatakan belum diketahui.",
+        systemInstruction: "Anda adalah edukator Local SEO yang berhati-hati. Tidak ada data Google Maps aktual yang disediakan. Jangan mengarang rating, jumlah ulasan, posisi ranking, kompetitor, website live, owner GBP, Search Console, atau analytics. Semua skor adalah estimasi heuristik dan semua fakta yang tidak didukung harus dinyatakan belum diketahui.",
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
@@ -171,14 +97,14 @@ Aturan wajib:
     }
     return res.status(200).json({
       ...auditData,
-      dataMode: publicData ? "google_places" : "ai_estimate",
+      dataMode: "ai_estimate",
       scoreType: "heuristic_estimate",
-      dataSources: publicData ? ["Google Places API (data publik; profil cocok berdasarkan nama dan lokasi)"] : [],
+      dataSources: [],
       placesLookupStatus: placesStatus,
       publicData,
       rankingMeasurement: {
         status: "not_measured",
-        message: "Ranking lokal Google Maps belum diukur. Posisi perlu diuji dari beberapa koordinat menggunakan sumber pengukuran ranking yang tervalidasi.",
+        message: "Ranking belum diukur otomatis. Gunakan grid manual di bawah untuk membuka pencarian Google Maps di beberapa titik, lalu catat posisi yang terlihat. Tidak ada Google Maps API berbayar yang dipanggil.",
       },
       ownerDataStatus: "not_connected",
     });
