@@ -86,7 +86,7 @@ export default function AIAuditor() {
 Nama Bisnis: ${report.businessName}
 Kategori: ${report.category}
 Lokasi: ${report.location}
-Skor Akhir: ${report.overallScore}/100
+Estimasi AI (bukan hasil pengukuran): ${report.overallScore}/100
 
 Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatkannya agar lebih banyak pelanggan baru berdatangan.`;
     return encodeURIComponent(text);
@@ -128,6 +128,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   <input
                     type="text"
                     required
+                    maxLength={120}
                     placeholder="Contoh: Kopi Senja, Klinik Gigiku"
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
@@ -158,6 +159,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   <input
                     type="text"
                     required
+                    maxLength={120}
                     placeholder="Contoh: Jakarta Selatan, Bandung"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
@@ -257,7 +259,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                         {report.overallScore}
                       </span>
                       <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider -mt-1">
-                        Skor Visibilitas
+                        Estimasi AI (bukan pengukuran)
                       </span>
                     </div>
                   </div>
@@ -283,7 +285,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 text-left space-y-1.5">
                     <h5 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Compass className="w-4 h-4 text-brand-primary" /> Diagnosis Google Maps
+                      <Compass className="w-4 h-4 text-brand-primary" /> Panduan Evaluasi Google Maps
                     </h5>
                     <p className="text-xs text-slate-600 leading-relaxed font-sans">
                       {report.statusGoogleMaps}
@@ -291,7 +293,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   </div>
                   <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 text-left space-y-1.5">
                     <h5 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Search className="w-4 h-4 text-brand-secondary" /> Diagnosis Google Search
+                      <Search className="w-4 h-4 text-brand-secondary" /> Panduan Evaluasi Google Search
                     </h5>
                     <p className="text-xs text-slate-600 leading-relaxed font-sans">
                       {report.statusGoogleSearch}
