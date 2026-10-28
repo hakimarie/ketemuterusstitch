@@ -33,6 +33,23 @@ async function startServer() {
 
   // Shared audit handler keeps local and serverless behavior aligned.
   app.post("/api/audit", handleAudit);
+
+  // Paid rank provider: enforce a much lower per-process request limit to prevent accidental spend.
+  const rankRequests = new Map<string, { count: number; resetAt: number }>();
+  app.use("/api/local-rank", (req, res, next) => {
+    const now = Date.now();
+    const key = req.ip || req.socket.remoteAddress || "unknown";
+    const current = rankRequests.get(key);
+    if (!current || current.resetAt <= now) {
+      rankRequests.set(key, { count: 1, resetAt: now + 15 * 60 * 1000 });
+      return next();
+    }
+    if (current.count >= 2) {
+      return res.status(429).json({ error: "Batas pengukuran ranking tercapai. Coba lagi dalam 15 menit." });
+    }
+    current.count += 1;
+    return next();
+  });
   app.post("/api/local-rank", handleLocalRank);
 
   // Setup Vite middleware in Dev
