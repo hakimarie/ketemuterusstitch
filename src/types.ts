@@ -33,6 +33,14 @@ export interface AuditReport {
   } | null;
   rankingMeasurement?: { status: "not_measured"; message: string };
   ownerDataStatus?: "not_connected";
+  submittedEvidence?: {
+    mapsProfileUrl: string | null;
+    observedRating: number | null;
+    observedReviewCount: number | null;
+    websiteUrl: string | null;
+    recentReviews30d: number | null;
+    verificationStatus: "user_submitted_unverified";
+  };
 }
 
 export interface ServiceItem {
