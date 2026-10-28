@@ -15,6 +15,24 @@ export interface AuditReport {
   auditMetrics: AuditMetric[];
   quickWins: string[];
   strategicAdvice: string;
+  dataMode?: "google_places" | "ai_estimate";
+  scoreType?: "heuristic_estimate";
+  dataSources?: string[];
+  placesLookupStatus?: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "configuration_error" | "provider_error";
+  publicData?: {
+    placeId: string | null;
+    name: string;
+    address: string | null;
+    rating: number | null;
+    reviewCount: number | null;
+    website: string | null;
+    googleMapsUrl: string | null;
+    primaryType: string | null;
+    businessStatus: string | null;
+    coordinates: { latitude: number; longitude: number } | null;
+  } | null;
+  rankingMeasurement?: { status: "not_measured"; message: string };
+  ownerDataStatus?: "not_connected";
 }
 
 export interface ServiceItem {
