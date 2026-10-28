@@ -36,7 +36,7 @@ function isMapsProfileUrl(value: unknown): boolean {
      parsed.hostname === "maps.google.com") && parsed.pathname.toLowerCase().includes("/maps"));
 }
 
-function isValidAuditResult(value: unknown): boolean {
+function isValidAuditResult(value: unknown): value is Record<string, unknown> {
   if (!isRecord(value) || !isText(value.businessName, 120) ||
       !isText(value.category, 80) || !isText(value.location, 120) ||
       !isScore(value.overallScore) || !isText(value.statusGoogleMaps, 1200) ||
