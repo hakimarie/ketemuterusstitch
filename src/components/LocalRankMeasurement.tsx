@@ -18,7 +18,7 @@ function mapsSearchUrl(keyword: string, latitude: number, longitude: number) {
 }
 function csvTextCell(value: string) {
   // Prevent spreadsheet formula execution when a user-controlled text field starts with a formula marker.
-  const safeValue = /^[\\t\\r ]*[=+\\-@]/.test(value) ? `'${value}` : value;
+  const safeValue = /^\s*[=+\-@]/.test(value) ? `'${value}` : value;
   return `"${safeValue.replace(/"/g, '""')}"`;
 }
 export default function LocalRankMeasurement() {
