@@ -15,7 +15,7 @@ export interface AuditReport {
   auditMetrics: AuditMetric[];
   quickWins: string[];
   strategicAdvice: string;
-  dataMode?: "google_places" | "ai_estimate";
+  dataMode?: "ai_estimate";
   scoreType?: "heuristic_estimate";
   dataSources?: string[];
   placesLookupStatus?: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "configuration_error" | "provider_error";
