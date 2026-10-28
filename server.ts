@@ -12,12 +12,37 @@ async function startServer() {
 
   app.use(express.json({ limit: "10kb" }));
 
+  // Lightweight per-process rate limit. Use a shared store for multi-instance production deployments.
+  const auditRequests = new Map<string, { count: number; resetAt: number }>();
+  app.use("/api/audit", (req, res, next) => {
+    const now = Date.now();
+    const key = req.ip || req.socket.remoteAddress || "unknown";
+    const current = auditRequests.get(key);
+    if (!current || current.resetAt <= now) {
+      auditRequests.set(key, { count: 1, resetAt: now + 15 * 60 * 1000 });
+      return next();
+    }
+    if (current.count >= 10) {
+      return res.status(429).json({ error: "Batas permintaan audit tercapai. Silakan coba lagi dalam beberapa menit." });
+    }
+    current.count += 1;
+    return next();
+  });
+
   // API Route for Audit
   app.post("/api/audit", async (req, res) => {
     try {
-      const { businessName, category, location } = req.body;
-      if (!businessName || !category || !location) {
-        return res.status(400).json({ error: "Silakan isi semua bidang: nama bisnis, kategori, dan lokasi." });
+      const { businessName, category, location } = req.body ?? {};
+      const validString = (value: unknown, maxLength: number): value is string =>
+        typeof value === "string" && value.trim().length > 0 && value.trim().length <= maxLength;
+      const allowedCategories = [
+        "Cafe / Kedai Kopi", "Restoran", "Salon Kecantikan", "Klinik Medis / Gigi",
+        "Gym / Pusat Kebugaran", "Laundry / Binatu", "Bengkel Otomotif",
+        "Hotel / Penginapan", "UMKM / Toko Retail"
+      ];
+      if (!validString(businessName, 120) || !validString(location, 120) ||
+          typeof category !== "string" || !allowedCategories.includes(category)) {
+        return res.status(400).json({ error: "Periksa kembali nama bisnis, kategori, dan lokasi. Nama bisnis serta lokasi maksimal 120 karakter." });
       }
 
       const apiKey = process.env.GEMINI_API_KEY;
@@ -35,17 +60,17 @@ async function startServer() {
       });
 
       const prompt = `Analyze the local digital marketing and maps visibility profile of the following business:
-Business Name: ${businessName}
+Business Name: ${businessName.trim()}
 Category: ${category}
-Location: ${location}
+Location: ${location.trim()}
 
-Provide a realistic, highly professional local visibility audit report. Evaluate their potential Google Business Profile, Google Maps Ranking, Website presence, Review Status, and Local Search Optimization based on industry standards for their specific category and region. Be constructive and provide extremely valuable insights as a digital agency. Format the response as JSON matching the schema.`;
+IMPORTANT LIMITATION: You do not have live web access, Google Maps access, Google Business Profile data, review data, ranking data, website access, or analytics for this business. Do not claim you checked, found, observed, or verified any specific facts about it. Do not invent ratings, review counts, rankings, website performance, profile completeness, or competitors. Produce a preliminary educational assessment based only on the business name, category, and location supplied. Clearly state that actual status is unverified and recommend concrete checks the owner can perform. Scores, if supplied, must be described as heuristic estimates rather than measured results. Avoid guaranteed outcomes, exact percentage lifts, and promises of ranking or results within a timeframe. Use Indonesian and format JSON matching the schema.`;
 
       const response = await ai.models.generateContent({
         model: "gemini-3.5-flash",
         contents: prompt,
         config: {
-          systemInstruction: "You are an expert Local SEO & Google Maps optimization auditor from the KetemuTerus agency. You provide highly realistic, professional, and actionable business visibility audits in Indonesian language (Bahasa Indonesia). Make sure the score and evaluations reflect the typical gaps of such local businesses (e.g., poor local listings, incomplete profile, lack of reviews, slow mobile website, missing Meta Ads pixels).",
+          systemInstruction: "You are a careful Local SEO educator for KetemuTerus. You have no live access to Google, Maps, websites, analytics, or customer reviews in this request. Never present assumptions as verified findings. Respond in Indonesian, label the output as a preliminary AI assessment, distinguish unknown facts from recommendations, and do not promise rankings, growth percentages, or time-bound outcomes.",
           responseMimeType: "application/json",
           responseSchema: {
             type: Type.OBJECT,
@@ -53,7 +78,7 @@ Provide a realistic, highly professional local visibility audit report. Evaluate
               businessName: { type: Type.STRING },
               category: { type: Type.STRING },
               location: { type: Type.STRING },
-              overallScore: { type: Type.INTEGER, description: "Nilai visibilitas online dari 0-100 (misalnya 45-65 untuk bisnis yang perlu perbaikan)" },
+              overallScore: { type: Type.INTEGER, description: "Perkiraan heuristik awal 0-100, bukan hasil pengukuran atau pemeriksaan langsung; nyatakan keterbatasan ini dalam laporan" },
               statusGoogleMaps: { type: Type.STRING, description: "Penjelasan ringkas status di Google Maps" },
               statusGoogleSearch: { type: Type.STRING, description: "Penjelasan ringkas status di Google Search" },
               auditMetrics: {
@@ -64,7 +89,7 @@ Provide a realistic, highly professional local visibility audit report. Evaluate
                     name: { type: Type.STRING, description: "Misalnya: 'Google Business Profile', 'Google Maps Ranking', 'Review Management', 'Local SEO Content', 'Website Performance'" },
                     score: { type: Type.INTEGER, description: "Skor 0-100" },
                     status: { type: Type.STRING, description: "'Sangat Kurang', 'Perlu Optimalisasi', 'Optimal'" },
-                    details: { type: Type.STRING, description: "Penjelasan detail dan temuan di lapangan" }
+                    details: { type: Type.STRING, description: "Penjelasan awal; jangan klaim sebagai temuan lapangan yang telah diverifikasi" }
                   },
                   required: ["name", "score", "status", "details"]
                 }
@@ -89,7 +114,7 @@ Provide a realistic, highly professional local visibility audit report. Evaluate
       res.json(auditData);
     } catch (error: any) {
       console.error("Audit error:", error);
-      res.status(500).json({ error: "Gagal memproses audit visibilitas: " + error.message });
+      res.status(500).json({ error: "Layanan audit sedang mengalami kendala. Silakan coba lagi nanti." });
     }
   });
 
