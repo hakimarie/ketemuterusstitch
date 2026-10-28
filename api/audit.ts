@@ -50,6 +50,51 @@ const responseSchema = {
   ],
 };
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+const isText = (value: unknown, maxLength: number): value is string =>
+  typeof value === "string" && value.trim().length > 0 && value.length <= maxLength;
+
+const isScore = (value: unknown): value is number =>
+  typeof value === "number" && Number.isInteger(value) && value >= 0 && value <= 100;
+
+function isValidAuditResult(value: unknown): boolean {
+  if (!isRecord(value)) return false;
+
+  if (
+    !isText(value.businessName, 120) ||
+    !isText(value.category, 80) ||
+    !isText(value.location, 120) ||
+    !isScore(value.overallScore) ||
+    !isText(value.statusGoogleMaps, 1200) ||
+    !isText(value.statusGoogleSearch, 1200) ||
+    !isText(value.strategicAdvice, 3000) ||
+    !Array.isArray(value.auditMetrics) ||
+    value.auditMetrics.length < 1 ||
+    value.auditMetrics.length > 12 ||
+    !Array.isArray(value.quickWins) ||
+    value.quickWins.length < 1 ||
+    value.quickWins.length > 8
+  ) {
+    return false;
+  }
+
+  const metricsValid = value.auditMetrics.every((metric) => {
+    if (!isRecord(metric)) return false;
+    return (
+      isText(metric.name, 100) &&
+      isScore(metric.score) &&
+      isText(metric.status, 60) &&
+      isText(metric.details, 1200)
+    );
+  });
+
+  const quickWinsValid = value.quickWins.every((item) => isText(item, 500));
+
+  return metricsValid && quickWinsValid;
+}
+
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -58,12 +103,10 @@ export default async function handler(req: any, res: any) {
 
   const body = req.body ?? {};
   const { businessName, category, location } = body;
-  const validString = (value: unknown, maxLength: number): value is string =>
-    typeof value === "string" && value.trim().length > 0 && value.trim().length <= maxLength;
 
   if (
-    !validString(businessName, 120) ||
-    !validString(location, 120) ||
+    !isText(businessName, 120) ||
+    !isText(location, 120) ||
     typeof category !== "string" ||
     !allowedCategories.includes(category)
   ) {
@@ -87,10 +130,9 @@ Nama bisnis: ${businessName.trim()}
 Kategori: ${category}
 Lokasi: ${location.trim()}
 
-Batasan penting: Anda tidak memiliki akses langsung ke Google Maps, Google Business Profile, ulasan, website, ranking, atau analytics bisnis ini. Jangan mengklaim telah memeriksa atau memverifikasi fakta spesifik. Jangan mengarang rating, jumlah ulasan, ranking, kelengkapan profil, performa website, atau kompetitor. Buat penilaian edukatif awal hanya berdasarkan nama bisnis, kategori, dan lokasi yang diberikan. Jelaskan bahwa status aktual belum diverifikasi dan berikan pemeriksaan konkret yang bisa dilakukan pemilik bisnis. Semua skor adalah estimasi heuristik, bukan hasil pengukuran. Hindari jaminan hasil atau klaim peningkatan persentase. Gunakan bahasa Indonesia dan keluarkan JSON sesuai skema.`;
+Batasan penting: Anda tidak memiliki akses langsung ke Google Maps, Google Business Profile, ulasan, website, ranking, atau analytics bisnis ini. Jangan mengklaim telah memeriksa atau memverifikasi fakta spesifik. Jangan mengarang rating, jumlah ulasan, ranking, kelengkapan profil, performa website, atau kompetitor. Buat penilaian edukatif awal hanya berdasarkan nama bisnis, kategori, dan lokasi yang diberikan. Jelaskan bahwa status aktual belum diverifikasi dan berikan pemeriksaan konkret yang bisa dilakukan pemilik bisnis. Semua skor adalah estimasi heuristik, bukan hasil pengukuran. Skor harus berupa bilangan bulat 0-100. Berikan 3-6 indikator audit dan 3-5 quick wins. Hindari jaminan hasil atau klaim peningkatan persentase. Gunakan bahasa Indonesia dan keluarkan JSON sesuai skema.`;
 
     const response = await ai.models.generateContent({
-      // Use a generally available Flash model for reliable serverless requests.
       model: "gemini-2.5-flash",
       contents: prompt,
       config: {
@@ -109,7 +151,14 @@ Batasan penting: Anda tidak memiliki akses langsung ke Google Maps, Google Busin
       });
     }
 
-    const auditData = JSON.parse(result);
+    const auditData: unknown = JSON.parse(result);
+    if (!isValidAuditResult(auditData)) {
+      console.error("Gemini returned an audit response that failed output validation.");
+      return res.status(502).json({
+        error: "Format laporan audit belum sesuai. Silakan coba lagi sebentar.",
+      });
+    }
+
     return res.status(200).json(auditData);
   } catch (error) {
     console.error("Vercel audit function failed:", error);
