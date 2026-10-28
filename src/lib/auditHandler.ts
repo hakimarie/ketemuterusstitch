@@ -91,13 +91,21 @@ export default async function handleAudit(req: any, res: any) {
 
   const publicData = null;
   const placesStatus = "not_configured";
+  // Keep arbitrary URLs out of the model prompt; the AI receives only evidence values and whether links were supplied.
+  const evidenceForPrompt = {
+    mapsProfileLinkProvided: Boolean(submittedEvidence.mapsProfileUrl),
+    observedRating: submittedEvidence.observedRating,
+    observedReviewCount: submittedEvidence.observedReviewCount,
+    websiteLinkProvided: Boolean(submittedEvidence.websiteUrl),
+    recentReviews30d: submittedEvidence.recentReviews30d,
+  };
 
   const prompt = `Buat audit awal visibilitas digital lokal dalam bahasa Indonesia.
 Nama bisnis: ${businessName.trim()}
 Kategori: ${category}
 Lokasi yang dimasukkan pengguna: ${location.trim()}
 Data publik Google Places: tidak dipanggil (untuk menghindari billing).
-Data yang dimasukkan pengguna (belum diverifikasi independen): ${JSON.stringify(submittedEvidence)}
+Data yang dimasukkan pengguna (belum diverifikasi independen): ${JSON.stringify(evidenceForPrompt)}
 
 Aturan wajib:
 - Data dalam submittedEvidence adalah observasi yang diketik pengguna, bukan fakta terverifikasi oleh sistem. Sebut sebagai "data yang Anda masukkan" dan sarankan pengecekan silang.
@@ -106,7 +114,7 @@ Aturan wajib:
 - Anda tidak memiliki akses ke Google Business Profile pemilik, Search Console, analytics, performa website, atau data ranking lokal.
 - Ranking Google Maps tidak diukur. Jangan mengarang posisi, kompetitor, rating, jumlah ulasan, kelengkapan profil, atau hasil pencarian.
 - overallScore dan seluruh metric score tetap skor estimasi heuristik AI, bukan skor terukur. Jangan beri skor seolah-olah kualitas profil aktual sudah diverifikasi.
-- Bedakan fakta dari data publik dengan rekomendasi yang masih harus diperiksa pemilik.
+- Pisahkan observasi yang dilaporkan pengguna dari interpretasi dan rekomendasi. Kaitkan rekomendasi hanya pada field yang tersedia; jangan mengasumsikan bahwa link yang diberikan sudah dibuka atau diverifikasi. Jelaskan bahwa rating dan volume ulasan tanpa pembanding kategori/lokasi bukan bukti posisi ranking.
 - Berikan 3-6 indikator dan 3-5 quick wins. Hindari jaminan hasil, angka peningkatan, dan janji ranking.`;
 
   try {
