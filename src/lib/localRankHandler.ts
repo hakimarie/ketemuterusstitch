@@ -7,6 +7,19 @@ const finiteRange = (value: unknown, min: number, max: number): value is number 
 const normalize = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   .toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().replace(/\s+/g, " ");
 
+const rankRequestBuckets = new Map<string, { count: number; resetAt: number }>();
+function allowRankRequest(key: string): boolean {
+  const now = Date.now();
+  const current = rankRequestBuckets.get(key);
+  if (!current || current.resetAt <= now) {
+    rankRequestBuckets.set(key, { count: 1, resetAt: now + 15 * 60 * 1000 });
+    return true;
+  }
+  if (current.count >= 2) return false;
+  current.count += 1;
+  return true;
+}
+
 type GridPoint = { row: number; col: number; latitude: number; longitude: number };
 function createGrid(latitude: number, longitude: number, spacingMeters: number): GridPoint[] {
   const points: GridPoint[] = [];
@@ -72,6 +85,10 @@ export default async function handleLocalRank(req: any, res: any) {
       !finiteRange(latitude, -90, 90) || !finiteRange(longitude, -180, 180) ||
       !finiteRange(spacingMeters, 100, 2000) || confirmPaidLookup !== true) {
     return res.status(400).json({ error: "Isi nama bisnis, keyword, koordinat valid, jarak 100–2.000 meter, dan konfirmasi biaya provider." });
+  }
+  const requestKey = String(req.headers["x-forwarded-for"] ?? req.socket?.remoteAddress ?? "unknown").split(",")[0].trim();
+  if (!allowRankRequest(requestKey)) {
+    return res.status(429).json({ error: "Batas pengukuran ranking tercapai. Coba lagi dalam 15 menit." });
   }
   const login = process.env.DATAFORSEO_LOGIN;
   const password = process.env.DATAFORSEO_PASSWORD;
