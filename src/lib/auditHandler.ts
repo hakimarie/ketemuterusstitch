@@ -44,10 +44,21 @@ function isValidAuditResult(value: unknown): boolean {
       !Array.isArray(value.auditMetrics) || value.auditMetrics.length < 1 ||
       value.auditMetrics.length > 12 || !Array.isArray(value.quickWins) ||
       value.quickWins.length < 1 || value.quickWins.length > 8) return false;
-  return value.auditMetrics.every((metric) => isRecord(metric) &&
+  const validMetrics = value.auditMetrics.every((metric) => isRecord(metric) &&
     isText(metric.name, 100) && isScore(metric.score) &&
-    isText(metric.status, 60) && isText(metric.details, 1200)) &&
-    value.quickWins.every((item) => isText(item, 500));
+    isText(metric.status, 60) && isText(metric.details, 1200));
+  const validQuickWins = value.quickWins.every((item) => isText(item, 500));
+  const validDiagnoses = Array.isArray(value.diagnoses) && value.diagnoses.length >= 3 &&
+    value.diagnoses.length <= 6 && value.diagnoses.every((item) =>
+      isRecord(item) &&
+      isText(item.title, 120) &&
+      (item.evidenceStatus === "input_available" || item.evidenceStatus === "missing") &&
+      (item.confidence === "low" || item.confidence === "medium") &&
+      (item.severity === "high" || item.severity === "medium" || item.severity === "low") &&
+      isText(item.finding, 1000) &&
+      isText(item.recommendation, 1000) &&
+      isText(item.validationStep, 700));
+  return validMetrics && validQuickWins && validDiagnoses;
 }
 
 export default async function handleAudit(req: any, res: any) {
@@ -115,7 +126,11 @@ Aturan wajib:
 - Ranking Google Maps tidak diukur. Jangan mengarang posisi, kompetitor, rating, jumlah ulasan, kelengkapan profil, atau hasil pencarian.
 - overallScore dan seluruh metric score tetap skor estimasi heuristik AI, bukan skor terukur. Jangan beri skor seolah-olah kualitas profil aktual sudah diverifikasi.
 - Pisahkan observasi yang dilaporkan pengguna dari interpretasi dan rekomendasi. Kaitkan rekomendasi hanya pada field yang tersedia; jangan mengasumsikan bahwa link yang diberikan sudah dibuka atau diverifikasi. Jelaskan bahwa rating dan volume ulasan tanpa pembanding kategori/lokasi bukan bukti posisi ranking.
-- Berikan 3-6 indikator dan 3-5 quick wins. Hindari jaminan hasil, angka peningkatan, dan janji ranking.`;
+- Berikan 3-6 indikator dan 3-5 quick wins. Hindari jaminan hasil, angka peningkatan, dan janji ranking.
+- Berikan 3-6 objek diagnoses. Setiap diagnosis wajib memiliki title, evidenceStatus ("input_available" hanya bila ada input relevan; jika tidak "missing"), confidence ("low" atau "medium" saja), severity ("high", "medium", "low"), finding, recommendation, validationStep.
+- Jangan menulis diagnosis sebagai temuan terverifikasi. Untuk bukti yang tidak tersedia, finding harus menyatakan apa yang belum diketahui, recommendation berupa cara memeriksanya, dan validationStep harus bisa dilakukan pengguna.
+- Jangan memberi confidence "medium" pada klaim faktual tentang profil, website, atau ranking yang belum diperiksa. Severity adalah prioritas tindakan, bukan tingkat kepastian.
+- Jangan membuat rekomendasi spesifik berdasarkan rating/ulasan bila angka tersebut tidak diinput. Jangan menyebut ada masalah website hanya karena URL website tidak diisi.`;
 
   try {
     const ai = new GoogleGenAI({ apiKey: geminiKey });
@@ -135,9 +150,18 @@ Aturan wajib:
               name: { type: Type.STRING }, score: { type: Type.INTEGER }, status: { type: Type.STRING }, details: { type: Type.STRING },
             }, required: ["name", "score", "status", "details"] } },
             quickWins: { type: Type.ARRAY, items: { type: Type.STRING } },
+            diagnoses: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: {
+              title: { type: Type.STRING },
+              evidenceStatus: { type: Type.STRING, enum: ["input_available", "missing"] },
+              confidence: { type: Type.STRING, enum: ["low", "medium"] },
+              severity: { type: Type.STRING, enum: ["high", "medium", "low"] },
+              finding: { type: Type.STRING },
+              recommendation: { type: Type.STRING },
+              validationStep: { type: Type.STRING },
+            }, required: ["title", "evidenceStatus", "confidence", "severity", "finding", "recommendation", "validationStep"] } },
             strategicAdvice: { type: Type.STRING },
           },
-          required: ["businessName", "category", "location", "overallScore", "statusGoogleMaps", "statusGoogleSearch", "auditMetrics", "quickWins", "strategicAdvice"],
+          required: ["businessName", "category", "location", "overallScore", "statusGoogleMaps", "statusGoogleSearch", "auditMetrics", "quickWins", "diagnoses", "strategicAdvice"],
         },
       },
     });
