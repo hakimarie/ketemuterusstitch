@@ -372,6 +372,46 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   </div>
                 </div>
 
+                {/* Evidence-grounded diagnoses */}
+                <div className="space-y-4 text-left">
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Diagnosis berbasis bukti</h4>
+                    <p className="mt-1 text-xs text-slate-500">Pisahkan input, hipotesis, dan langkah verifikasi. Tingkat keyakinan dibatasi karena data belum diverifikasi otomatis.</p>
+                  </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    {report.diagnoses.map((diagnosis, idx) => (
+                      <article key={idx} className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <h5 className="text-sm font-bold text-slate-800">{diagnosis.title}</h5>
+                          <div className="flex flex-wrap gap-1.5">
+                            <span className={`rounded-full border px-2.5 py-1 text-[10px] font-bold ${diagnosis.evidenceStatus === "input_available" ? "border-blue-200 bg-blue-50 text-blue-700" : "border-slate-200 bg-slate-50 text-slate-600"}`}>
+                              {diagnosis.evidenceStatus === "input_available" ? "Ada input pengguna" : "Bukti belum tersedia"}
+                            </span>
+                            <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[10px] font-bold text-amber-700">
+                              Keyakinan {diagnosis.confidence === "medium" ? "menengah" : "rendah"}
+                            </span>
+                            <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${diagnosis.severity === "high" ? "bg-rose-50 text-rose-700" : diagnosis.severity === "medium" ? "bg-amber-50 text-amber-700" : "bg-slate-100 text-slate-600"}`}>
+                              Prioritas {diagnosis.severity === "high" ? "tinggi" : diagnosis.severity === "medium" ? "sedang" : "rendah"}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[11px] font-bold uppercase tracking-wide text-slate-400">Interpretasi saat ini</p>
+                          <p className="text-xs leading-relaxed text-slate-600">{diagnosis.finding}</p>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-[11px] font-bold uppercase tracking-wide text-slate-400">Rekomendasi</p>
+                          <p className="text-xs leading-relaxed text-slate-700">{diagnosis.recommendation}</p>
+                        </div>
+                        <div className="rounded-xl bg-slate-50 p-3 space-y-1">
+                          <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">Cara verifikasi</p>
+                          <p className="text-xs leading-relaxed text-slate-600">{diagnosis.validationStep}</p>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Metrics Table / Grid */}
                 <div className="space-y-4 text-left">
                   <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Performa Indikator Utama</h4>
