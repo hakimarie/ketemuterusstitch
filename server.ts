@@ -4,6 +4,7 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import handleAudit from "./src/lib/auditHandler";
+import handleLocalRank from "./src/lib/localRankHandler";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ async function startServer() {
 
   // Shared audit handler keeps local and serverless behavior aligned.
   app.post("/api/audit", handleAudit);
+  app.post("/api/local-rank", handleLocalRank);
 
   // Setup Vite middleware in Dev
   if (process.env.NODE_ENV !== "production") {
