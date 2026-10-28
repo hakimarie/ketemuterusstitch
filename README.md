@@ -23,8 +23,8 @@ View your app in AI Studio: https://ai.studio/apps/bd9d0a4c-13e0-401c-8419-62894
 
 ## Audit data integrations — no paid Google Maps API
 
-- **AI estimate:** Gemini creates a heuristic checklist from the submitted business name, category, and location. Scores are estimates, not verified findings.
-- **Public Google Maps profile:** no Google Places API is called. To avoid Google API billing, users manually open the profile/search in Google Maps and verify rating, review count, address, website, hours, and profile details.
+- **AI estimate:** Gemini creates a heuristic checklist from the submitted business name, category, location, and optional user-entered evidence. Scores are estimates, not verified findings.
+- **Manual evidence:** users may submit a Google Maps profile URL, observed rating, review count, website URL, and new-review count for the last 30 days. These values are user-reported and are not fetched or independently verified. The AI prompt receives only numeric evidence and link-presence flags, not raw URLs.
 - **Local ranking grid:** client-side grid creates nine coordinate-specific Google Maps search links. Users inspect the visible results and record positions manually. No Google Maps API, SERP scraping, or paid ranking provider is called.
 - **Owner-authorized metrics:** Google Business Profile and Search Console OAuth integrations are not connected in this phase.
 
@@ -35,6 +35,6 @@ View your app in AI Studio: https://ai.studio/apps/bd9d0a4c-13e0-401c-8419-62894
 
 ### Local ranking measurement limits
 
-The grid is a manual observation worksheet, not an automated rank measurement. Google Maps search URLs may open different result layouts or personalize results. Record the device, time, search context, and visible position consistently when comparing snapshots. A business not visible in the first 20 results is recorded only as “not seen in 20 results” for that manual check, not proof that the business is absent from Maps.
+The grid and optional profile evidence are manual observations, not automated measurements or independent verification. Google Maps search URLs may open different result layouts or personalize results. Record the device, time, search context, and visible position consistently when comparing snapshots. A business not visible in the first 20 results is recorded only as “not seen in 20 results” for that manual check, not proof that the business is absent from Maps.
 
 The grid currently does not save results to a database or create automatic history. Export CSV to keep a record. Build/typecheck and end-to-end UI checks must pass before production rollout.
