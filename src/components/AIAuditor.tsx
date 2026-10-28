@@ -323,7 +323,7 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   </div>
                 </div>
 
-                {report.submittedEvidence && (
+                {report.submittedEvidence && (report.submittedEvidence.mapsProfileUrl || report.submittedEvidence.observedRating !== null || report.submittedEvidence.observedReviewCount !== null || report.submittedEvidence.websiteUrl || report.submittedEvidence.recentReviews30d !== null) && (
                   <div className="rounded-2xl border border-violet-100 bg-violet-50/60 p-5 text-left space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <h4 className="text-sm font-bold text-slate-800">Bukti yang dimasukkan pengguna</h4>
@@ -342,39 +342,10 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                     </div>
                   </div>
                 )}
-                {report.publicData && (
-                  <div className="rounded-2xl border border-sky-100 bg-sky-50/60 p-5 text-left space-y-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <h4 className="text-sm font-bold text-slate-800">Data publik Google Maps</h4>
-                      <span className="rounded-full border border-sky-200 bg-white px-2.5 py-1 text-[11px] font-bold text-sky-700">Profil cocok</span>
-                    </div>
-                    <p className="text-xs text-slate-600">Data publik ini belum diambil otomatis. Profil pemilik dan ranking tidak diverifikasi oleh API.</p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Rating publik</span><strong className="text-lg text-slate-800">{report.publicData.rating ?? "Tidak tersedia"}{report.publicData.rating !== null ? "/5" : ""}</strong></div>
-                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Jumlah ulasan</span><strong className="text-lg text-slate-800">{report.publicData.reviewCount ?? "Tidak tersedia"}</strong></div>
-                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Status bisnis</span><strong className="text-sm text-slate-800">{report.publicData.businessStatus ?? "Tidak tersedia"}</strong></div>
-                      <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Website</span><strong className="text-sm text-slate-800">{report.publicData.website ? "Tercantum" : "Tidak tercantum di data ini"}</strong></div>
-                    </div>
-                    <p className="text-xs text-slate-600">{report.publicData.address ?? "Alamat tidak tersedia dari sumber ini."}</p>
-                    {report.publicData.googleMapsUrl && <a className="text-xs font-bold text-blue-700 underline" href={report.publicData.googleMapsUrl} target="_blank" rel="noopener noreferrer">Buka profil di Google Maps</a>}
-                  </div>
-                )}
-                {!report.publicData && (
-                  <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left">
-                    <h4 className="text-sm font-bold text-amber-900">Data publik belum terverifikasi</h4>
-                    <p className="mt-1 text-xs leading-relaxed text-amber-800">
-                      {report.placesLookupStatus === "not_configured"
-                        ? "Google Maps API sengaja tidak dipanggil agar menghindari billing. Verifikasi rating, ulasan, alamat, dan website secara manual melalui Google Maps."
-                        : report.placesLookupStatus === "ambiguous_match"
-                          ? "Ada lebih dari satu kemungkinan profil dengan nama/lokasi serupa. Data tidak dipakai agar profil yang salah tidak terpilih."
-                          : report.placesLookupStatus === "configuration_error"
-                            ? "Data publik tidak diambil otomatis. Buka profil Google Maps secara manual untuk memverifikasi detail."
-                            : report.placesLookupStatus === "provider_error"
-                              ? "Data publik tidak diambil otomatis untuk menghindari biaya API. Tidak ada data yang diasumsikan."
-                              : "Profil belum berhasil dicocokkan dengan yakin. Ini tidak berarti bisnis tidak ada."}
-                    </p>
-                  </div>
-                )}
+                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left">
+                  <h4 className="text-sm font-bold text-amber-900">Data Google Maps belum diverifikasi otomatis</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-amber-800">Untuk menghindari billing Google Maps API, sistem tidak mengambil data profil secara otomatis. Tautan dan angka yang dimasukkan di formulir hanya menjadi bukti yang dilaporkan pengguna, bukan verifikasi independen. Buka profil Maps dan periksa kembali sebelum mengambil keputusan.</p>
+                </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-left space-y-2">
                   <div className="flex items-center gap-2"><Target className="h-4 w-4 text-slate-500" /><h4 className="text-sm font-bold text-slate-800">Pengukuran ranking lokal</h4></div>
                   <p className="text-xs leading-relaxed text-slate-600">{report.rankingMeasurement?.message ?? "Ranking lokal belum diukur. Skor pada laporan ini adalah estimasi AI, bukan posisi hasil Google Maps."}</p>
