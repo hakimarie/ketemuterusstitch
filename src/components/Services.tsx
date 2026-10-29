@@ -1,9 +1,9 @@
 import { Map, Star, Smartphone, ArrowRight, MessageCircle } from "lucide-react";
 export default function Services() {
  const servicesList = [
-  {title:"Google Maps & Profil Bisnis",description:"Rapikan kategori, jam buka, alamat, foto, dan informasi kontak agar pelanggan mendapat informasi yang jelas.",image:"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",alt:"Interior restoran lokal",icon:Map},
-  {title:"Ulasan & Reputasi Online",description:"Bangun kebiasaan meminta ulasan secara wajar dan tanggapi masukan pelanggan dengan profesional.",image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80",alt:"Pelayanan pelanggan di bisnis lokal",icon:Star},
-  {title:"Website Bisnis yang Praktis",description:"Tampilkan layanan, lokasi, dan cara menghubungi bisnis dalam website yang nyaman dibuka lewat ponsel.",image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",alt:"Perangkat digital untuk website bisnis",icon:Smartphone}
+  {title:"Google Maps & Profil Bisnis",description:"Rapikan kategori, jam buka, alamat, foto, dan informasi kontak agar pelanggan mendapat informasi yang jelas.",image:"https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80",alt:"Area depan dan suasana restoran lokal untuk ilustrasi optimasi profil bisnis",icon:Map},
+  {title:"Ulasan & Reputasi Online",description:"Bangun kebiasaan meminta ulasan secara wajar dan tanggapi masukan pelanggan dengan profesional.",image:"https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=80",alt:"Tim bisnis berdiskusi untuk ilustrasi pengelolaan reputasi online",icon:Star},
+  {title:"Website Bisnis yang Praktis",description:"Tampilkan layanan, lokasi, dan cara menghubungi bisnis dalam website yang nyaman dibuka lewat ponsel.",image:"https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=900&q=80",alt:"Desain website pada layar laptop untuk ilustrasi layanan website bisnis",icon:Smartphone}
  ];
  const openAudit=()=>{document.getElementById("ai-auditor")?.scrollIntoView({behavior:"smooth",block:"start"});window.setTimeout(()=>window.dispatchEvent(new Event("ketemuterus:open-audit")),350);};
  return <section id="services" className="bg-white py-20 sm:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-6">
