@@ -135,8 +135,8 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
   };
 
   return (
-    <section id="ai-auditor" className="scroll-mt-20 bg-[#FAFAFA] py-16 sm:py-20">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="ai-auditor" className="scroll-mt-20 min-w-0 overflow-hidden bg-[#FAFAFA] py-12 sm:py-20">
+      <div className="mx-auto w-full min-w-0 max-w-7xl px-4 sm:px-6">
         <div className="mx-auto mb-10 max-w-3xl space-y-3 text-center">
           <p className="text-sm font-semibold text-brand-primary">Audit bisnis gratis</p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-brand-text tracking-tight">
@@ -163,8 +163,8 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
 
           {/* Form appears only after the visitor chooses to start */}
           {showForm && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 p-4" role="dialog" aria-modal="true" aria-labelledby="audit-form-title" onClick={(e) => { if (e.target === e.currentTarget) setShowForm(false); }}>
-              <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-gray-200 bg-white p-6 shadow-xl sm:p-8">
+            <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-gray-900/50 p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="audit-form-title" onClick={(e) => { if (e.target === e.currentTarget) setShowForm(false); }}>
+              <div className="relative my-auto max-h-[94dvh] w-full max-w-xl min-w-0 overflow-y-auto rounded-2xl border border-gray-200 bg-white p-4 shadow-xl sm:max-h-[90vh] sm:p-8">
             <div className="mb-6 flex items-center justify-between gap-4">
               <h3 id="audit-form-title" className="font-display text-xl font-semibold text-slate-900">Cek kondisi bisnis Anda</h3>
               <button type="button" onClick={() => setShowForm(false)} aria-label="Tutup formulir audit" className="rounded-lg px-3 py-2 text-xl leading-none text-slate-500 hover:bg-slate-100 hover:text-slate-900">×</button>
@@ -296,7 +296,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
           <div className="lg:col-span-8">
             
             {loading && (
-              <div className="bg-white border border-slate-200 rounded-xl p-12 shadow-sm flex flex-col items-center justify-center min-h-[500px]">
+              <div className="flex min-h-[320px] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-5 text-center shadow-sm sm:min-h-[500px] sm:p-12">
                 <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center text-brand-primary mb-8 animate-pulse-subtle">
                   <Sparkles className="w-10 h-10 animate-spin-slow text-brand-primary" />
                 </div>
