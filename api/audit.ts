@@ -1,3 +1,3 @@
-import handleAudit from "../src/lib/auditHandler";
+import handleAudit from "../src/lib/auditHandler.ts";
 
 export default handleAudit;
