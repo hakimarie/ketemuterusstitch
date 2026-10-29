@@ -147,11 +147,11 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
           </p>
         </div>
 
-        <div className={!showForm && !report && !loading ? "flex justify-center" : "grid grid-cols-1 lg:grid-cols-12 gap-12 items-start"}>
+        <div className={!showForm && !report && !loading ? "flex justify-center" : "grid min-w-0 grid-cols-1 gap-6 items-start sm:gap-8 lg:grid-cols-12 lg:gap-10"}>
           
           {/* Audit entry point */}
           {!showForm && !report && (
-            <div className="w-full max-w-xl rounded-2xl border border-gray-200 bg-white p-7 text-left shadow-sm">
+            <div className="w-full min-w-0 max-w-xl rounded-2xl border border-gray-200 bg-white p-5 text-left shadow-sm sm:p-7">
               <h3 className="font-display text-xl font-semibold text-slate-900">Mulai dari informasi dasar</h3>
               <p className="mt-3 text-sm leading-6 text-slate-600">Cukup masukkan nama bisnis, kategori, dan lokasi. Anda bisa menambahkan informasi lain jika tersedia.</p>
               <button type="button" onClick={() => setShowForm(true)} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700">
@@ -226,7 +226,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                     <label className="text-xs font-semibold text-slate-600">Tautan profil Google Maps</label>
                     <input type="url" maxLength={500} value={mapsProfileUrl} onChange={e=>setMapsProfileUrl(e.target.value)} placeholder="https://maps.app.goo.gl/..." className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3">
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-slate-600">Rating yang terlihat (0–5)</label>
                       <input type="number" min="0" max="5" step="0.1" value={observedRating} onChange={e=>setObservedRating(e.target.value)} placeholder="4.7" className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-normal text-slate-800 outline-none focus:border-blue-500" />
@@ -326,7 +326,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
             )}
 
             {!loading && report && (
-              <div className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 shadow-sm space-y-7 animate-in fade-in duration-300">
+              <div className="min-w-0 rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-6 animate-in fade-in duration-300 sm:p-6 sm:space-y-7 lg:p-8">
                 
                 {/* Result Header Grid */}
                 <div className="flex flex-col sm:flex-row items-center gap-8 pb-6 border-b border-slate-100">
@@ -408,13 +408,13 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 </div>
 
                 {report.submittedEvidence && (report.submittedEvidence.mapsProfileUrl || report.submittedEvidence.observedRating !== null || report.submittedEvidence.observedReviewCount !== null || report.submittedEvidence.websiteUrl || report.submittedEvidence.recentReviews30d !== null) && (
-                  <div className="rounded-2xl border border-violet-100 bg-violet-50/60 p-5 text-left space-y-3">
+                  <div className="min-w-0 rounded-2xl border border-violet-100 bg-violet-50/60 p-4 text-left space-y-3 sm:p-5">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <h4 className="text-sm font-bold text-slate-800">Bukti yang dimasukkan pengguna</h4>
                       <span className="rounded-full border border-violet-200 bg-white px-2.5 py-1 text-[11px] font-bold text-violet-700">Belum diverifikasi otomatis</span>
                     </div>
                     <p className="text-xs leading-relaxed text-slate-600">Diagnosis di bawah menggunakan informasi yang kamu masukkan sebagai konteks, bukan data yang diambil langsung dari Google. Cocokkan lagi dengan profil aktual.</p>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-4 gap-3">
                       <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Rating input</span><strong className="text-lg text-slate-800">{report.submittedEvidence.observedRating ?? "—"}{report.submittedEvidence.observedRating !== null ? "/5" : ""}</strong></div>
                       <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Jumlah ulasan input</span><strong className="text-lg text-slate-800">{report.submittedEvidence.observedReviewCount ?? "—"}</strong></div>
                       <div className="rounded-xl bg-white p-3"><span className="block text-[11px] text-slate-500">Ulasan 30 hari</span><strong className="text-lg text-slate-800">{report.submittedEvidence.recentReviews30d ?? "—"}</strong></div>
@@ -464,7 +464,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                   </div>
                   <div className="grid grid-cols-1 gap-3">
                     {report.diagnoses.map((diagnosis, idx) => (
-                      <article key={idx} className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3">
+                      <article key={idx} className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 space-y-3 sm:p-5">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <h5 className="text-sm font-bold text-slate-800">{diagnosis.title}</h5>
                           <div className="flex flex-wrap gap-1.5">
@@ -537,7 +537,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 </div>
 
                 {/* Quick Wins Accordion/Checklist */}
-                <div className="p-6 bg-brand-primary/5 rounded-2xl border border-brand-primary/10 text-left space-y-4">
+                <div className="p-4 sm:p-6 bg-brand-primary/5 rounded-2xl border border-brand-primary/10 text-left space-y-4">
                   <h4 className="text-sm font-bold text-brand-primary uppercase tracking-wider flex items-center gap-1.5">
                     <Trophy className="w-4.5 h-4.5 text-brand-accent fill-current" />
                     Langkah Perbaikan Cepat (Quick Wins)
@@ -553,7 +553,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 </div>
 
                 {/* Strategic Advice */}
-                <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 text-left space-y-3">
+                <div className="p-4 sm:p-6 bg-slate-50 rounded-2xl border border-slate-100 text-left space-y-3">
                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
                     <Target className="w-4 h-4 text-slate-500" />
                     Rekomendasi Ahli KetemuTerus
