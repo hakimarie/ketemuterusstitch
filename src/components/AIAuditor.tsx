@@ -135,7 +135,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
   };
 
   return (
-    <section id="ai-auditor" className="scroll-mt-20 w-full min-w-0 overflow-x-clip bg-[#FAFAFA] py-12 sm:py-16 lg:py-20">
+    <section id="ai-auditor" className="scroll-mt-20 w-full min-w-0 overflow-x-hidden bg-[#F8FAFF] py-16 lg:py-24">
       <div className="mx-auto w-full min-w-0 max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="mx-auto mb-10 max-w-3xl space-y-3 text-center">
           <p className="text-sm font-semibold text-brand-primary">Audit bisnis gratis</p>
@@ -147,11 +147,11 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
           </p>
         </div>
 
-        <div className={!showForm && !report && !loading ? "flex justify-center" : "grid min-w-0 grid-cols-1 gap-6 items-start sm:gap-8 lg:grid-cols-12 lg:gap-10"}>
+        <div className={`flex w-full min-w-0 flex-col items-stretch gap-6 lg:flex-row lg:items-start lg:gap-8 ${!showForm && !report && !loading ? "lg:justify-center" : ""}`}>
           
           {/* Audit entry point */}
           {!showForm && !report && (
-            <div className="w-full min-w-0 max-w-xl rounded-2xl border border-gray-200 bg-white p-5 text-left shadow-sm sm:p-7">
+            <div className="w-full min-w-0 rounded-2xl border border-gray-200 bg-white p-5 text-left shadow-sm sm:p-7 lg:w-1/2">
               <h3 className="font-display text-xl font-semibold text-slate-900">Mulai dari informasi dasar</h3>
               <p className="mt-3 text-sm leading-6 text-slate-600">Cukup masukkan nama bisnis, kategori, dan lokasi. Anda bisa menambahkan informasi lain jika tersedia.</p>
               <button type="button" onClick={() => setShowForm(true)} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700">
@@ -293,7 +293,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
           )}
 
           {/* Right Panel: Audit Report Result Dashboard */}
-          <div className="lg:col-span-8">
+          <div className={`w-full min-w-0 ${report ? "lg:w-full" : "lg:w-1/2"}`}>
             
             {loading && (
               <div className="flex min-h-[320px] w-full min-w-0 flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-5 text-center shadow-sm sm:min-h-[400px] sm:p-8 lg:min-h-[500px] lg:p-12">
@@ -383,7 +383,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                         </div>
                         <p className="mt-2 text-sm leading-relaxed text-slate-600">Mulai dari prioritas yang paling penting. Skor ini adalah estimasi AI, bukan pengukuran posisi Google atau jaminan hasil bisnis.</p>
                       </div>
-                      <a href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("consultation")}`} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700">
+                      <a href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("consultation")}`} target="_blank" rel="noopener noreferrer" className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700 sm:w-auto">
                         <MessageCircle className="h-4 w-4" /> Bahas hasil audit <ArrowRight className="h-4 w-4" />
                       </a>
                     </div>
@@ -577,7 +577,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                       href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("consultation")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group rounded-lg bg-emerald-600 p-4 text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                      className="group block w-full min-w-0 rounded-lg bg-emerald-600 p-4 text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-300"
                     >
                       <span className="flex items-center gap-2 text-sm font-extrabold"><PhoneCall className="h-5 w-5" /> Konsultasi hasil audit</span>
                       <span className="mt-2 block text-xs leading-relaxed text-emerald-50">Diskusikan masalah utama dan opsi optimasi yang cocok untuk bisnis Anda.</span>
@@ -589,7 +589,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                       href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("roadmap")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group rounded-lg border border-slate-300 bg-white p-4 text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                      className="group block w-full min-w-0 rounded-lg border border-slate-300 bg-white p-4 text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400"
                     >
                       <span className="flex items-center gap-2 text-sm font-extrabold"><TrendingUp className="h-5 w-5" /> Minta roadmap 30 hari</span>
                       <span className="mt-2 block text-xs leading-relaxed text-slate-600">Minta urutan langkah awal untuk mulai membenahi visibilitas lokal.</span>
