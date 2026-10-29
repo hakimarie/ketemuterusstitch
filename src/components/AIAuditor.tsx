@@ -141,11 +141,11 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className={!showForm && !report && !loading ? "flex justify-center" : "grid grid-cols-1 lg:grid-cols-12 gap-12 items-start"}>
           
           {/* Audit entry point */}
           {!showForm && !report && (
-            <div className="lg:col-span-4 rounded-xl border border-slate-200 bg-white p-7 text-left shadow-sm">
+            <div className="w-full max-w-xl rounded-xl border border-slate-200 bg-white p-7 text-left shadow-sm">
               <h3 className="font-display text-xl font-semibold text-slate-900">Mulai dari informasi dasar</h3>
               <p className="mt-3 text-sm leading-6 text-slate-600">Cukup masukkan nama bisnis, kategori, dan lokasi. Anda bisa menambahkan informasi lain jika tersedia.</p>
               <button type="button" onClick={() => setShowForm(true)} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700">
