@@ -249,9 +249,20 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
               </button>
             </form>
             {error && (
-              <div role="alert" className="mt-4 flex items-start gap-2 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
-                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                <span>{error}</span>
+              <div role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+                <div className="flex items-start gap-2">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{error}</span>
+                </div>
+                <a
+                  href={`https://wa.me/6281584229797?text=${encodeURIComponent(`Halo KetemuTerus, layanan audit otomatis sedang tidak tersedia. Saya ingin meminta audit manual dalam 1 hari kerja. Nama bisnis: ${businessName.trim() || "[isi nama bisnis]"}. Lokasi: ${location.trim() || "[isi lokasi]"}.`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-3 py-2 font-bold text-white hover:bg-emerald-700"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  Minta Audit Manual via WhatsApp
+                </a>
               </div>
             )}
 
