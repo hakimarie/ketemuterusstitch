@@ -1,4 +1,4 @@
-import { MapPin, Mail, Phone, MessageCircle, ArrowRight, Star, Instagram } from "lucide-react";
+import { MapPin, MessageCircle, ArrowRight, Star, Instagram } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -103,29 +103,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Details */}
+          {/* Location */}
           <div className="md:col-span-4 text-left space-y-5">
-            <h4 className="font-display font-bold text-sm text-[#0F172A] uppercase tracking-wider">Hubungi Kami</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm text-[#64748B] leading-relaxed font-sans">
-                  Jl Swadaya Ujung No 23, Indonesia
-                </span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-brand-primary flex-shrink-0" />
-                <a href="tel:+6281584229797" className="text-xs sm:text-sm text-[#64748B] hover:text-[#0F172A] transition-colors font-sans">
-                  +62 815-8422-9797
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-brand-primary flex-shrink-0" />
-                <a href="mailto:babehdigital2025@gmail.com" className="text-xs sm:text-sm text-[#64748B] hover:text-[#0F172A] transition-colors font-sans">
-                  babehdigital2025@gmail.com
-                </a>
-              </li>
-            </ul>
+            <h4 className="font-display font-bold text-sm text-[#0F172A] uppercase tracking-wider">Lokasi</h4>
+            <div className="flex items-start gap-3">
+              <MapPin className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
+              <span className="text-xs sm:text-sm text-[#64748B] leading-relaxed font-sans">
+                Jakarta, Indonesia
+              </span>
+            </div>
           </div>
 
         </div>
