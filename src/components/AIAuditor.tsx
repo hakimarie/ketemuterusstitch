@@ -16,6 +16,7 @@ export default function AIAuditor() {
   const [loadingStep, setLoadingStep] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [report, setReport] = useState<AuditReport | null>(null);
+  const [showForm, setShowForm] = useState(false);
 
   const categories = [
     "Cafe / Kedai Kopi",
@@ -29,7 +30,7 @@ export default function AIAuditor() {
     "UMKM / Toko Retail"
   ];
 
-  const loadingMessages = ["Mengirim data bisnis ke layanan analisis AI..."];
+  const loadingMessages = ["Menyusun rekomendasi dari informasi yang Anda berikan..."];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,6 +88,7 @@ export default function AIAuditor() {
       }
       const data = payload as AuditReport;
       setReport(data);
+      setShowForm(false);
     } catch (err: unknown) {
       console.error("Audit request failed:", err);
       setError(err instanceof Error ? err.message : "Terjadi kesalahan saat menjalankan audit. Silakan coba lagi.");
@@ -119,7 +121,7 @@ export default function AIAuditor() {
 Nama Bisnis: ${report.businessName}
 Kategori: ${report.category}
 Lokasi: ${report.location}
-Estimasi AI (bukan hasil pengukuran): ${report.overallScore}/100
+Estimasi awal (bukan hasil pengukuran): ${report.overallScore}/100
 Diagnosis prioritas tinggi: ${priorityCount}
 
 Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang sesuai. Saya memahami hasil ini merupakan estimasi AI yang perlu diverifikasi.`;
@@ -127,32 +129,40 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
   };
 
   return (
-    <section id="ai-auditor" className="py-24 bg-slate-50 relative overflow-hidden">
-      {/* Decorative vector */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 rounded-full bg-blue-50/50 blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-brand-primary text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5 text-blue-500 animate-pulse" />
-            AI Visibility Auditor
-          </div>
+    <section id="ai-auditor" className="bg-slate-50 py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto mb-10 max-w-3xl space-y-3 text-center">
+          <p className="text-sm font-semibold text-brand-primary">Audit bisnis gratis</p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-brand-text tracking-tight">
-            Audit Visibilitas Online Bisnis Anda Secara <span className="text-brand-primary">Gratis</span>
+            Cek kondisi bisnis Anda di Google
           </h2>
           <p className="text-slate-600 text-base max-w-2xl mx-auto">
-            Dapatkan evaluasi awal dan rekomendasi optimasi lokal berbasis AI dari informasi bisnis yang Anda masukkan. Data Google Maps, ulasan, dan website tidak diperiksa secara langsung oleh fitur ini.
+            Jawab beberapa pertanyaan singkat untuk mendapatkan rekomendasi awal. Sistem ini tidak memeriksa profil Google Maps atau website secara langsung, jadi hasilnya perlu dicocokkan dengan kondisi bisnis Anda.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
-          {/* Left Panel: Form Input */}
-          <div className="lg:col-span-4 bg-white border border-slate-100 rounded-3xl p-8 shadow-xl">
-            <h3 className="font-display font-bold text-lg text-slate-800 mb-6 flex items-center gap-2">
-              <Zap className="w-5 h-5 text-brand-accent fill-current" />
-              Mulai Audit Instan
-            </h3>
+          {/* Audit entry point */}
+          {!showForm && !report && (
+            <div className="lg:col-span-4 rounded-xl border border-slate-200 bg-white p-7 text-left shadow-sm">
+              <h3 className="font-display text-xl font-semibold text-slate-900">Mulai dari informasi dasar</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-600">Cukup masukkan nama bisnis, kategori, dan lokasi. Anda bisa menambahkan informasi lain jika tersedia.</p>
+              <button type="button" onClick={() => setShowForm(true)} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700">
+                Mulai Audit Gratis <ArrowRight className="h-4 w-4" />
+              </button>
+              <p className="mt-4 text-xs leading-5 text-slate-500">Hasil berupa rekomendasi awal, bukan pengukuran resmi posisi Google.</p>
+            </div>
+          )}
+
+          {/* Form appears only after the visitor chooses to start */}
+          {showForm && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4" role="dialog" aria-modal="true" aria-labelledby="audit-form-title" onClick={(e) => { if (e.target === e.currentTarget) setShowForm(false); }}>
+              <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8">
+            <div className="mb-6 flex items-center justify-between gap-4">
+              <h3 id="audit-form-title" className="font-display text-xl font-semibold text-slate-900">Cek kondisi bisnis Anda</h3>
+              <button type="button" onClick={() => setShowForm(false)} aria-label="Tutup formulir audit" className="rounded-lg px-3 py-2 text-xl leading-none text-slate-500 hover:bg-slate-100 hover:text-slate-900">×</button>
+            </div>
             
             <form onSubmit={handleSubmit} className="space-y-6 text-left">
               <div className="space-y-2">
@@ -239,12 +249,12 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 {loading ? (
                   <>
                     <RefreshCw className="w-5 h-5 animate-spin" />
-                    <span>Memproses Audit AI...</span>
+                    <span>Menyusun rekomendasi...</span>
                   </>
                 ) : (
                   <>
                     <Sparkles className="w-5 h-5 fill-current" />
-                    <span>Mulai Audit Visibilitas</span>
+                    <span>Lihat Rekomendasi</span>
                   </>
                 )}
               </button>
@@ -272,17 +282,19 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 Hasil merupakan analisis awal berbasis AI, bukan pemeriksaan langsung atau verifikasi resmi Google. Hindari memasukkan data sensitif.
               </p>
             </div>
-          </div>
+              </div>
+            </div>
+          )}
 
           {/* Right Panel: Audit Report Result Dashboard */}
           <div className="lg:col-span-8">
             
             {loading && (
-              <div className="bg-white border border-slate-100 rounded-3xl p-16 shadow-xl flex flex-col items-center justify-center min-h-[500px]">
+              <div className="bg-white border border-slate-200 rounded-xl p-12 shadow-sm flex flex-col items-center justify-center min-h-[500px]">
                 <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center text-brand-primary mb-8 animate-pulse-subtle">
                   <Sparkles className="w-10 h-10 animate-spin-slow text-brand-primary" />
                 </div>
-                <h4 className="text-xl font-bold text-slate-800 mb-2 font-display">AI Sedang Bekerja...</h4>
+                <h4 className="text-xl font-bold text-slate-800 mb-2 font-display">Menyiapkan rekomendasi...</h4>
                 <div className="w-64 h-1.5 bg-slate-100 rounded-full overflow-hidden mb-4">
                   <div
                     className="h-full bg-brand-primary rounded-full transition-all duration-500"
@@ -296,19 +308,19 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
             )}
 
             {!loading && !report && (
-              <div className="bg-white border border-dashed border-slate-200 rounded-3xl p-16 text-center min-h-[500px] flex flex-col items-center justify-center">
+              <div className="bg-white border border-dashed border-slate-200 rounded-xl p-10 text-center min-h-[360px] flex flex-col items-center justify-center">
                 <div className="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 mb-6">
                   <Search className="w-8 h-8" />
                 </div>
-                <h4 className="text-lg font-bold text-slate-700 font-display">Menunggu Input Bisnis Anda</h4>
+                <h4 className="text-lg font-bold text-slate-700 font-display">Siap membantu mengecek bisnis Anda</h4>
                 <p className="text-slate-500 text-sm max-w-sm mx-auto mt-2 leading-relaxed">
-                  Isi formulir di samping kiri dengan lengkap dan jalankan audit untuk melihat skor visibilitas online bisnis Anda beserta strategi peningkatannya.
+                  Mulai audit untuk melihat ringkasan kondisi bisnis dan beberapa langkah awal yang bisa ditinjau.
                 </p>
               </div>
             )}
 
             {!loading && report && (
-              <div className="bg-white border border-slate-100 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-8 animate-in fade-in duration-300">
+              <div className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 shadow-sm space-y-7 animate-in fade-in duration-300">
                 
                 {/* Result Header Grid */}
                 <div className="flex flex-col sm:flex-row items-center gap-8 pb-6 border-b border-slate-100">
@@ -333,7 +345,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                         {report.overallScore}
                       </span>
                       <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider -mt-1">
-                        Estimasi AI (bukan pengukuran)
+                        Estimasi awal (bukan pengukuran)
                       </span>
                     </div>
                   </div>
@@ -356,7 +368,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-left">
-                  <div className="md:col-span-3 rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-5 sm:p-6">
+                  <div className="md:col-span-3 rounded-xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                       <div>
                         <div className="flex items-center gap-2 text-blue-800">
@@ -546,11 +558,11 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 </div>
 
                 {/* Lead conversion: explicit next steps, with audit context prefilled */}
-                <div className="rounded-2xl border border-slate-200 bg-slate-900 p-5 sm:p-7 text-left text-white">
+                <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6 text-left text-slate-900">
                   <div className="max-w-2xl">
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-300">Langkah berikutnya</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-primary">Langkah berikutnya</p>
                     <h4 className="mt-2 text-xl sm:text-2xl font-extrabold">Ubah temuan audit menjadi rencana aksi.</h4>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-300">Pilih bantuan yang paling sesuai. Pesan WhatsApp akan memuat nama bisnis, lokasi, skor estimasi, dan jumlah diagnosis prioritas agar percakapan bisa langsung fokus.</p>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-600">Kalau ingin membahas hasilnya, kirim ringkasan audit ini lewat WhatsApp agar percakapan bisa langsung fokus pada kebutuhan bisnis Anda.</p>
                   </div>
                   <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <a
@@ -559,7 +571,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                       href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("consultation")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group rounded-xl bg-emerald-600 p-4 transition hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                      className="group rounded-lg bg-emerald-600 p-4 text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-300"
                     >
                       <span className="flex items-center gap-2 text-sm font-extrabold"><PhoneCall className="h-5 w-5" /> Konsultasi hasil audit</span>
                       <span className="mt-2 block text-xs leading-relaxed text-emerald-50">Diskusikan masalah utama dan opsi optimasi yang cocok untuk bisnis Anda.</span>
@@ -571,14 +583,14 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                       href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("roadmap")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group rounded-xl border border-white/20 bg-white/5 p-4 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+                      className="group rounded-lg border border-slate-300 bg-white p-4 text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400"
                     >
                       <span className="flex items-center gap-2 text-sm font-extrabold"><TrendingUp className="h-5 w-5" /> Minta roadmap 30 hari</span>
-                      <span className="mt-2 block text-xs leading-relaxed text-slate-300">Minta urutan langkah awal untuk mulai membenahi visibilitas lokal.</span>
+                      <span className="mt-2 block text-xs leading-relaxed text-slate-600">Minta urutan langkah awal untuk mulai membenahi visibilitas lokal.</span>
                       <span className="mt-4 flex items-center gap-2 text-xs font-bold">Minta rekomendasi <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
                     </a>
                   </div>
-                  <p className="mt-4 text-[11px] leading-relaxed text-slate-400">Tidak ada data yang dikirim otomatis ke database. WhatsApp terbuka hanya jika Anda memilih salah satu tombol.</p>
+                  <p className="mt-4 text-[11px] leading-relaxed text-slate-500">WhatsApp hanya terbuka jika Anda memilih tombol di atas.</p>
                 </div>
 
               </div>
