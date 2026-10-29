@@ -16,7 +16,13 @@ export default function AIAuditor() {
   const [loadingStep, setLoadingStep] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [report, setReport] = useState<AuditReport | null>(null);
-  const [showForm, setShowForm] = useState(false);\n\n  useEffect(() => {\n    const openAuditForm = () => setShowForm(true);\n    window.addEventListener("ketemuterus:open-audit", openAuditForm);\n    return () => window.removeEventListener("ketemuterus:open-audit", openAuditForm);\n  }, []);
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    const openAuditForm = () => setShowForm(true);
+    window.addEventListener("ketemuterus:open-audit", openAuditForm);
+    return () => window.removeEventListener("ketemuterus:open-audit", openAuditForm);
+  }, []);
 
   const categories = [
     "Cafe / Kedai Kopi",
