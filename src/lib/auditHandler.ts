@@ -31,7 +31,7 @@ function isMapsProfileUrl(value: unknown): boolean {
   const safe = safeHttpUrl(value);
   if (!safe) return false;
   const parsed = new URL(safe);
-  const host = parsed.hostname.toLowerCase().replace(/^www\\./, "");
+  const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
   const path = parsed.pathname.toLowerCase();
 
   // Google Maps share links can use maps.app.goo.gl, legacy goo.gl,
