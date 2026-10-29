@@ -1,38 +1,14 @@
-import { Map, Star, Smartphone, ArrowRight } from "lucide-react";
-
+import { Map, Star, Smartphone, ArrowRight, MessageCircle } from "lucide-react";
 export default function Services() {
-  const servicesList = [
-    { title: "Google Maps & Profil Bisnis", description: "Rapikan kategori, jam buka, alamat, foto, dan informasi kontak agar pelanggan mendapat informasi yang jelas.", icon: Map },
-    { title: "Ulasan & Reputasi Online", description: "Bangun kebiasaan meminta ulasan secara wajar dan tanggapi masukan pelanggan dengan profesional.", icon: Star },
-    { title: "Website Bisnis yang Praktis", description: "Tampilkan layanan, lokasi, dan cara menghubungi bisnis dalam website yang nyaman dibuka lewat ponsel.", icon: Smartphone },
-  ];
-  const openAudit = () => {
-    document.getElementById("ai-auditor")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    window.setTimeout(() => window.dispatchEvent(new Event("ketemuterus:open-audit")), 350);
-  };
-
-  return (
-    <section id="services" className="bg-white py-20 sm:py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6">
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          <p className="mb-3 text-sm font-semibold text-blue-600">Layanan</p>
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Apa yang bisa kami bantu?</h2>
-          <p className="mt-4 text-base leading-7 text-gray-600">Fokus pada hal-hal yang membantu calon pelanggan menemukan dan menghubungi bisnis Anda.</p>
-        </div>
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          {servicesList.map((service) => {
-            const Icon = service.icon;
-            return <article key={service.title} className="rounded-2xl border border-gray-100 bg-gray-50 p-6 transition hover:border-blue-100 hover:shadow-md sm:p-8">
-              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600"><Icon className="h-6 w-6" /></div>
-              <h3 className="text-xl font-bold text-gray-900">{service.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-gray-600">{service.description}</p>
-            </article>;
-          })}
-        </div>
-        <div className="mt-9 text-center">
-          <button onClick={openAudit} className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700">Cek kondisi bisnismu <ArrowRight className="h-4 w-4" /></button>
-        </div>
-      </div>
-    </section>
-  );
+ const servicesList = [
+  {title:"Google Maps & Profil Bisnis",description:"Rapikan kategori, jam buka, alamat, foto, dan informasi kontak agar pelanggan mendapat informasi yang jelas.",image:"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",alt:"Interior restoran lokal",icon:Map},
+  {title:"Ulasan & Reputasi Online",description:"Bangun kebiasaan meminta ulasan secara wajar dan tanggapi masukan pelanggan dengan profesional.",image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80",alt:"Pelayanan pelanggan di bisnis lokal",icon:Star},
+  {title:"Website Bisnis yang Praktis",description:"Tampilkan layanan, lokasi, dan cara menghubungi bisnis dalam website yang nyaman dibuka lewat ponsel.",image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",alt:"Perangkat digital untuk website bisnis",icon:Smartphone}
+ ];
+ const openAudit=()=>{document.getElementById("ai-auditor")?.scrollIntoView({behavior:"smooth",block:"start"});window.setTimeout(()=>window.dispatchEvent(new Event("ketemuterus:open-audit")),350);};
+ return <section id="services" className="bg-white py-20 sm:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-6">
+  <div className="mb-12 flex flex-col gap-4 md:mb-14 md:flex-row md:items-end md:justify-between"><div className="max-w-2xl"><p className="mb-3 text-sm font-semibold text-blue-600">Yang bisa kami bantu</p><h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Bikin bisnismu lebih mudah ditemukan.</h2></div><p className="max-w-md text-sm leading-6 text-gray-600 sm:text-base">Pilih kebutuhan yang paling dekat dengan tantangan bisnismu. Kita mulai dari hal yang paling penting.</p></div>
+  <div className="grid grid-cols-1 gap-5 md:grid-cols-3">{servicesList.map((service,index)=>{const Icon=service.icon;return <article key={service.title} className="group overflow-hidden rounded-3xl border border-gray-100 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/70"><div className="relative h-52 overflow-hidden sm:h-60"><img src={service.image} alt={service.alt} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-105"/><div className="absolute inset-0 bg-gradient-to-t from-gray-950/60 via-transparent to-transparent"/><span className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center rounded-xl border border-white/50 bg-white/90 text-blue-700 shadow-sm"><Icon className="h-5 w-5"/></span><span className="absolute bottom-4 left-4 rounded-full border border-white/30 bg-black/20 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">0{index+1} / Layanan</span></div><div className="p-6 sm:p-7"><h3 className="text-xl font-bold text-gray-900">{service.title}</h3><p className="mt-3 text-sm leading-6 text-gray-600">{service.description}</p><button onClick={openAudit} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition group-hover:gap-3">Diskusikan kebutuhan <ArrowRight className="h-4 w-4"/></button></div></article>})}</div>
+  <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl bg-[#F4F7FB] p-5 sm:flex-row sm:px-7"><div className="flex items-center gap-3"><span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm"><MessageCircle className="h-5 w-5"/></span><p className="text-sm font-medium text-gray-700">Belum yakin mulai dari mana? Ceritakan dulu kebutuhan bisnismu.</p></div><a href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%2C%20saya%20ingin%20diskusi%20tentang%20kebutuhan%20digital%20bisnis." target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-gray-800 shadow-sm ring-1 ring-gray-200 transition hover:bg-gray-50"><MessageCircle className="h-4 w-4 text-emerald-600"/> Tanya via WhatsApp</a></div>
+ </div></section>;
 }
