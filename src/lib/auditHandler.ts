@@ -133,11 +133,17 @@ Aturan wajib:
 - Jangan membuat rekomendasi spesifik berdasarkan rating/ulasan bila angka tersebut tidak diinput. Jangan menyebut ada masalah website hanya karena URL website tidak diisi.`;
 
   try {
-    const ai = new GoogleGenAI({ apiKey: geminiKey });
+    const ai = new GoogleGenAI({
+      apiKey: geminiKey,
+      httpOptions: {
+        timeout: 18000,
+        retryOptions: { attempts: 1 },
+        headers: {},
+      },
+    });
     let result: string | undefined;
     const models = ["gemini-3.8-flash", "gemini-3.5-flash-lite"];
     for (const model of models) {
-      for (let attempt = 0; attempt < 2; attempt++) {
       try {
         const response = await ai.models.generateContent({
       model,
@@ -176,16 +182,16 @@ Aturan wajib:
         const status = typeof error === "object" && error !== null && "status" in error
           ? Number((error as { status?: unknown }).status)
           : 0;
-        console.warn(`Gemini ${status || "unknown"} model=${model} attempt=${attempt + 1}/2`);
+        console.warn(`Gemini ${status || "unknown"} model=${model} attempt=1/1`);
         const retryableStatuses = [429, 500, 502, 503, 504];
-        // A 404 for a model should switch to the next candidate, not retry the same model.
-        if (status === 404) break;
-        if (!retryableStatuses.includes(status)) throw error;
-        if (attempt === 1) break;
-        const delayMs = 1000 * 2 ** attempt;
-        console.warn(`Gemini temporary error ${status}; retrying model=${model} after ${delayMs}ms.`);
-        await new Promise((resolve) => setTimeout(resolve, delayMs));
-      }
+        const message = error instanceof Error ? error.message : String(error);
+        const isTimeout = /timeout|timed out|abort/i.test(message);
+        // Do not repeat the same request: move to the next model to stay within Vercel's function deadline.
+        if (status === 404 || retryableStatuses.includes(status) || isTimeout) {
+          console.warn(`Gemini model=${model} unavailable; trying next configured model.`);
+          continue;
+        }
+        throw error;
       }
       if (result) break;
     }
