@@ -38,11 +38,11 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-24 bg-white relative overflow-hidden">
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
+    <section id="faq" className="relative overflow-hidden bg-white py-14 sm:py-24">
+      <div className="relative z-10 mx-auto w-full max-w-4xl px-4 sm:px-6">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+        <div className="mx-auto mb-10 max-w-2xl space-y-4 text-center sm:mb-16">
           <span className="text-xs font-bold text-brand-primary uppercase tracking-widest block">Pertanyaan Populer</span>
           <h2 className="font-display font-bold text-3xl sm:text-4xl text-brand-text tracking-tight">
             Punya Pertanyaan Mengenai <span className="text-brand-primary">Layanan Kami?</span>
@@ -65,9 +65,9 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => toggleAccordion(faq.id)}
-                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none"
+                  className="flex w-full min-w-0 items-start justify-between gap-3 p-4 text-left focus:outline-none sm:p-6"
                 >
-                  <div className="flex items-start gap-3.5 pr-4">
+                  <div className="flex min-w-0 items-start gap-3 pr-0 sm:gap-3.5 sm:pr-4">
                     <HelpCircle className={`w-5 h-5 flex-shrink-0 mt-0.5 transition-colors duration-200 ${isOpen ? "text-brand-primary" : "text-slate-400"}`} />
                     <span className="font-display font-bold text-sm sm:text-base text-slate-800 leading-snug">
                       {faq.question}
@@ -79,10 +79,10 @@ export default function FAQ() {
                 {/* Expandable Panel */}
                 <div
                   className={`overflow-hidden transition-all duration-300 ${
-                    isOpen ? "max-h-60 border-t border-slate-100" : "max-h-0"
+                    isOpen ? "border-t border-slate-100" : "hidden"
                   }`}
                 >
-                  <div className="p-6 text-slate-500 text-xs sm:text-sm leading-relaxed font-sans">
+                  <div className="p-4 text-xs leading-relaxed text-slate-500 sm:p-6 sm:text-sm font-sans">
                     {faq.answer}
                   </div>
                 </div>
