@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Search, MapPin, Sparkles, CheckCircle2, ArrowRight, MessageCircle, RefreshCw, Trophy, Target, Zap, Compass, AlertCircle } from "lucide-react";
+import { Search, MapPin, Sparkles, CheckCircle2, ArrowRight, MessageCircle, RefreshCw, Trophy, Target, Zap, Compass, AlertCircle, ClipboardCheck, PhoneCall, TrendingUp } from "lucide-react";
 import { AuditReport } from "../types";
-import LocalRankMeasurement from "./LocalRankMeasurement";
 
 export default function AIAuditor() {
   const [businessName, setBusinessName] = useState("");
@@ -113,15 +112,17 @@ export default function AIAuditor() {
     }
   };
 
-  const getWhatsAppMessage = () => {
+  const getWhatsAppMessage = (intent: "consultation" | "roadmap" = "consultation") => {
     if (!report) return "";
-    const text = `Halo KetemuTerus, saya baru saja melakukan audit visibilitas online untuk bisnis saya:
+    const priorityCount = report.diagnoses.filter((item) => item.severity === "high").length;
+    const text = `Halo KetemuTerus, saya ingin ${intent === "roadmap" ? "meminta roadmap optimasi 30 hari" : "berkonsultasi tentang hasil audit"} untuk bisnis saya.
 Nama Bisnis: ${report.businessName}
 Kategori: ${report.category}
 Lokasi: ${report.location}
 Estimasi AI (bukan hasil pengukuran): ${report.overallScore}/100
+Diagnosis prioritas tinggi: ${priorityCount}
 
-Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatkannya agar lebih banyak pelanggan baru berdatangan.`;
+Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang sesuai. Saya memahami hasil ini merupakan estimasi AI yang perlu diverifikasi.`;
     return encodeURIComponent(text);
   };
 
@@ -354,6 +355,40 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   </div>
                 </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-left">
+                  <div className="md:col-span-3 rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-5 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div>
+                        <div className="flex items-center gap-2 text-blue-800">
+                          <ClipboardCheck className="h-5 w-5" />
+                          <h4 className="font-bold text-base">Ringkasan untuk pengambilan keputusan</h4>
+                        </div>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600">Mulai dari prioritas yang paling penting. Skor ini adalah estimasi AI, bukan pengukuran posisi Google atau jaminan hasil bisnis.</p>
+                      </div>
+                      <a href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("consultation")}`} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700">
+                        <MessageCircle className="h-4 w-4" /> Bahas hasil audit <ArrowRight className="h-4 w-4" />
+                      </a>
+                    </div>
+                    <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div className="rounded-xl border border-white bg-white/90 p-4">
+                        <span className="block text-xs font-medium text-slate-500">Estimasi visibilitas</span>
+                        <strong className="mt-1 block text-2xl font-extrabold text-slate-900">{report.overallScore}<span className="text-sm font-semibold text-slate-400">/100</span></strong>
+                        <span className="mt-1 block text-[11px] text-slate-500">Skor indikatif AI</span>
+                      </div>
+                      <div className="rounded-xl border border-white bg-white/90 p-4">
+                        <span className="block text-xs font-medium text-slate-500">Prioritas tinggi</span>
+                        <strong className="mt-1 block text-2xl font-extrabold text-rose-600">{report.diagnoses.filter((item) => item.severity === "high").length}</strong>
+                        <span className="mt-1 block text-[11px] text-slate-500">Diagnosis yang perlu ditinjau</span>
+                      </div>
+                      <div className="rounded-xl border border-white bg-white/90 p-4">
+                        <span className="block text-xs font-medium text-slate-500">Langkah awal</span>
+                        <strong className="mt-1 block text-2xl font-extrabold text-slate-900">{report.quickWins.length}</strong>
+                        <span className="mt-1 block text-[11px] text-slate-500">Rekomendasi quick wins</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {report.submittedEvidence && (report.submittedEvidence.mapsProfileUrl || report.submittedEvidence.observedRating !== null || report.submittedEvidence.observedReviewCount !== null || report.submittedEvidence.websiteUrl || report.submittedEvidence.recentReviews30d !== null) && (
                   <div className="rounded-2xl border border-violet-100 bg-violet-50/60 p-5 text-left space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -510,24 +545,40 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
                   </p>
                 </div>
 
-                {/* Interactive Conversion WhatsApp CTA (Required by prompt) */}
-                <div className="pt-4 flex flex-col sm:flex-row items-center gap-4 justify-between border-t border-slate-100">
-                  <div className="text-left space-y-1">
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Langkah Selanjutnya</p>
-                    <p className="text-sm font-bold text-slate-800">Mari bantu kami perbaiki & optimalkan bisnis Anda!</p>
+                {/* Lead conversion: explicit next steps, with audit context prefilled */}
+                <div className="rounded-2xl border border-slate-200 bg-slate-900 p-5 sm:p-7 text-left text-white">
+                  <div className="max-w-2xl">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-300">Langkah berikutnya</p>
+                    <h4 className="mt-2 text-xl sm:text-2xl font-extrabold">Ubah temuan audit menjadi rencana aksi.</h4>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-300">Pilih bantuan yang paling sesuai. Pesan WhatsApp akan memuat nama bisnis, lokasi, skor estimasi, dan jumlah diagnosis prioritas agar percakapan bisa langsung fokus.</p>
                   </div>
-                  
-                  <a
-                    id="audit-whatsapp-cta"
-                    href={`https://wa.me/6281584229797?text=${getWhatsAppMessage()}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto bg-brand-secondary text-white font-bold px-6 py-3.5 rounded-xl hover:bg-emerald-600 transition-all shadow-xl shadow-emerald-500/10 hover:shadow-2xl active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <MessageCircle className="w-5 h-5 fill-current" />
-                    Diskusikan Hasil di WhatsApp
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
+                  <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a
+                      id="audit-whatsapp-cta"
+                      data-cta-intent="consultation"
+                      href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("consultation")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group rounded-xl bg-emerald-600 p-4 transition hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                    >
+                      <span className="flex items-center gap-2 text-sm font-extrabold"><PhoneCall className="h-5 w-5" /> Konsultasi hasil audit</span>
+                      <span className="mt-2 block text-xs leading-relaxed text-emerald-50">Diskusikan masalah utama dan opsi optimasi yang cocok untuk bisnis Anda.</span>
+                      <span className="mt-4 flex items-center gap-2 text-xs font-bold">Mulai chat WhatsApp <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+                    </a>
+                    <a
+                      id="audit-roadmap-cta"
+                      data-cta-intent="roadmap"
+                      href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("roadmap")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group rounded-xl border border-white/20 bg-white/5 p-4 transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    >
+                      <span className="flex items-center gap-2 text-sm font-extrabold"><TrendingUp className="h-5 w-5" /> Minta roadmap 30 hari</span>
+                      <span className="mt-2 block text-xs leading-relaxed text-slate-300">Minta urutan langkah awal untuk mulai membenahi visibilitas lokal.</span>
+                      <span className="mt-4 flex items-center gap-2 text-xs font-bold">Minta rekomendasi <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+                    </a>
+                  </div>
+                  <p className="mt-4 text-[11px] leading-relaxed text-slate-400">Tidak ada data yang dikirim otomatis ke database. WhatsApp terbuka hanya jika Anda memilih salah satu tombol.</p>
                 </div>
 
               </div>
@@ -537,7 +588,6 @@ Saya ingin berkonsultasi mengenai hasil audit ini dan bagaimana cara meningkatka
 
         </div>
       </div>
-      <div className="max-w-5xl mx-auto px-6 mt-16 relative z-10"><LocalRankMeasurement /></div>
     </section>
   );
 }
