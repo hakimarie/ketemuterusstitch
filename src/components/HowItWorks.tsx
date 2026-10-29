@@ -1,118 +1,13 @@
-import { Search, Settings, TrendingUp, ArrowRight, MessageCircle } from "lucide-react";
-
+import { Search, Settings, TrendingUp, ArrowRight, MessageCircle, CheckCircle2 } from "lucide-react";
 export default function HowItWorks() {
-  const steps = [
-    {
-      stepNumber: "01",
-      title: "Audit Visibilitas Lokal",
-      subtitle: "Diagnosis Awal Komprehensif",
-      description: "Kami menganalisis ulasan, keselarasan nama-alamat-telepon (NAP), akurasi kategori bisnis, serta peringkat pencarian Google Maps kompetitor terdekat Anda secara mendetail.",
-      icon: Search,
-      badgeText: "Langkah 1",
-      colorClass: "from-blue-500 to-blue-600 shadow-blue-500/20",
-    },
-    {
-      stepNumber: "02",
-      title: "Optimalisasi Google Profile",
-      subtitle: "Penyusunan & Perbaikan Mutu",
-      description: "Tim ahli kami mendaftarkan, memverifikasi, dan merestrukturisasi 100% informasi profil bisnis lokal Anda. Kami optimalkan foto premium, jam libur, ulasan otomatis, dan integrasi WhatsApp.",
-      icon: Settings,
-      badgeText: "Langkah 2",
-      colorClass: "from-emerald-500 to-emerald-600 shadow-emerald-500/20",
-    },
-    {
-      stepNumber: "03",
-      title: "Pertumbuhan & Dominasi",
-      subtitle: "Peningkatan Konversi & Pelanggan",
-      description: "Melalui dorongan ulasan berkala, pengelolaan postingan GBP, serta kampanye iklan berbayar (Meta Ads) bertarget lokal, kami dorong bisnis Anda ke puncak radar 3-Pack Maps Google secara berkelanjutan.",
-      icon: TrendingUp,
-      badgeText: "Langkah 3",
-      colorClass: "from-amber-500 to-amber-600 shadow-amber-500/20",
-    },
-  ];
-
-  return (
-    <section id="how-it-works" className="py-24 bg-slate-50 relative overflow-hidden">
-      {/* Mesh background vectors */}
-      <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-emerald-50 blur-3xl pointer-events-none"></div>
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
-          <span className="text-xs font-bold text-brand-primary uppercase tracking-widest block">Metodologi Kami</span>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-brand-text tracking-tight">
-            Bagaimana Cara Kami Membantu Bisnis Anda <span className="text-brand-primary">Tumbuh?</span>
-          </h2>
-          <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-            Proses kerja yang transparan, terstruktur, dan terukur untuk mengubah kehadiran online Anda menjadi mesin penarik konsumen yang tak terbendung.
-          </p>
-        </div>
-
-        {/* Timeline Style Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
-          
-          {/* Connecting Line on Desktop */}
-          <div className="hidden lg:block absolute top-[48px] left-[15%] right-[15%] h-0.5 bg-gradient-to-r from-blue-200 via-emerald-200 to-amber-200 -z-10"></div>
-
-          {steps.map((step, idx) => {
-            const Icon = step.icon;
-            return (
-              <div
-                key={idx}
-                className="bg-white border border-slate-100 rounded-3xl p-8 text-left shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative space-y-6"
-              >
-                {/* Step Number Badge */}
-                <div className="absolute top-6 right-8 text-5xl font-black font-display text-slate-100 tracking-tight select-none">
-                  {step.stepNumber}
-                </div>
-
-                {/* Icon Container with gradient shadow */}
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${step.colorClass} flex items-center justify-center text-white shadow-lg`}>
-                  <Icon className="w-6 h-6" />
-                </div>
-
-                <div className="space-y-2">
-                  <span className="text-[10px] font-bold text-brand-primary tracking-widest uppercase block">
-                    {step.badgeText}
-                  </span>
-                  <h3 className="font-display font-bold text-lg sm:text-xl text-slate-800 tracking-tight leading-snug">
-                    {step.title}
-                  </h3>
-                  <span className="block text-xs font-semibold text-slate-400">
-                    {step.subtitle}
-                  </span>
-                </div>
-
-                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed font-sans">
-                  {step.description}
-                </p>
-
-                {/* Footer status/arrow */}
-                <div className="pt-4 border-t border-slate-50 flex items-center gap-2 text-xs font-semibold text-brand-primary">
-                  <span>Lihat Selengkapnya</span>
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Final Call to Action Link */}
-        <div className="mt-16 text-center">
-          <a
-            href="https://wa.me/6281584229797?text=Halo%20KetemuTerus,%20saya%20ingin%20memulai%20langkah%20audit%20awal%20dan%20optimasi%20Google%20Maps%20bisnis%20saya."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-bold text-brand-primary hover:text-blue-700 hover:underline transition-all"
-          >
-            <span>Konsultasikan Langkah Pertama Bisnis Anda</span>
-            <MessageCircle className="w-4.5 h-4.5 fill-current" />
-          </a>
-        </div>
-
-      </div>
-    </section>
-  );
+ const steps=[
+ {step:"01",title:"Cek kondisi saat ini",description:"Kita tinjau informasi bisnis, profil Google, website, dan kebutuhan pelanggan yang ingin dijangkau.",icon:Search,image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80",alt:"Analisis data di laptop"},
+ {step:"02",title:"Rapikan hal penting",description:"Perbaiki data yang kurang konsisten, lengkapi informasi, dan buat jalur kontak yang lebih mudah.",icon:Settings,image:"https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=700&q=80",alt:"Tim menyusun strategi bersama"},
+ {step:"03",title:"Pantau dan evaluasi",description:"Tentukan ukuran yang relevan, lalu tinjau perubahan secara berkala tanpa menjanjikan ranking tertentu.",icon:TrendingUp,image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80",alt:"Dashboard analitik"}
+ ];
+ return <section id="how-it-works" className="bg-white py-20 sm:py-24"><div className="mx-auto max-w-7xl px-5 sm:px-6">
+ <div className="mb-12 max-w-2xl"><p className="mb-3 text-sm font-semibold text-blue-600">Cara kami bekerja</p><h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Langkah yang jelas, dari awal sampai evaluasi.</h2><p className="mt-4 text-base leading-7 text-gray-600">Kita mulai dari kondisi bisnis yang sebenarnya, lalu menyusun prioritas yang masuk akal.</p></div>
+ <div className="grid grid-cols-1 gap-5 md:grid-cols-3">{steps.map(step=>{const Icon=step.icon;return <article key={step.step} className="group overflow-hidden rounded-3xl border border-gray-100 bg-[#F8FAFC] transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/70"><div className="relative h-48 overflow-hidden sm:h-56"><img src={step.image} alt={step.alt} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-105"/><div className="absolute inset-0 bg-gradient-to-t from-gray-950/45 to-transparent"/><span className="absolute left-4 top-4 rounded-full border border-white/50 bg-white/90 px-3 py-1 text-xs font-bold text-gray-800">Langkah {step.step}</span></div><div className="p-6 sm:p-7"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-100 text-blue-700"><Icon className="h-5 w-5"/></span><h3 className="mt-5 text-xl font-bold text-gray-900">{step.title}</h3><p className="mt-3 text-sm leading-6 text-gray-600">{step.description}</p><div className="mt-5 flex items-center gap-2 border-t border-gray-200 pt-4 text-xs font-medium text-gray-500"><CheckCircle2 className="h-4 w-4 text-emerald-600"/> Tahap kerja transparan</div></div></article>})}</div>
+ <div className="mt-10 flex flex-col items-start justify-between gap-4 rounded-2xl bg-blue-50 p-5 sm:flex-row sm:items-center sm:px-7"><div><h3 className="font-bold text-gray-900">Mulai dari kebutuhan bisnismu</h3><p className="mt-1 text-sm text-gray-600">Tidak yakin layanan mana yang paling cocok? Kita diskusikan dulu.</p></div><a href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%2C%20saya%20ingin%20diskusi%20tentang%20kebutuhan%20bisnis%20saya." target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"><MessageCircle className="h-4 w-4"/> Tanya via WhatsApp <ArrowRight className="h-4 w-4"/></a></div>
+ </div></section>;
 }
