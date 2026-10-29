@@ -28,7 +28,7 @@ export default function Navbar() {
           {navItems.map((item) => <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-sm font-medium text-gray-600 transition hover:text-blue-600">{item.label}</button>)}
         </nav>
 
-        <a href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%2C%20saya%20ingin%20konsultasi%20tentang%20bisnis%20lokal." target="_blank" rel="noopener noreferrer" className="hidden items-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-600 md:inline-flex">
+        <a href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%2C%20saya%20ingin%20konsultasi%20tentang%20bisnis%20lokal." target="_blank" rel="noopener noreferrer" className="hidden items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 md:inline-flex">
           <MessageCircle className="h-4 w-4" /> Konsultasi WA
         </a>
 
@@ -41,7 +41,7 @@ export default function Navbar() {
           <nav className="flex flex-col gap-1">
             {navItems.map((item) => <button key={item.id} onClick={() => scrollToSection(item.id)} className="rounded-lg px-3 py-3 text-left text-sm font-medium text-gray-700 hover:bg-gray-50">{item.label}</button>)}
           </nav>
-          <a href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%2C%20saya%20ingin%20konsultasi%20tentang%20bisnis%20lokal." target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-3 text-sm font-semibold text-white"><MessageCircle className="h-4 w-4" /> Konsultasi via WhatsApp</a>
+          <a href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%2C%20saya%20ingin%20konsultasi%20tentang%20bisnis%20lokal." target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-emerald-50"><MessageCircle className="h-4 w-4" /> Konsultasi via WhatsApp</a>
         </div>
       )}
     </header>
