@@ -1,9 +1,9 @@
 import { Search, Settings, TrendingUp, ArrowRight, MessageCircle, CheckCircle2 } from "lucide-react";
 export default function HowItWorks() {
  const steps=[
- {step:"01",title:"Cek kondisi saat ini",description:"Kita tinjau informasi bisnis, profil Google, website, dan kebutuhan pelanggan yang ingin dijangkau.",icon:Search,image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80",alt:"Analisis data di laptop"},
- {step:"02",title:"Rapikan hal penting",description:"Perbaiki data yang kurang konsisten, lengkapi informasi, dan buat jalur kontak yang lebih mudah.",icon:Settings,image:"https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=700&q=80",alt:"Tim menyusun strategi bersama"},
- {step:"03",title:"Pantau dan evaluasi",description:"Tentukan ukuran yang relevan, lalu tinjau perubahan secara berkala tanpa menjanjikan ranking tertentu.",icon:TrendingUp,image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80",alt:"Dashboard analitik"}
+ {step:"01",title:"Cek kondisi saat ini",description:"Kita tinjau informasi bisnis, profil Google, website, dan kebutuhan pelanggan yang ingin dijangkau.",icon:Search,image:"/images/step-01.svg",alt:"Ilustrasi pengecekan kondisi bisnis di Google"},
+ {step:"02",title:"Rapikan hal penting",description:"Perbaiki data yang kurang konsisten, lengkapi informasi, dan buat jalur kontak yang lebih mudah.",icon:Settings,image:"/images/step-02.svg",alt:"Ilustrasi optimasi profil bisnis dan ulasan pelanggan"},
+ {step:"03",title:"Pantau dan evaluasi",description:"Tentukan ukuran yang relevan, lalu tinjau perubahan secara berkala tanpa menjanjikan ranking tertentu.",icon:TrendingUp,image:"/images/step-03.svg",alt:"Ilustrasi pemantauan performa bisnis"}
  ];
  return <section id="how-it-works" className="w-full min-w-0 overflow-x-hidden bg-white py-16 lg:py-24"><div className="mx-auto w-full min-w-0 max-w-7xl px-5 lg:px-8">
  <div className="mb-10 max-w-3xl lg:mb-12"><p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-blue-600">How To</p><h2 className="text-3xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">Langkah yang jelas, dari awal sampai evaluasi.</h2><p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">Kita mulai dari kondisi bisnis yang sebenarnya, lalu menyusun prioritas yang masuk akal.</p></div>
