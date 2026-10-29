@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Search, MapPin, Sparkles, CheckCircle2, ArrowRight, MessageCircle, RefreshCw, Trophy, Target, Zap, Compass, AlertCircle, ClipboardCheck, PhoneCall, TrendingUp } from "lucide-react";
 import { AuditReport } from "../types";
-import LocalRankMeasurement from "./LocalRankMeasurement";
 
 export default function AIAuditor() {
   const [businessName, setBusinessName] = useState("");
@@ -589,7 +588,6 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
 
         </div>
       </div>
-      <div className="max-w-5xl mx-auto px-6 mt-16 relative z-10"><LocalRankMeasurement /></div>
     </section>
   );
 }
