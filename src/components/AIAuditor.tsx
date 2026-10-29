@@ -135,8 +135,8 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
   };
 
   return (
-    <section id="ai-auditor" className="scroll-mt-20 min-w-0 overflow-hidden bg-[#FAFAFA] py-12 sm:py-20">
-      <div className="mx-auto w-full min-w-0 max-w-7xl px-4 sm:px-6">
+    <section id="ai-auditor" className="scroll-mt-20 w-full min-w-0 overflow-x-clip bg-[#FAFAFA] py-12 sm:py-16 lg:py-20">
+      <div className="mx-auto w-full min-w-0 max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="mx-auto mb-10 max-w-3xl space-y-3 text-center">
           <p className="text-sm font-semibold text-brand-primary">Audit bisnis gratis</p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-brand-text tracking-tight">
@@ -296,7 +296,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
           <div className="lg:col-span-8">
             
             {loading && (
-              <div className="flex min-h-[320px] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-5 text-center shadow-sm sm:min-h-[500px] sm:p-12">
+              <div className="flex min-h-[320px] w-full min-w-0 flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-5 text-center shadow-sm sm:min-h-[400px] sm:p-8 lg:min-h-[500px] lg:w-1/2 lg:p-12">
                 <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center text-brand-primary mb-8 animate-pulse-subtle">
                   <Sparkles className="w-10 h-10 animate-spin-slow text-brand-primary" />
                 </div>
