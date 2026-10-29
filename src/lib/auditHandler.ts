@@ -31,9 +31,15 @@ function isMapsProfileUrl(value: unknown): boolean {
   const safe = safeHttpUrl(value);
   if (!safe) return false;
   const parsed = new URL(safe);
-  return (parsed.hostname === "maps.app.goo.gl" || parsed.hostname === "goo.gl" ||
-    (parsed.hostname === "google.com" || parsed.hostname === "www.google.com" ||
-     parsed.hostname === "maps.google.com") && parsed.pathname.toLowerCase().includes("/maps"));
+  const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
+  const path = parsed.pathname.toLowerCase();
+
+  // Google Maps share links can use maps.app.goo.gl, legacy goo.gl,
+  // maps.google.com root URLs (often with ?cid=...), or google.com/maps paths.
+  if (host === "maps.app.goo.gl" || host === "goo.gl" || host === "maps.google.com") return true;
+  if (host === "google.com" && (path === "/maps" || path.startsWith("/maps/") || path.startsWith("/maps?"))) return true;
+  if (host === "g.page" || host === "share.google") return true;
+  return false;
 }
 
 function isValidAuditResult(value: unknown): value is Record<string, unknown> {
@@ -79,7 +85,7 @@ export default async function handleAudit(req: any, res: any) {
       (observedRating !== null && (!Number.isFinite(observedRating) || observedRating < 0 || observedRating > 5)) ||
       (observedReviewCount !== null && (!Number.isInteger(observedReviewCount) || observedReviewCount < 0 || observedReviewCount > 100000000)) ||
       (recentReviews30d !== null && (!Number.isInteger(recentReviews30d) || recentReviews30d < 0 || recentReviews30d > 1000000))) {
-    return res.status(400).json({ error: "Periksa format tautan Google Maps, website, rating (0–5), dan jumlah ulasan (bilangan bulat tidak negatif)." });
+    return res.status(400).json({ error: "Data bukti manual belum valid. Tautan profil harus berupa URL Google Maps (misalnya https://maps.app.goo.gl/...), tautan website harus diawali http:// atau https://, rating harus 0–5, dan jumlah ulasan harus bilangan bulat tidak negatif." });
   }
   const submittedEvidence = {
     mapsProfileUrl: mapsProfileUrl ? safeHttpUrl(mapsProfileUrl) : null,
