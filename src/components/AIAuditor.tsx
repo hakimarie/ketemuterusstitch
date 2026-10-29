@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search, MapPin, Sparkles, CheckCircle2, ArrowRight, MessageCircle, RefreshCw, Trophy, Target, Zap, Compass, AlertCircle, ClipboardCheck, PhoneCall, TrendingUp } from "lucide-react";
 import { AuditReport } from "../types";
 
@@ -16,7 +16,7 @@ export default function AIAuditor() {
   const [loadingStep, setLoadingStep] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [report, setReport] = useState<AuditReport | null>(null);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(false);\n\n  useEffect(() => {\n    const openAuditForm = () => setShowForm(true);\n    window.addEventListener("ketemuterus:open-audit", openAuditForm);\n    return () => window.removeEventListener("ketemuterus:open-audit", openAuditForm);\n  }, []);
 
   const categories = [
     "Cafe / Kedai Kopi",
@@ -129,15 +129,15 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
   };
 
   return (
-    <section id="ai-auditor" className="bg-slate-50 py-20 sm:py-24">
+    <section id="ai-auditor" className="scroll-mt-20 bg-[#FAFAFA] py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto mb-10 max-w-3xl space-y-3 text-center">
           <p className="text-sm font-semibold text-brand-primary">Audit bisnis gratis</p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-brand-text tracking-tight">
-            Cek kondisi bisnis Anda di Google
+            Cek kondisi bisnismu di Google
           </h2>
           <p className="text-slate-600 text-base max-w-2xl mx-auto">
-            Jawab beberapa pertanyaan singkat untuk mendapatkan rekomendasi awal. Sistem ini tidak memeriksa profil Google Maps atau website secara langsung, jadi hasilnya perlu dicocokkan dengan kondisi bisnis Anda.
+            Isi beberapa informasi dasar untuk mendapat rekomendasi awal. Data Google Maps tidak diperiksa otomatis, jadi gunakan hasilnya sebagai panduan awal.
           </p>
         </div>
 
@@ -145,7 +145,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
           
           {/* Audit entry point */}
           {!showForm && !report && (
-            <div className="w-full max-w-xl rounded-xl border border-slate-200 bg-white p-7 text-left shadow-sm">
+            <div className="w-full max-w-xl rounded-2xl border border-gray-200 bg-white p-7 text-left shadow-sm">
               <h3 className="font-display text-xl font-semibold text-slate-900">Mulai dari informasi dasar</h3>
               <p className="mt-3 text-sm leading-6 text-slate-600">Cukup masukkan nama bisnis, kategori, dan lokasi. Anda bisa menambahkan informasi lain jika tersedia.</p>
               <button type="button" onClick={() => setShowForm(true)} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700">
@@ -157,8 +157,8 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
 
           {/* Form appears only after the visitor chooses to start */}
           {showForm && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4" role="dialog" aria-modal="true" aria-labelledby="audit-form-title" onClick={(e) => { if (e.target === e.currentTarget) setShowForm(false); }}>
-              <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8">
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 p-4" role="dialog" aria-modal="true" aria-labelledby="audit-form-title" onClick={(e) => { if (e.target === e.currentTarget) setShowForm(false); }}>
+              <div className="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-gray-200 bg-white p-6 shadow-xl sm:p-8">
             <div className="mb-6 flex items-center justify-between gap-4">
               <h3 id="audit-form-title" className="font-display text-xl font-semibold text-slate-900">Cek kondisi bisnis Anda</h3>
               <button type="button" onClick={() => setShowForm(false)} aria-label="Tutup formulir audit" className="rounded-lg px-3 py-2 text-xl leading-none text-slate-500 hover:bg-slate-100 hover:text-slate-900">×</button>
