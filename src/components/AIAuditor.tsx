@@ -121,7 +121,7 @@ export default function AIAuditor() {
 Nama Bisnis: ${report.businessName}
 Kategori: ${report.category}
 Lokasi: ${report.location}
-Estimasi AI (bukan hasil pengukuran): ${report.overallScore}/100
+Estimasi awal (bukan hasil pengukuran): ${report.overallScore}/100
 Diagnosis prioritas tinggi: ${priorityCount}
 
 Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang sesuai. Saya memahami hasil ini merupakan estimasi AI yang perlu diverifikasi.`;
@@ -132,10 +132,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
     <section id="ai-auditor" className="bg-slate-50 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto mb-10 max-w-3xl space-y-3 text-center">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-brand-primary text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5 text-blue-500 animate-pulse" />
-            AI Visibility Auditor
-          </div>
+          <p className="text-sm font-semibold text-brand-primary">Audit bisnis gratis</p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-brand-text tracking-tight">
             Cek kondisi bisnis Anda di Google
           </h2>
@@ -257,7 +254,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 ) : (
                   <>
                     <Sparkles className="w-5 h-5 fill-current" />
-                    <span>Mulai Audit Visibilitas</span>
+                    <span>Lihat Rekomendasi</span>
                   </>
                 )}
               </button>
@@ -348,7 +345,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                         {report.overallScore}
                       </span>
                       <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider -mt-1">
-                        Estimasi AI (bukan pengukuran)
+                        Estimasi awal (bukan pengukuran)
                       </span>
                     </div>
                   </div>
