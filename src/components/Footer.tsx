@@ -16,11 +16,6 @@ export default function Footer() {
             <p className="mt-3 inline-flex items-center gap-2 text-sm text-gray-500"><MapPin className="h-4 w-4" /> Jakarta, Indonesia</p>
           </div>
           <div className="flex flex-col gap-4 sm:items-end">
-            <div className="flex flex-wrap gap-5 text-sm text-gray-600">
-              <button onClick={() => scrollTo("services")} className="hover:text-blue-600">Layanan</button>
-              <button onClick={() => scrollTo("portfolio")} className="hover:text-blue-600">Contoh Pekerjaan</button>
-              <button onClick={() => scrollTo("faq")} className="hover:text-blue-600">FAQ</button>
-            </div>
             <div className="flex gap-3">
               <a href="https://wa.me/6281584229797" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="rounded-lg border border-gray-200 p-2 text-gray-500 hover:text-emerald-600"><MessageCircle className="h-4 w-4" /></a>
               <a href="https://www.instagram.com/babehdigital" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="rounded-lg border border-gray-200 p-2 text-gray-500 hover:text-blue-600"><Instagram className="h-4 w-4" /></a>
