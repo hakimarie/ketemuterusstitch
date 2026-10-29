@@ -296,7 +296,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
           <div className="lg:col-span-8">
             
             {loading && (
-              <div className="flex min-h-[320px] w-full min-w-0 flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-5 text-center shadow-sm sm:min-h-[400px] sm:p-8 lg:min-h-[500px] lg:w-1/2 lg:p-12">
+              <div className="flex min-h-[320px] w-full min-w-0 flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-5 text-center shadow-sm sm:min-h-[400px] sm:p-8 lg:min-h-[500px] lg:p-12">
                 <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center text-brand-primary mb-8 animate-pulse-subtle">
                   <Sparkles className="w-10 h-10 animate-spin-slow text-brand-primary" />
                 </div>
