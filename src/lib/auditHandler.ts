@@ -134,7 +134,10 @@ Aturan wajib:
 
   try {
     const ai = new GoogleGenAI({ apiKey: geminiKey });
-    const response = await ai.models.generateContent({
+    let result: string | undefined;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const response = await ai.models.generateContent({
       model: "gemini-3.8-flash",
       contents: prompt,
       config: {
@@ -163,9 +166,21 @@ Aturan wajib:
           },
           required: ["businessName", "category", "location", "overallScore", "statusGoogleMaps", "statusGoogleSearch", "auditMetrics", "quickWins", "diagnoses", "strategicAdvice"],
         },
-      },
-    });
-    const result = response.text?.trim();
+        },
+        });
+        result = response.text?.trim();
+        break;
+      } catch (error) {
+        const status = typeof error === "object" && error !== null && "status" in error
+          ? Number((error as { status?: unknown }).status)
+          : 0;
+        const retryableStatuses = [429, 500, 502, 503, 504];
+        if (!retryableStatuses.includes(status) || attempt === 2) throw error;
+        const delayMs = 1000 * 2 ** attempt;
+        console.warn(`Gemini temporary error ${status}; retrying audit request (${attempt + 2}/3) after ${delayMs}ms.`);
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+      }
+    }
     if (!result) return res.status(502).json({ error: "AI belum menghasilkan laporan audit. Silakan coba lagi sebentar." });
     const auditData: unknown = JSON.parse(result);
     if (!isValidAuditResult(auditData)) {
