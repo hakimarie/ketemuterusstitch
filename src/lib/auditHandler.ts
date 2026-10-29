@@ -135,7 +135,7 @@ Aturan wajib:
   try {
     const ai = new GoogleGenAI({ apiKey: geminiKey });
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.8-flash",
       contents: prompt,
       config: {
         systemInstruction: "Anda adalah edukator Local SEO yang berhati-hati. Tidak ada data Google Maps aktual yang disediakan. Jangan mengarang rating, jumlah ulasan, posisi ranking, kompetitor, website live, owner GBP, Search Console, atau analytics. Semua skor adalah estimasi heuristik dan semua fakta yang tidak didukung harus dinyatakan belum diketahui.",
