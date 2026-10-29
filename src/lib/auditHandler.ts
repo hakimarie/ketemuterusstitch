@@ -135,10 +135,12 @@ Aturan wajib:
   try {
     const ai = new GoogleGenAI({ apiKey: geminiKey });
     let result: string | undefined;
-    for (let attempt = 0; attempt < 3; attempt++) {
+    const models = ["gemini-3.8-flash", "gemini-3.5-flash-lite"];
+    for (const model of models) {
+      for (let attempt = 0; attempt < 2; attempt++) {
       try {
         const response = await ai.models.generateContent({
-      model: "gemini-3.8-flash",
+      model,
       contents: prompt,
       config: {
         systemInstruction: "Anda adalah edukator Local SEO yang berhati-hati. Tidak ada data Google Maps aktual yang disediakan. Jangan mengarang rating, jumlah ulasan, posisi ranking, kompetitor, website live, owner GBP, Search Console, atau analytics. Semua skor adalah estimasi heuristik dan semua fakta yang tidak didukung harus dinyatakan belum diketahui.",
@@ -174,14 +176,23 @@ Aturan wajib:
         const status = typeof error === "object" && error !== null && "status" in error
           ? Number((error as { status?: unknown }).status)
           : 0;
+        console.warn(`Gemini ${status || "unknown"} model=${model} attempt=${attempt + 1}/2`);
         const retryableStatuses = [429, 500, 502, 503, 504];
-        if (!retryableStatuses.includes(status) || attempt === 2) throw error;
+        // A 404 for a model should switch to the next candidate, not retry the same model.
+        if (status === 404) break;
+        if (!retryableStatuses.includes(status)) throw error;
+        if (attempt === 1) break;
         const delayMs = 1000 * 2 ** attempt;
-        console.warn(`Gemini temporary error ${status}; retrying audit request (${attempt + 2}/3) after ${delayMs}ms.`);
+        console.warn(`Gemini temporary error ${status}; retrying model=${model} after ${delayMs}ms.`);
         await new Promise((resolve) => setTimeout(resolve, delayMs));
       }
+      }
+      if (result) break;
     }
-    if (!result) return res.status(502).json({ error: "AI belum menghasilkan laporan audit. Silakan coba lagi sebentar." });
+    if (!result) {
+      console.error("Gemini audit failed on all configured model attempts.");
+      return res.status(503).json({ error: "Layanan audit otomatis sedang ramai atau belum tersedia. Kirim nama bisnis Anda lewat WhatsApp dan kami bantu audit manual dalam 1 hari kerja." });
+    }
     const auditData: unknown = JSON.parse(result);
     if (!isValidAuditResult(auditData)) {
       console.error("Gemini returned an audit response that failed output validation.");
