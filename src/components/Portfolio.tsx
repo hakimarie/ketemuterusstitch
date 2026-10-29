@@ -3,9 +3,9 @@ import { ArrowUpRight, MapPin, Star, Smartphone, Search, Image as ImageIcon } fr
 export default function Portfolio() {
  const [activeTab,setActiveTab]=useState<"all"|"maps"|"reviews"|"websites">("all");
  const items=[
- {id:"1",category:"Google Maps",title:"Profil bisnis yang rapi",description:"Contoh susunan informasi penting agar alamat, jam buka, layanan, dan kontak lebih mudah ditemukan.",image:"https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1000&q=80",alt:"Tampilan etalase toko sebagai ilustrasi profil bisnis",type:"maps",icon:MapPin},
- {id:"2",category:"Reputasi online",title:"Pengalaman pelanggan",description:"Contoh alur meminta dan menanggapi ulasan dengan cara yang netral, wajar, dan transparan.",image:"https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=80",alt:"Tim bisnis berdiskusi sebagai ilustrasi reputasi online",type:"reviews",icon:Star},
- {id:"3",category:"Website bisnis",title:"Website nyaman di ponsel",description:"Contoh tampilan yang memprioritaskan informasi layanan dan jalur kontak yang jelas.",image:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=80",alt:"Laptop dengan tampilan pengembangan website sebagai ilustrasi",type:"websites",icon:Smartphone}
+ {id:"1",category:"Google Maps",title:"Profil bisnis yang rapi",description:"Contoh susunan informasi penting agar alamat, jam buka, layanan, dan kontak lebih mudah ditemukan.",image:"/images/solusi-maps.svg",alt:"Ilustrasi profil bisnis dan visibilitas di Google Maps",type:"maps",icon:MapPin},
+ {id:"2",category:"Reputasi online",title:"Pengalaman pelanggan",description:"Contoh alur meminta dan menanggapi ulasan dengan cara yang netral, wajar, dan transparan.",image:"/images/solusi-reviews.svg",alt:"Ilustrasi rating dan pengelolaan ulasan pelanggan",type:"reviews",icon:Star},
+ {id:"3",category:"Website bisnis",title:"Website nyaman di ponsel",description:"Contoh tampilan yang memprioritaskan informasi layanan dan jalur kontak yang jelas.",image:"/images/solusi-website.svg",alt:"Ilustrasi desain website bisnis desktop dan mobile",type:"websites",icon:Smartphone}
  ];
  const filtered=activeTab==="all"?items:items.filter(item=>item.type===activeTab);
  const tabs=[{id:"all",label:"Semua"},{id:"maps",label:"Google Maps"},{id:"reviews",label:"Ulasan"},{id:"websites",label:"Website"}] as const;
