@@ -136,7 +136,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
   };
 
   return (
-    <section id="ai-auditor" className="scroll-mt-20 w-full min-w-0 overflow-x-hidden bg-[#F8FAFF] py-16 lg:py-24">
+    <section id="ai-auditor-content" className="scroll-mt-20 w-full min-w-0 overflow-x-hidden bg-[#F8FAFF] py-16 lg:py-24">
       <div className="mx-auto w-full min-w-0 max-w-7xl px-5 sm:px-6 lg:px-8">
         <div className="mx-auto mb-10 max-w-3xl space-y-3 text-center">
           <p className="text-sm font-semibold text-brand-primary">Audit bisnis gratis</p>
