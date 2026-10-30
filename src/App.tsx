@@ -64,7 +64,12 @@ export default function App() {
                 Memuat fitur audit...
               </div>
             }>
-              <AIAuditor onReady={() => {\n                if (auditOpenPending) {\n                  setAuditOpenPending(false);\n                  window.dispatchEvent(new Event("ketemuterus:open-audit"));\n                }\n              }} />
+              <AIAuditor onReady={() => {
+                if (auditOpenPending) {
+                  setAuditOpenPending(false);
+                  window.dispatchEvent(new Event("ketemuterus:open-audit"));
+                }
+              }} />
             </Suspense>
           ) : (
             <div className="mx-auto flex min-h-[360px] max-w-3xl flex-col items-center justify-center px-5 text-center">
