@@ -48,6 +48,9 @@ export default function Navbar() {
           <button type="button" onClick={openAudit} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-orange-500 px-5 py-3 text-sm font-bold text-white hover:bg-orange-600"><ArrowRight className="h-4 w-4" /> Audit Gratis Sekarang</button>
         </div>
       )}
+      <button type="button" onClick={openAudit} className="fixed inset-x-4 bottom-4 z-40 inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-orange-500 px-6 py-4 text-base font-extrabold text-white shadow-xl shadow-orange-900/20 ring-1 ring-white/70 transition hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-200 md:hidden" style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}>
+        Audit Gratis Sekarang <ArrowRight className="h-5 w-5" />
+      </button>
     </header>
   );
 }
