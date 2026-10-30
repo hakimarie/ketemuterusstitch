@@ -13,8 +13,9 @@ import Footer from "./components/Footer";
 const AIAuditor = lazy(() => import("./components/AIAuditor"));
 
 export default function App() {
-  const auditPlaceholderRef = useRef<HTMLElement | null>(null);
+  const auditPlaceholderRef = useRef<HTMLDivElement | null>(null);
   const [loadAuditor, setLoadAuditor] = useState(false);
+  const [auditOpenPending, setAuditOpenPending] = useState(false);
 
   useEffect(() => {
     const placeholder = auditPlaceholderRef.current;
@@ -36,18 +37,13 @@ export default function App() {
 
   useEffect(() => {
     const handleOpenAudit = () => {
-      if (loadAuditor) return;
+      setAuditOpenPending(true);
       setLoadAuditor(true);
-      // The CTA scrolls to the reserved section first. Re-dispatch after the
-      // lazy module has had time to load and attach its event listener.
-      window.setTimeout(() => {
-        window.dispatchEvent(new Event("ketemuterus:open-audit"));
-      }, 900);
     };
 
     window.addEventListener("ketemuterus:open-audit", handleOpenAudit);
     return () => window.removeEventListener("ketemuterus:open-audit", handleOpenAudit);
-  }, [loadAuditor]);
+  }, []);
 
   return (
     <div id="main-app" className="min-h-screen min-w-0 overflow-x-clip bg-[#FAFAFA] text-gray-800 font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
@@ -68,7 +64,7 @@ export default function App() {
                 Memuat fitur audit...
               </div>
             }>
-              <AIAuditor />
+              <AIAuditor onReady={() => {\n                if (auditOpenPending) {\n                  setAuditOpenPending(false);\n                  window.dispatchEvent(new Event("ketemuterus:open-audit"));\n                }\n              }} />
             </Suspense>
           ) : (
             <div className="mx-auto flex min-h-[360px] max-w-3xl flex-col items-center justify-center px-5 text-center">
