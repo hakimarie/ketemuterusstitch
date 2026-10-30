@@ -1,3 +1,5 @@
+import type { PublicBusinessLookup } from "./lib/publicBusinessLookup";
+
 export interface AuditMetric {
   name: string;
   score: number | null;
@@ -29,6 +31,7 @@ export interface AuditReport {
   dataMode?: "ai_estimate";
   scoreType?: "heuristic_estimate";
   dataSources?: string[];
+  publicBusinessLookup?: PublicBusinessLookup;
   placesLookupStatus?: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "configuration_error" | "provider_error";
   publicData?: {
     placeId: string | null;
