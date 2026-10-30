@@ -1,7 +1,7 @@
 export interface AuditMetric {
   name: string;
-  score: number;
-  status: 'Sangat Kurang' | 'Perlu Optimalisasi' | 'Optimal';
+  score: number | null;
+  status: 'Sangat Kurang' | 'Perlu Optimalisasi' | 'Optimal' | 'Belum diukur';
   details: string;
 }
 
@@ -19,7 +19,7 @@ export interface AuditReport {
   businessName: string;
   category: string;
   location: string;
-  overallScore: number;
+  overallScore: number | null;
   statusGoogleMaps: string;
   statusGoogleSearch: string;
   auditMetrics: AuditMetric[];
