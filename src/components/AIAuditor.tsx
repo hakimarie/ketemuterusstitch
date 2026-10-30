@@ -170,7 +170,11 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
               <button type="button" onClick={() => setShowForm(false)} aria-label="Tutup formulir audit" className="rounded-lg px-3 py-2 text-xl leading-none text-slate-500 hover:bg-slate-100 hover:text-slate-900">×</button>
             </div>
             
-            <div className="mb-6 grid grid-cols-3 gap-2" aria-label="Tiga langkah audit">{["Info bisnis", "Kategori", "Lokasi"].map((step, index) => <div key={step} className="flex items-center gap-2 rounded-lg bg-blue-50 px-2 py-2"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white">{index + 1}</span><span className="text-[11px] font-semibold text-blue-900">{step}</span></div>)}</div>\n            <form onSubmit={handleSubmit} className="space-y-6 text-left">
+            <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50/70 p-4" aria-live="polite">
+              <div className="mb-2 flex items-center justify-between gap-3"><span className="text-xs font-bold text-blue-900">Progress informasi</span><span className="text-xs font-semibold text-blue-700">{[businessName.trim(), category, location.trim()].filter(Boolean).length}/3 lengkap</span></div>
+              <div className="mb-3 flex gap-1.5" role="progressbar" aria-label="Kelengkapan informasi audit" aria-valuemin={0} aria-valuemax={3} aria-valuenow={[businessName.trim(), category, location.trim()].filter(Boolean).length}>{[businessName.trim(), category, location.trim()].map((value, index) => <span key={index} className={value ? "h-2 flex-1 rounded-full bg-blue-600" : "h-2 flex-1 rounded-full bg-blue-100"} />)}</div>
+              <div className="grid grid-cols-3 gap-2 text-[11px] font-medium text-blue-900"><span>Nama bisnis</span><span>Kategori</span><span>Lokasi</span></div>
+            </div>\n            <form onSubmit={handleSubmit} className="space-y-6 text-left">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Nama Bisnis Lokal</label>
                 <div className="relative">
@@ -213,7 +217,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                     placeholder="Contoh: Jakarta Selatan, Bandung"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 pl-11 pr-4 text-sm text-slate-800 transition-all outline-none"
+                    className="min-h-12 w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 pl-11 pr-4 text-sm text-slate-800 transition-all outline-none"
                   />
                 </div>
               </div>
@@ -255,12 +259,12 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 {loading ? (
                   <>
                     <RefreshCw className="w-5 h-5 animate-spin" />
-                    <span>Menyusun rekomendasi...</span>
+                    <span role="status">Sedang menyusun rekomendasi...</span>
                   </>
                 ) : (
                   <>
                     <Sparkles className="w-5 h-5 fill-current" />
-                    <span>Lihat Rekomendasi</span>
+                    <span>Mulai Audit Gratis</span>
                   </>
                 )}
               </button>
