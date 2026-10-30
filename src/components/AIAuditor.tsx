@@ -112,6 +112,8 @@ export default function AIAuditor() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
+      case "Belum diukur":
+        return <span className="text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200 px-2.5 py-1 rounded-full flex items-center gap-1">⚪ Belum diukur</span>;
       case "Optimal":
         return <span className="text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100 px-2.5 py-1 rounded-full flex items-center gap-1">🟢 {status}</span>;
       case "Perlu Optimalisasi":
@@ -128,7 +130,7 @@ export default function AIAuditor() {
 Nama Bisnis: ${report.businessName}
 Kategori: ${report.category}
 Lokasi: ${report.location}
-Estimasi awal (bukan hasil pengukuran): ${report.overallScore}/100
+Skor: belum diukur (data aktual belum terverifikasi)
 Diagnosis prioritas tinggi: ${priorityCount}
 
 Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang sesuai. Saya memahami hasil ini merupakan estimasi AI yang perlu diverifikasi.`;
@@ -292,30 +294,10 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 
                 {/* Result Header Grid */}
                 <div className="flex flex-col sm:flex-row items-center gap-8 pb-6 border-b border-slate-100">
-                  {/* Radial Progress Score */}
-                  <div className="relative w-32 h-32 flex-shrink-0 flex items-center justify-center">
-                    <svg className="w-full h-full transform -rotate-90">
-                      <circle cx="64" cy="64" r="54" fill="transparent" stroke="#f1f5f9" strokeWidth="10" />
-                      <circle
-                        cx="64"
-                        cy="64"
-                        r="54"
-                        fill="transparent"
-                        stroke={report.overallScore >= 80 ? "#10b981" : report.overallScore >= 60 ? "#f59e0b" : "#f43f5e"}
-                        strokeWidth="10"
-                        strokeDasharray={339.29}
-                        strokeDashoffset={339.29 - (339.29 * report.overallScore) / 100}
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                    <div className="absolute flex flex-col items-center">
-                      <span className="text-3xl font-extrabold text-slate-800 tracking-tight font-display">
-                        {report.overallScore}
-                      </span>
-                      <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider -mt-1">
-                        Estimasi awal (bukan pengukuran)
-                      </span>
-                    </div>
+                  {/* No score is shown until actual business data can be verified. */}
+                  <div className="flex h-32 w-32 flex-shrink-0 flex-col items-center justify-center rounded-full border-2 border-dashed border-slate-300 bg-slate-50 text-center">
+                    <span className="text-2xl font-extrabold text-slate-500">—</span>
+                    <span className="mt-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Belum diukur</span>
                   </div>
 
                   <div className="text-left flex-1 space-y-2">
@@ -351,9 +333,9 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                     </div>
                     <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div className="rounded-xl border border-white bg-white/90 p-4">
-                        <span className="block text-xs font-medium text-slate-500">Estimasi visibilitas</span>
-                        <strong className="mt-1 block text-2xl font-extrabold text-slate-900">{report.overallScore}<span className="text-sm font-semibold text-slate-400">/100</span></strong>
-                        <span className="mt-1 block text-[11px] text-slate-500">Skor indikatif AI</span>
+                        <span className="block text-xs font-medium text-slate-500">Skor visibilitas</span>
+                        <strong className="mt-1 block text-2xl font-extrabold text-slate-500">Belum diukur</strong>
+                        <span className="mt-1 block text-[11px] text-slate-500">Menunggu data aktual terverifikasi</span>
                       </div>
                       <div className="rounded-xl border border-white bg-white/90 p-4">
                         <span className="block text-xs font-medium text-slate-500">Prioritas tinggi</span>
@@ -480,17 +462,10 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                         <div className="flex items-center gap-4 border-t md:border-t-0 pt-3 md:pt-0 border-slate-50">
                           {/* Mini visual indicator */}
                           <div className="text-right">
-                            <span className="block font-mono text-sm font-extrabold text-slate-700">
-                              {metric.score}/100
+                            <span className="block font-mono text-sm font-extrabold text-slate-500">
+                              Belum diukur
                             </span>
-                            <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden mt-1">
-                              <div
-                                className={`h-full rounded-full ${
-                                  metric.score >= 80 ? "bg-emerald-500" : metric.score >= 60 ? "bg-amber-500" : "bg-rose-500"
-                                }`}
-                                style={{ width: `${metric.score}%` }}
-                              ></div>
-                            </div>
+                            <p className="mt-1 max-w-28 text-[10px] leading-4 text-slate-400">Data aktual belum tersedia</p>
                           </div>
                         </div>
                       </div>

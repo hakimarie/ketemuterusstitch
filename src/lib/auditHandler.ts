@@ -130,7 +130,7 @@ Aturan wajib:
 - Jika suatu field kosong, nyatakan belum tersedia; jangan menebak atau mengisi nilai.
 - Anda tidak memiliki akses ke Google Business Profile pemilik, Search Console, analytics, performa website, atau data ranking lokal.
 - Ranking Google Maps tidak diukur. Jangan mengarang posisi, kompetitor, rating, jumlah ulasan, kelengkapan profil, atau hasil pencarian.
-- overallScore dan seluruh metric score tetap skor estimasi heuristik AI, bukan skor terukur. Jangan beri skor seolah-olah kualitas profil aktual sudah diverifikasi.
+- Jangan membuat overallScore atau skor numerik untuk indikator karena tidak ada data aktual yang diverifikasi. Kembalikan nilai placeholder numerik hanya untuk memenuhi format internal; server akan menghapus semua skor sebelum respons dikirim ke pengguna.
 - Pisahkan observasi yang dilaporkan pengguna dari interpretasi dan rekomendasi. Kaitkan rekomendasi hanya pada field yang tersedia; jangan mengasumsikan bahwa link yang diberikan sudah dibuka atau diverifikasi. Jelaskan bahwa rating dan volume ulasan tanpa pembanding kategori/lokasi bukan bukti posisi ranking.
 - Berikan 3-6 indikator dan 3-5 quick wins. Hindari jaminan hasil, angka peningkatan, dan janji ranking.
 - Berikan 3-6 objek diagnoses. Setiap diagnosis wajib memiliki title, evidenceStatus ("input_available" hanya bila ada input relevan; jika tidak "missing"), confidence ("low" atau "medium" saja), severity ("high", "medium", "low"), finding, recommendation, validationStep.
@@ -210,8 +210,17 @@ Aturan wajib:
       console.error("Gemini returned an audit response that failed output validation.");
       return res.status(502).json({ error: "Format laporan audit belum sesuai. Silakan coba lagi sebentar." });
     }
-    return res.status(200).json({
+    const reportWithoutUnverifiedScores = {
       ...auditData,
+      overallScore: null,
+      auditMetrics: (auditData.auditMetrics as Array<Record<string, unknown>>).map((metric) => ({
+        ...metric,
+        score: null,
+        status: "Belum diukur",
+      })),
+    };
+    return res.status(200).json({
+      ...reportWithoutUnverifiedScores,
       dataMode: "ai_estimate",
       scoreType: "heuristic_estimate",
       dataSources: [],
