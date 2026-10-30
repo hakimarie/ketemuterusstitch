@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Menu, X, MessageCircle } from "lucide-react";
+import { MapPin, Menu, X, ArrowRight } from "lucide-react";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -9,7 +9,7 @@ export default function Navbar() {
     setIsMobileMenuOpen(false);
   };
 
-  const navItems = [
+  const openAudit = () => {\n    document.getElementById("ai-auditor")?.scrollIntoView({ behavior: "smooth", block: "start" });\n    setIsMobileMenuOpen(false);\n    window.setTimeout(() => window.dispatchEvent(new Event("ketemuterus:open-audit")), 350);\n  };\n\n  const navItems = [
     { label: "Layanan", id: "services" },
     { label: "How To", id: "how-it-works" },
     { label: "Solusi", id: "portfolio" },
@@ -28,9 +28,7 @@ export default function Navbar() {
           {navItems.map((item) => <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-sm font-medium text-gray-600 transition hover:text-blue-600">{item.label}</button>)}
         </nav>
 
-        <a href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%2C%20saya%20ingin%20konsultasi%20tentang%20bisnis%20lokal." target="_blank" rel="noopener noreferrer" className="hidden items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 md:inline-flex">
-          <MessageCircle className="h-4 w-4" /> Konsultasi WA
-        </a>
+        <button type="button" onClick={openAudit} className="hidden min-h-11 items-center gap-2 rounded-full bg-orange-500 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-200 md:inline-flex">Audit Gratis <ArrowRight className="h-4 w-4" /></button>
 
         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 md:hidden" aria-label={isMobileMenuOpen ? "Tutup menu" : "Buka menu"}>
           {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -41,7 +39,7 @@ export default function Navbar() {
           <nav className="flex flex-col gap-1">
             {navItems.map((item) => <button key={item.id} onClick={() => scrollToSection(item.id)} className="rounded-lg px-3 py-3 text-left text-sm font-medium text-gray-700 hover:bg-gray-50">{item.label}</button>)}
           </nav>
-          <a href="https://wa.me/6281584229797?text=Halo%20KetemuTerus%2C%20saya%20ingin%20konsultasi%20tentang%20bisnis%20lokal." target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-emerald-50"><MessageCircle className="h-4 w-4" /> Konsultasi via WhatsApp</a>
+          <button type="button" onClick={openAudit} className="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-orange-500 px-5 py-3 text-sm font-bold text-white hover:bg-orange-600"><ArrowRight className="h-4 w-4" /> Audit Gratis Sekarang</button>
         </div>
       )}
     </header>
