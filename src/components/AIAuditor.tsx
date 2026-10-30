@@ -226,22 +226,6 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
               </div>
               <p className="text-center text-xs text-slate-500">Data bisa dilengkapi bertahap. Bukti tambahan bersifat opsional.</p>
 
-
-                disabled={loading}
-                className="min-h-12 w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-orange-200/60 active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-orange-200"
-              >
-                {loading ? (
-                  <>
-                    <RefreshCw className="w-5 h-5 animate-spin" />
-                    <span role="status">Sedang menyusun rekomendasi...</span>
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-5 h-5 fill-current" />
-                    <span>Mulai Audit Gratis</span>
-                  </>
-                )}
-              </button>
             </form>
             {error && (
               <div role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
