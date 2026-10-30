@@ -370,9 +370,32 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                     </div>
                   </div>
                 )}
+                {report.publicBusinessLookup && (
+                  <div className="min-w-0 rounded-2xl border border-sky-100 bg-sky-50/60 p-4 text-left space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h4 className="text-sm font-bold text-slate-800">Data direktori publik OpenStreetMap</h4>
+                      <span className="rounded-full border border-sky-200 bg-white px-2.5 py-1 text-[11px] font-bold text-sky-700">
+                        {report.publicBusinessLookup.status === "matched" ? "Nama cocok" : report.publicBusinessLookup.status === "ambiguous_match" ? "Perlu konfirmasi" : report.publicBusinessLookup.status === "no_match" ? "Tidak ditemukan" : "Sumber tidak tersedia"}
+                      </span>
+                    </div>
+                    <p className="text-xs leading-relaxed text-slate-600">{report.publicBusinessLookup.message}</p>
+                    {report.publicBusinessLookup.candidates.map((candidate) => (
+                      <article key={candidate.osmType + "-" + candidate.osmId} className="rounded-xl border border-sky-100 bg-white p-3 space-y-1">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <strong className="text-sm text-slate-800">{candidate.name}</strong>
+                          <span className="text-[10px] font-semibold text-slate-500">{candidate.matchType === "exact_name" ? "Nama persis" : "Nama mirip"}</span>
+                        </div>
+                        <p className="text-xs text-slate-600">{[candidate.category, candidate.address].filter(Boolean).join(" · ") || "Kategori/alamat belum dicatat"}</p>
+                        {candidate.website && <a href={candidate.website} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-blue-700 underline">Website di data OSM</a>}
+                        <a href={candidate.osmUrl} target="_blank" rel="noopener noreferrer" className="block text-xs font-semibold text-blue-700 underline">Lihat objek OpenStreetMap</a>
+                      </article>
+                    ))}
+                    <p className="text-[10px] leading-relaxed text-slate-500">Diperiksa {new Date(report.publicBusinessLookup.checkedAt).toLocaleString("id-ID")} · {report.publicBusinessLookup.attribution}. Data komunitas ini bukan verifikasi Google Business Profile, rating, ulasan, maupun status operasional.</p>
+                  </div>
+                )}
                 <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left">
                   <h4 className="text-sm font-bold text-amber-900">Data Google Maps belum diverifikasi otomatis</h4>
-                  <p className="mt-1 text-xs leading-relaxed text-amber-800">Untuk menghindari billing Google Maps API, sistem tidak mengambil data profil secara otomatis. Tautan dan angka yang dimasukkan di formulir hanya menjadi bukti yang dilaporkan pengguna, bukan verifikasi independen. Buka profil Maps dan periksa kembali sebelum mengambil keputusan.</p>
+                  <p className="mt-1 text-xs leading-relaxed text-amber-800">Sistem tidak mengambil data Google Maps atau Google Business Profile secara otomatis. Direktori OpenStreetMap ditampilkan terpisah sebagai sumber komunitas dan tidak mewakili data Google. Tautan dan angka yang dimasukkan di formulir tetap merupakan bukti dari pengguna, bukan verifikasi independen.</p>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-left space-y-2">
                   <div className="flex items-center gap-2"><Target className="h-4 w-4 text-slate-500" /><h4 className="text-sm font-bold text-slate-800">Pengukuran ranking lokal</h4></div>
