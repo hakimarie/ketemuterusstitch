@@ -1,4 +1,4 @@
-import { MapPin, MessageCircle, Instagram } from "lucide-react";
+import { MapPin, Instagram } from "lucide-react";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -17,7 +17,11 @@ export default function Footer() {
           </div>
           <div className="flex flex-col gap-4 sm:items-end">
             <div className="flex gap-3">
-              <a href="https://wa.me/6281584229797" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="rounded-lg border border-gray-200 p-2 text-gray-500 hover:text-emerald-600"><MessageCircle className="h-4 w-4" /></a>
+              <a href="https://www.tiktok.com/@ketemuterus.biz.id" target="_blank" rel="noopener noreferrer" aria-label="TikTok KetemuTerus" className="rounded-lg border border-gray-200 p-2 text-gray-500 hover:text-gray-900">
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.1V2h-3.36v13.67a2.9 2.9 0 0 1-2.9 2.9 2.9 2.9 0 1 1 2.9-2.9c0-.24-.03-.48-.08-.71V11.5a6.25 6.25 0 1 0 3.44 5.58V9.95a8.16 8.16 0 0 0 4.77 1.53V8.12a4.85 4.85 0 0 1-1-.1Z" />
+                </svg>
+              </a>
               <a href="https://www.instagram.com/babehdigital" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="rounded-lg border border-gray-200 p-2 text-gray-500 hover:text-blue-600"><Instagram className="h-4 w-4" /></a>
             </div>
           </div>
