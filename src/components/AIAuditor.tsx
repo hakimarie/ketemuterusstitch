@@ -17,9 +17,10 @@ export default function AIAuditor() {
   const [error, setError] = useState<string | null>(null);
   const [report, setReport] = useState<AuditReport | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [auditStep, setAuditStep] = useState(0);
 
   useEffect(() => {
-    const openAuditForm = () => setShowForm(true);
+    const openAuditForm = () => { setAuditStep(0); setShowForm(true); };
     window.addEventListener("ketemuterus:open-audit", openAuditForm);
     return () => window.removeEventListener("ketemuterus:open-audit", openAuditForm);
   }, []);
@@ -154,7 +155,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
             <div className="w-full min-w-0 rounded-3xl border border-blue-100 bg-white p-6 text-left shadow-xl shadow-blue-900/5 sm:p-8 lg:w-1/2">
               <div className="mb-5 flex items-center justify-between gap-3"><span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700">GRATIS · 3 LANGKAH</span><span className="text-xs font-medium text-slate-400">± 2 menit</span></div><h3 className="font-display text-2xl font-bold text-slate-900">Kenali peluang bisnis Anda di Google</h3>
               <p className="mt-3 text-sm leading-6 text-slate-600">Ceritakan nama bisnis, jenis usaha, dan lokasinya. Kami susun rekomendasi awal berdasarkan informasi yang Anda berikan.</p>
-              <button type="button" onClick={() => setShowForm(true)} className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-200">
+              <button type="button" onClick={() => { setAuditStep(0); setShowForm(true); }} className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-200">
                 Mulai Audit Gratis <ArrowRight className="h-4 w-4" />
               </button>
               <div className="mt-5 grid grid-cols-3 gap-2 text-center">{["Isi bisnis", "Pilih kategori", "Dapatkan arahan"].map((step, index) => <div key={step} className="rounded-xl bg-slate-50 p-3"><span className="block text-lg font-extrabold text-blue-700">0{index + 1}</span><span className="mt-1 block text-[11px] font-medium text-slate-600">{step}</span></div>)}</div><p className="mt-4 text-xs leading-5 text-slate-500">Rekomendasi awal berbasis AI, bukan pengukuran resmi posisi Google.</p>
@@ -171,57 +172,25 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
             </div>
             
             <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50/70 p-4" aria-live="polite">
-              <div className="mb-2 flex items-center justify-between gap-3"><span className="text-xs font-bold text-blue-900">Progress informasi</span><span className="text-xs font-semibold text-blue-700">{[businessName.trim(), category, location.trim()].filter(Boolean).length}/3 lengkap</span></div>
-              <div className="mb-3 flex gap-1.5" role="progressbar" aria-label="Kelengkapan informasi audit" aria-valuemin={0} aria-valuemax={3} aria-valuenow={[businessName.trim(), category, location.trim()].filter(Boolean).length}>{[businessName.trim(), category, location.trim()].map((value, index) => <span key={index} className={value ? "h-2 flex-1 rounded-full bg-blue-600" : "h-2 flex-1 rounded-full bg-blue-100"} />)}</div>
-              <div className="grid grid-cols-3 gap-2 text-[11px] font-medium text-blue-900"><span>Nama bisnis</span><span>Kategori</span><span>Lokasi</span></div>
-            </div>\n            <form onSubmit={handleSubmit} className="space-y-6 text-left">
-              <div className="space-y-2">
+              <div className="mb-2 flex items-center justify-between gap-3"><span className="text-xs font-bold text-blue-900">Langkah {auditStep+1} dari 3</span><span className="text-xs font-semibold text-blue-700">{Math.round(((auditStep+1)/3)*100)}% selesai</span></div>
+              <div className="mb-3 flex gap-1.5" role="progressbar" aria-label="Tahap formulir audit" aria-valuemin={1} aria-valuemax={3} aria-valuenow={auditStep+1}>{[0,1,2].map((step) => <span key={step} className={step <= auditStep ? "h-2 flex-1 rounded-full bg-blue-600" : "h-2 flex-1 rounded-full bg-blue-100"} />)}</div>
+              <div className="grid grid-cols-3 gap-2 text-[11px] font-semibold text-blue-900"><span className={auditStep===0?"text-blue-700":"text-slate-500"}>1. Bisnis</span><span className={auditStep===1?"text-blue-700":"text-slate-500"}>2. Kategori</span><span className={auditStep===2?"text-blue-700":"text-slate-500"}>3. Lokasi</span></div>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-6 text-left">
+              {auditStep === 0 && <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Nama Bisnis Lokal</label>
-                <div className="relative">
-                  <Search className="w-4 h-4 text-slate-400 absolute left-4.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    required
-                    maxLength={120}
-                    placeholder="Contoh: Kopi Senja, Klinik Gigiku"
-                    value={businessName}
-                    onChange={(e) => setBusinessName(e.target.value)}
-                    className="min-h-12 w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 pl-11 pr-4 text-sm text-slate-800 transition-all outline-none"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
+                <div className="relative"><Search className="w-4 h-4 text-slate-400 absolute left-4.5 top-1/2 -translate-y-1/2" /><input type="text" required maxLength={120} placeholder="Contoh: Kopi Senja, Klinik Gigiku" value={businessName} onChange={(e) => setBusinessName(e.target.value)} className="min-h-12 w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 pl-11 pr-4 text-sm text-slate-800 transition-all outline-none" /></div>
+              </div>}
+              {auditStep === 1 && <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Kategori Bisnis</label>
-                <select
-                  required
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="min-h-12 w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 px-4 text-sm text-slate-700 transition-all outline-none appearance-none"
-                >
-                  <option value="" disabled>Pilih kategori utama...</option>
-                  {categories.map((cat, idx) => (
-                    <option key={idx} value={cat}>{cat}</option>
-                  ))}
+                <select required value={category} onChange={(e) => setCategory(e.target.value)} className="min-h-12 w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 px-4 text-sm text-slate-700 transition-all outline-none appearance-none">
+                  <option value="" disabled>Pilih kategori utama...</option>{categories.map((cat, idx) => <option key={idx} value={cat}>{cat}</option>)}
                 </select>
-              </div>
-
-              <div className="space-y-2">
+              </div>}
+              {auditStep === 2 && <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Lokasi / Kota</label>
-                <div className="relative">
-                  <MapPin className="w-4 h-4 text-slate-400 absolute left-4.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    required
-                    maxLength={120}
-                    placeholder="Contoh: Jakarta Selatan, Bandung"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    className="min-h-12 w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 pl-11 pr-4 text-sm text-slate-800 transition-all outline-none"
-                  />
-                </div>
-              </div>
-
+                <div className="relative"><MapPin className="w-4 h-4 text-slate-400 absolute left-4.5 top-1/2 -translate-y-1/2" /><input type="text" required maxLength={120} placeholder="Contoh: Jakarta Selatan, Bandung" value={location} onChange={(e) => setLocation(e.target.value)} className="min-h-12 w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 pl-11 pr-4 text-sm text-slate-800 transition-all outline-none" /></div>
+              </div>}
               <details className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <summary className="cursor-pointer text-sm font-bold text-slate-700">Tambahkan bukti manual (opsional)</summary>
                 <p className="mt-2 text-xs leading-relaxed text-slate-500">Salin data yang kamu lihat sendiri di Google Maps. Sistem tidak membuka atau memverifikasi tautan ini. Jangan masukkan informasi sensitif.</p>
@@ -251,8 +220,13 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 </div>
               </details>
 
-              <button
-                type="submit"
+              <div className="flex gap-3">
+                {auditStep > 0 && <button type="button" onClick={() => setAuditStep((step) => Math.max(0, step - 1))} className="min-h-12 flex-1 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50">Kembali</button>}
+                {auditStep < 2 ? <button type="button" disabled={(auditStep===0 && !businessName.trim()) || (auditStep===1 && !category)} onClick={() => setAuditStep((step) => Math.min(2, step + 1))} className="min-h-12 flex-1 rounded-xl bg-orange-500 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-orange-200/60 hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-orange-300">Lanjut <ArrowRight className="ml-1 inline h-4 w-4" /></button> : <button type="submit" disabled={loading || !location.trim()} className="min-h-12 flex-1 rounded-xl bg-orange-500 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-orange-200/60 hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-orange-300">{loading ? <><RefreshCw className="mr-2 inline h-4 w-4 animate-spin" />Menyusun rekomendasi...</> : <>Kirim & Mulai Audit <Sparkles className="ml-1 inline h-4 w-4" /></>}</button>}
+              </div>
+              <p className="text-center text-xs text-slate-500">Data bisa dilengkapi bertahap. Bukti tambahan bersifat opsional.</p>
+
+
                 disabled={loading}
                 className="min-h-12 w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-orange-200/60 active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-orange-200"
               >
