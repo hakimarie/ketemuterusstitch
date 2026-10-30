@@ -331,9 +331,9 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                     </div>
                     <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div className="rounded-xl border border-white bg-white/90 p-4">
-                        <span className="block text-xs font-medium text-slate-500">Estimasi visibilitas</span>
-                        <strong className="mt-1 block text-2xl font-extrabold text-slate-900">{report.overallScore}<span className="text-sm font-semibold text-slate-400">/100</span></strong>
-                        <span className="mt-1 block text-[11px] text-slate-500">Skor indikatif AI</span>
+                        <span className="block text-xs font-medium text-slate-500">Skor visibilitas</span>
+                        <strong className="mt-1 block text-2xl font-extrabold text-slate-500">Belum diukur</strong>
+                        <span className="mt-1 block text-[11px] text-slate-500">Menunggu data aktual terverifikasi</span>
                       </div>
                       <div className="rounded-xl border border-white bg-white/90 p-4">
                         <span className="block text-xs font-medium text-slate-500">Prioritas tinggi</span>
