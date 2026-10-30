@@ -112,7 +112,9 @@ export default function AIAuditor() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "Belum diukur":\n        return <span className="text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200 px-2.5 py-1 rounded-full flex items-center gap-1">⚪ Belum diukur</span>;\n      case "Optimal":
+      case "Belum diukur":
+        return <span className="text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200 px-2.5 py-1 rounded-full flex items-center gap-1">⚪ Belum diukur</span>;
+      case "Optimal":
         return <span className="text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100 px-2.5 py-1 rounded-full flex items-center gap-1">🟢 {status}</span>;
       case "Perlu Optimalisasi":
         return <span className="text-[11px] font-bold bg-amber-50 text-amber-600 border border-amber-100 px-2.5 py-1 rounded-full flex items-center gap-1">🟡 {status}</span>;
