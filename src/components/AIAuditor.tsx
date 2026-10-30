@@ -151,13 +151,13 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
           
           {/* Audit entry point */}
           {!showForm && !report && (
-            <div className="w-full min-w-0 rounded-2xl border border-gray-200 bg-white p-5 text-left shadow-sm sm:p-7 lg:w-1/2">
-              <h3 className="font-display text-xl font-semibold text-slate-900">Mulai dari informasi dasar</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-600">Cukup masukkan nama bisnis, kategori, dan lokasi. Anda bisa menambahkan informasi lain jika tersedia.</p>
-              <button type="button" onClick={() => setShowForm(true)} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-primary px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-blue-700">
+            <div className="w-full min-w-0 rounded-3xl border border-blue-100 bg-white p-6 text-left shadow-xl shadow-blue-900/5 sm:p-8 lg:w-1/2">
+              <div className="mb-5 flex items-center justify-between gap-3"><span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700">GRATIS · 3 LANGKAH</span><span className="text-xs font-medium text-slate-400">± 2 menit</span></div><h3 className="font-display text-2xl font-bold text-slate-900">Kenali peluang bisnis Anda di Google</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-600">Ceritakan nama bisnis, jenis usaha, dan lokasinya. Kami susun rekomendasi awal berdasarkan informasi yang Anda berikan.</p>
+              <button type="button" onClick={() => setShowForm(true)} className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-200">
                 Mulai Audit Gratis <ArrowRight className="h-4 w-4" />
               </button>
-              <p className="mt-4 text-xs leading-5 text-slate-500">Hasil berupa rekomendasi awal, bukan pengukuran resmi posisi Google.</p>
+              <div className="mt-5 grid grid-cols-3 gap-2 text-center">{["Isi bisnis", "Pilih kategori", "Dapatkan arahan"].map((step, index) => <div key={step} className="rounded-xl bg-slate-50 p-3"><span className="block text-lg font-extrabold text-blue-700">0{index + 1}</span><span className="mt-1 block text-[11px] font-medium text-slate-600">{step}</span></div>)}</div><p className="mt-4 text-xs leading-5 text-slate-500">Rekomendasi awal berbasis AI, bukan pengukuran resmi posisi Google.</p>
             </div>
           )}
 
@@ -170,7 +170,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
               <button type="button" onClick={() => setShowForm(false)} aria-label="Tutup formulir audit" className="rounded-lg px-3 py-2 text-xl leading-none text-slate-500 hover:bg-slate-100 hover:text-slate-900">×</button>
             </div>
             
-            <form onSubmit={handleSubmit} className="space-y-6 text-left">
+            <div className="mb-6 grid grid-cols-3 gap-2" aria-label="Tiga langkah audit">{["Info bisnis", "Kategori", "Lokasi"].map((step, index) => <div key={step} className="flex items-center gap-2 rounded-lg bg-blue-50 px-2 py-2"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white">{index + 1}</span><span className="text-[11px] font-semibold text-blue-900">{step}</span></div>)}</div>\n            <form onSubmit={handleSubmit} className="space-y-6 text-left">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Nama Bisnis Lokal</label>
                 <div className="relative">
@@ -182,7 +182,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                     placeholder="Contoh: Kopi Senja, Klinik Gigiku"
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
-                    className="w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 pl-11 pr-4 text-sm text-slate-800 transition-all outline-none"
+                    className="min-h-12 w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 pl-11 pr-4 text-sm text-slate-800 transition-all outline-none"
                   />
                 </div>
               </div>
@@ -193,7 +193,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                   required
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 px-4 text-sm text-slate-700 transition-all outline-none appearance-none"
+                  className="min-h-12 w-full bg-slate-50 hover:bg-slate-100/50 focus:bg-white border border-slate-200 focus:border-brand-primary focus:ring-2 focus:ring-blue-500/10 rounded-xl py-3 px-4 text-sm text-slate-700 transition-all outline-none appearance-none"
                 >
                   <option value="" disabled>Pilih kategori utama...</option>
                   {categories.map((cat, idx) => (
@@ -250,7 +250,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-brand-primary hover:bg-blue-600 disabled:bg-blue-300 text-white font-bold py-4 rounded-xl transition-all shadow-xl shadow-blue-200/50 hover:shadow-2xl hover:shadow-blue-200 active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+                className="min-h-12 w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-orange-200/60 active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-4 focus:ring-orange-200"
               >
                 {loading ? (
                   <>
