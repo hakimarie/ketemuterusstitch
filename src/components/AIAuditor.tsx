@@ -395,7 +395,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 )}
                 <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left">
                   <h4 className="text-sm font-bold text-amber-900">Data Google Maps belum diverifikasi otomatis</h4>
-                  <p className="mt-1 text-xs leading-relaxed text-amber-800">Sistem tidak mengambil data Google Maps atau Google Business Profile secara otomatis. Direktori OpenStreetMap ditampilkan terpisah sebagai sumber komunitas dan tidak mewakili data Google. Tautan dan angka yang dimasukkan di formulir tetap merupakan bukti dari pengguna, bukan verifikasi independen.</p>
+                  <p className="mt-1 text-xs leading-relaxed text-amber-800">KetemuTerus belum terhubung langsung dengan Google Maps atau Google Business Profile untuk mengambil dan memverifikasi data bisnis secara otomatis. Untuk menghindari potensi biaya Google Maps Platform API, audit menggunakan informasi yang Anda masukkan sebagai bahan analisis awal. Tautan, rating, jumlah ulasan, dan informasi lainnya belum diverifikasi secara independen oleh sistem; silakan cocokkan kembali melalui profil Google Maps bisnis Anda. Data OpenStreetMap, jika tersedia, ditampilkan terpisah sebagai direktori komunitas dan bukan data Google. Hasil audit ini merupakan rekomendasi awal, bukan pengukuran performa atau ranking Google Maps.</p>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-left space-y-2">
                   <div className="flex items-center gap-2"><Target className="h-4 w-4 text-slate-500" /><h4 className="text-sm font-bold text-slate-800">Pengukuran ranking lokal</h4></div>
