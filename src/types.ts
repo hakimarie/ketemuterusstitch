@@ -30,6 +30,27 @@ export interface AuditReport {
   scoreType?: "heuristic_estimate";
   dataSources?: string[];
   placesLookupStatus?: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "configuration_error" | "provider_error";
+  publicBusinessLookup?: {
+    provider: "OpenStreetMap";
+    status: "matched" | "no_match" | "ambiguous_match" | "provider_error";
+    checkedAt: string;
+    candidates: Array<{
+      name: string;
+      osmType: string;
+      osmId: number;
+      osmUrl: string;
+      category: string | null;
+      address: string | null;
+      website: string | null;
+      phone: string | null;
+      openingHours: string | null;
+      cuisine: string | null;
+      coordinates: { latitude: number; longitude: number } | null;
+      matchType: "exact_name" | "possible_name";
+    }>;
+    attribution: "© OpenStreetMap contributors";
+    message: string;
+  };
   publicData?: {
     placeId: string | null;
     name: string;
