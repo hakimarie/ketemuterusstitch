@@ -9,7 +9,13 @@ export default function Navbar() {
     setIsMobileMenuOpen(false);
   };
 
-  const openAudit = () => {\n    document.getElementById("ai-auditor")?.scrollIntoView({ behavior: "smooth", block: "start" });\n    setIsMobileMenuOpen(false);\n    window.setTimeout(() => window.dispatchEvent(new Event("ketemuterus:open-audit")), 350);\n  };\n\n  const navItems = [
+  const openAudit = () => {
+    document.getElementById("ai-auditor")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setIsMobileMenuOpen(false);
+    window.setTimeout(() => window.dispatchEvent(new Event("ketemuterus:open-audit")), 350);
+  };
+
+  const navItems = [
     { label: "Layanan", id: "services" },
     { label: "How To", id: "how-it-works" },
     { label: "Solusi", id: "portfolio" },
