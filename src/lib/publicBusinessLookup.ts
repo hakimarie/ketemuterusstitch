@@ -120,7 +120,17 @@ export async function lookupPublicBusiness(
   if (cached) cache.delete(cacheKey);
 
   const checkedAt = new Date().toISOString();
-  const base = process.env.OSM_OVERPASS_URL || "https://overpass-api.de/api/interpreter";
+  const base = process.env.OSM_OVERPASS_URL;
+  if (!base) {
+    return {
+      provider: "OpenStreetMap",
+      status: "provider_error",
+      checkedAt,
+      candidates: [],
+      attribution: "© OpenStreetMap contributors",
+      message: "Sumber OpenStreetMap belum dikonfigurasi. Tidak ada permintaan eksternal yang dikirim.",
+    };
+  }
   const namePattern = overpassRegex(businessName.trim());
   const locationPattern = overpassRegex(location.trim());
   const query = [
