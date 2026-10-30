@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
-import { lookupPublicBusiness } from "./publicBusinessLookup";
+import { lookupPublicBusiness } from "./publicBusinessLookup.ts";
 
 const allowedCategories = [
   "Cafe / Kedai Kopi", "Restoran", "Salon Kecantikan", "Klinik Medis / Gigi",
