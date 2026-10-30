@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Search, MapPin, Sparkles, CheckCircle2, ArrowRight, MessageCircle, RefreshCw, Trophy, Target, Zap, Compass, AlertCircle, ClipboardCheck, PhoneCall, TrendingUp } from "lucide-react";
 import { AuditReport } from "../types";
 
-export default function AIAuditor() {
+export default function AIAuditor({ onReady }: { onReady?: () => void }) {
   const [businessName, setBusinessName] = useState("");
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
