@@ -325,7 +325,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                           <ClipboardCheck className="h-5 w-5" />
                           <h4 className="font-bold text-base">Ringkasan untuk pengambilan keputusan</h4>
                         </div>
-                        <p className="mt-2 text-sm leading-relaxed text-slate-600">Mulai dari prioritas yang paling penting. Skor ini adalah estimasi AI, bukan pengukuran posisi Google atau jaminan hasil bisnis.</p>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600">Mulai dari prioritas yang paling penting. Laporan ini merupakan analisis awal berbasis informasi yang tersedia, bukan pengukuran posisi Google atau jaminan hasil bisnis.</p>
                       </div>
                       <a href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("consultation")}`} target="_blank" rel="noopener noreferrer" className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700 sm:w-auto">
                         <MessageCircle className="h-4 w-4" /> Bahas hasil audit <ArrowRight className="h-4 w-4" />
