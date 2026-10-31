@@ -134,7 +134,10 @@ Aturan wajib:
 - Ranking Google Maps tidak diukur. Jangan mengarang posisi, kompetitor, rating, jumlah ulasan, kelengkapan profil, atau hasil pencarian. Jangan menyamakan kandidat OpenStreetMap dengan profil Google Business Profile.
 - Jangan membuat overallScore atau skor numerik untuk indikator karena tidak ada data aktual yang diverifikasi. Kembalikan nilai placeholder numerik hanya untuk memenuhi format internal; server akan menghapus semua skor sebelum respons dikirim ke pengguna.
 - Pisahkan observasi yang dilaporkan pengguna dari interpretasi dan rekomendasi. Kaitkan rekomendasi hanya pada field yang tersedia; jangan mengasumsikan bahwa link yang diberikan sudah dibuka atau diverifikasi. Jelaskan bahwa rating dan volume ulasan tanpa pembanding kategori/lokasi bukan bukti posisi ranking.
-- Berikan 3-6 indikator dan 3-5 quick wins. Hindari jaminan hasil, angka peningkatan, dan janji ranking.
+- Berikan 3-6 indikator dan 3-5 quick wins yang konkret, dapat dilakukan, dan relevan untuk kategori serta lokasi bisnis. Jangan mengisi quick wins dengan permintaan agar pengguna memasukkan data yang tidak diminta form.
+- Jika tidak ada bukti manual, tetap berikan checklist pemeriksaan yang berguna: konsistensi nama/alamat/telepon, kategori dan jam operasional GBP, kelengkapan foto dan layanan, proses meminta ulasan secara etis, serta konsistensi informasi website/direktori. Sajikan sebagai hal yang perlu diperiksa, bukan klaim bahwa bisnis memiliki masalah.
+- Jika bukti rating/ulasan/website tersedia, gunakan angka yang diberikan secara eksplisit sebagai observasi pengguna dan jelaskan batas interpretasinya. Jangan hanya mengulang bahwa data belum diverifikasi.
+- Diagnosis harus berisi tindakan berikutnya yang spesifik. Hindari kalimat refleksi seperti "Anda belum memasukkan..." sebagai satu-satunya isi finding.
 - Berikan 3-6 objek diagnoses. Setiap diagnosis wajib memiliki title, evidenceStatus ("input_available" hanya bila ada input relevan; jika tidak "missing"), confidence ("low" atau "medium" saja), severity ("high", "medium", "low"), finding, recommendation, validationStep.
 - Jangan menulis diagnosis sebagai temuan terverifikasi. Untuk bukti yang tidak tersedia, finding harus menyatakan apa yang belum diketahui, recommendation berupa cara memeriksanya, dan validationStep harus bisa dilakukan pengguna.
 - Jangan memberi confidence "medium" pada klaim faktual tentang profil, website, atau ranking yang belum diperiksa. Severity adalah prioritas tindakan, bukan tingkat kepastian.
@@ -144,7 +147,7 @@ Aturan wajib:
     const ai = new GoogleGenAI({
       apiKey: geminiKey,
       httpOptions: {
-        timeout: 18000,
+        timeout: 12000,
         retryOptions: { attempts: 1 },
         headers: {},
       },
@@ -153,6 +156,7 @@ Aturan wajib:
     let successfulModel: string | null = null;
     const models = ["gemini-3.8-flash", "gemini-3.5-flash-lite"];
     for (const model of models) {
+      for (let attempt = 1; attempt <= 2; attempt += 1) {
       try {
         const response = await ai.models.generateContent({
       model,
@@ -197,22 +201,33 @@ Aturan wajib:
         const status = typeof error === "object" && error !== null && "status" in error
           ? Number((error as { status?: unknown }).status)
           : 0;
-        console.warn(`Gemini ${status || "unknown"} model=${model} attempt=1/1`);
+        console.warn(`Gemini ${status || "unknown"} model=${model} attempt=${attempt}/2`);
         const retryableStatuses = [429, 500, 502, 503, 504];
         const message = error instanceof Error ? error.message : String(error);
         const isTimeout = /timeout|timed out|abort/i.test(message);
-        // Do not repeat the same request: move to the next model to stay within Vercel's function deadline.
-        if (status === 404 || retryableStatuses.includes(status) || isTimeout) {
-          console.warn(`Gemini model=${model} unavailable; trying next configured model.`);
-          continue;
+        if (status === 404) {
+          console.warn(`Gemini model=${model} is unavailable; moving to next configured model.`);
+          break;
+        }
+        if (retryableStatuses.includes(status) || isTimeout) {
+          if (attempt < 2) {
+            const delayMs = 500 * (2 ** (attempt - 1));
+            console.warn(`Retrying Gemini model=${model} after ${delayMs}ms.`);
+            await new Promise((resolve) => setTimeout(resolve, delayMs));
+            continue;
+          }
+          console.warn(`Gemini model=${model} exhausted retries; trying next configured model.`);
+          break;
         }
         throw error;
+      }
+      if (result) break;
       }
       if (result) break;
     }
     if (!result) {
       console.error("Gemini audit failed on all configured model attempts.");
-      return res.status(503).json({ error: "Layanan audit otomatis sedang ramai atau belum tersedia. Kirim nama bisnis Anda lewat WhatsApp dan kami bantu audit manual dalam 1 hari kerja." });
+      return res.status(503).json({ error: "Layanan audit otomatis sedang ramai atau belum tersedia. Kirim nama bisnis Anda lewat WhatsApp dan tim kami akan membantu meninjau kebutuhan audit manual." });
     }
     const auditData: unknown = JSON.parse(result);
     if (!isValidAuditResult(auditData)) {
@@ -240,7 +255,7 @@ Aturan wajib:
       submittedEvidence,
       rankingMeasurement: {
         status: "not_measured",
-        message: "Ranking belum diukur otomatis. Gunakan grid manual di bawah untuk membuka pencarian Google Maps di beberapa titik, lalu catat posisi yang terlihat. Tidak ada Google Maps API berbayar yang dipanggil.",
+        message: "Ranking Google Maps belum diukur. Anda bisa memeriksa hasil pencarian secara manual di beberapa titik lokasi. Laporan ini berisi checklist dan rekomendasi awal, bukan skor atau posisi ranking. Tidak ada Google Maps API berbayar yang dipanggil.",
       },
       ownerDataStatus: "not_connected",
     });
