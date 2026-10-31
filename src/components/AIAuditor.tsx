@@ -130,10 +130,10 @@ export default function AIAuditor() {
 Nama Bisnis: ${report.businessName}
 Kategori: ${report.category}
 Lokasi: ${report.location}
-Skor: belum diukur (data aktual belum terverifikasi)
+Skor: tidak diterbitkan (belum ada pengukuran data aktual)
 Diagnosis prioritas tinggi: ${priorityCount}
 
-Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang sesuai. Saya memahami hasil ini merupakan estimasi AI yang perlu diverifikasi.`;
+Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang sesuai. Saya memahami hasil ini merupakan rekomendasi awal berbantuan AI dan belum diverifikasi dengan data eksternal.`;
     return encodeURIComponent(text);
   };
 
@@ -146,7 +146,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
             Cek kondisi bisnismu di Google
           </h2>
           <p className="text-slate-600 text-base max-w-2xl mx-auto">
-            Isi beberapa informasi dasar untuk mendapat rekomendasi awal. Data Google Maps tidak diperiksa otomatis, jadi gunakan hasilnya sebagai panduan awal.
+            Isi tiga informasi dasar untuk mendapat checklist optimasi lokal dan rekomendasi awal. Data Google Maps dan ranking tidak diukur otomatis; bukti tambahan bersifat opsional.
           </p>
         </div>
 
@@ -156,11 +156,11 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
           {!showForm && !report && (
             <div className="w-full min-w-0 rounded-3xl border border-blue-100 bg-white p-6 text-left shadow-xl shadow-blue-900/5 sm:p-8 lg:w-1/2">
               <div className="mb-5 flex items-center justify-between gap-3"><span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700">GRATIS · 3 LANGKAH</span><span className="text-xs font-medium text-slate-400">± 2 menit</span></div><h3 className="font-display text-2xl font-bold text-slate-900">Kenali peluang bisnis Anda di Google</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-600">Ceritakan nama bisnis, jenis usaha, dan lokasinya. Kami susun rekomendasi awal berdasarkan informasi yang Anda berikan.</p>
+              <p className="mt-3 text-sm leading-6 text-slate-600">Masukkan nama bisnis, kategori, dan lokasi. Anda akan mendapat checklist pemeriksaan dan langkah optimasi awal—tanpa klaim skor atau ranking yang belum diukur.</p>
               <button type="button" onClick={() => { setAuditStep(0); setShowForm(true); }} className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-200">
                 Mulai Audit Gratis <ArrowRight className="h-4 w-4" />
               </button>
-              <div className="mt-5 grid grid-cols-3 gap-2 text-center">{["Isi bisnis", "Pilih kategori", "Dapatkan arahan"].map((step, index) => <div key={step} className="rounded-xl bg-slate-50 p-3"><span className="block text-lg font-extrabold text-blue-700">0{index + 1}</span><span className="mt-1 block text-[11px] font-medium text-slate-600">{step}</span></div>)}</div><p className="mt-4 text-xs leading-5 text-slate-500">Rekomendasi awal berbasis AI, bukan pengukuran resmi posisi Google.</p>
+              <div className="mt-5 grid grid-cols-3 gap-2 text-center">{["Isi bisnis", "Pilih kategori", "Dapatkan arahan"].map((step, index) => <div key={step} className="rounded-xl bg-slate-50 p-3"><span className="block text-lg font-extrabold text-blue-700">0{index + 1}</span><span className="mt-1 block text-[11px] font-medium text-slate-600">{step}</span></div>)}</div><p className="mt-4 text-xs leading-5 text-slate-500">Checklist dan rekomendasi awal, bukan pengukuran skor atau posisi Google.</p>
             </div>
           )}
 
@@ -325,7 +325,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                           <ClipboardCheck className="h-5 w-5" />
                           <h4 className="font-bold text-base">Ringkasan untuk pengambilan keputusan</h4>
                         </div>
-                        <p className="mt-2 text-sm leading-relaxed text-slate-600">Mulai dari prioritas yang paling penting. Skor ini adalah estimasi AI, bukan pengukuran posisi Google atau jaminan hasil bisnis.</p>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600">Mulai dari prioritas yang paling penting. Laporan ini merupakan analisis awal berbasis informasi yang tersedia, bukan pengukuran posisi Google atau jaminan hasil bisnis.</p>
                       </div>
                       <a href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("consultation")}`} target="_blank" rel="noopener noreferrer" className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700 sm:w-auto">
                         <MessageCircle className="h-4 w-4" /> Bahas hasil audit <ArrowRight className="h-4 w-4" />
@@ -370,13 +370,36 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                     </div>
                   </div>
                 )}
+                {report.publicBusinessLookup && (
+                  <div className="min-w-0 rounded-2xl border border-sky-100 bg-sky-50/60 p-4 text-left space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h4 className="text-sm font-bold text-slate-800">Data direktori publik OpenStreetMap</h4>
+                      <span className="rounded-full border border-sky-200 bg-white px-2.5 py-1 text-[11px] font-bold text-sky-700">
+                        {report.publicBusinessLookup.status === "matched" ? "Nama cocok" : report.publicBusinessLookup.status === "ambiguous_match" ? "Perlu konfirmasi" : report.publicBusinessLookup.status === "no_match" ? "Tidak ditemukan" : "Sumber tidak tersedia"}
+                      </span>
+                    </div>
+                    <p className="text-xs leading-relaxed text-slate-600">{report.publicBusinessLookup.message}</p>
+                    {report.publicBusinessLookup.candidates.map((candidate) => (
+                      <article key={candidate.osmType + "-" + candidate.osmId} className="rounded-xl border border-sky-100 bg-white p-3 space-y-1">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <strong className="text-sm text-slate-800">{candidate.name}</strong>
+                          <span className="text-[10px] font-semibold text-slate-500">{candidate.matchType === "exact_name" ? "Nama persis" : "Nama mirip"}</span>
+                        </div>
+                        <p className="text-xs text-slate-600">{[candidate.category, candidate.address].filter(Boolean).join(" · ") || "Kategori/alamat belum dicatat"}</p>
+                        {candidate.website && <a href={candidate.website} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-blue-700 underline">Website di data OSM</a>}
+                        <a href={candidate.osmUrl} target="_blank" rel="noopener noreferrer" className="block text-xs font-semibold text-blue-700 underline">Lihat objek OpenStreetMap</a>
+                      </article>
+                    ))}
+                    <p className="text-[10px] leading-relaxed text-slate-500">Diperiksa {new Date(report.publicBusinessLookup.checkedAt).toLocaleString("id-ID")} · {report.publicBusinessLookup.attribution}. Data komunitas ini bukan verifikasi Google Business Profile, rating, ulasan, maupun status operasional.</p>
+                  </div>
+                )}
                 <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left">
                   <h4 className="text-sm font-bold text-amber-900">Data Google Maps belum diverifikasi otomatis</h4>
-                  <p className="mt-1 text-xs leading-relaxed text-amber-800">Untuk menghindari billing Google Maps API, sistem tidak mengambil data profil secara otomatis. Tautan dan angka yang dimasukkan di formulir hanya menjadi bukti yang dilaporkan pengguna, bukan verifikasi independen. Buka profil Maps dan periksa kembali sebelum mengambil keputusan.</p>
+                  <p className="mt-1 text-xs leading-relaxed text-amber-800">KetemuTerus belum terhubung langsung dengan Google Maps atau Google Business Profile untuk mengambil dan memverifikasi data bisnis secara otomatis. Untuk menghindari potensi biaya Google Maps Platform API, audit menggunakan informasi yang Anda masukkan sebagai bahan analisis awal. Tautan, rating, jumlah ulasan, dan informasi lainnya belum diverifikasi secara independen oleh sistem; silakan cocokkan kembali melalui profil Google Maps bisnis Anda. Data OpenStreetMap, jika tersedia, ditampilkan terpisah sebagai direktori komunitas dan bukan data Google. Hasil audit ini merupakan rekomendasi awal, bukan pengukuran performa atau ranking Google Maps.</p>
                 </div>
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 text-left space-y-2">
                   <div className="flex items-center gap-2"><Target className="h-4 w-4 text-slate-500" /><h4 className="text-sm font-bold text-slate-800">Pengukuran ranking lokal</h4></div>
-                  <p className="text-xs leading-relaxed text-slate-600">{report.rankingMeasurement?.message ?? "Ranking lokal belum diukur. Skor pada laporan ini adalah estimasi AI, bukan posisi hasil Google Maps."}</p>
+                  <p className="text-xs leading-relaxed text-slate-600">{report.rankingMeasurement?.message ?? "Ranking lokal dan skor belum diukur. Laporan ini berisi checklist pemeriksaan dan rekomendasi awal, bukan posisi hasil Google Maps."}</p>
                   <p className="text-[11px] text-slate-500">Data pemilik Google Business Profile dan Search Console: {report.ownerDataStatus === "not_connected" ? "belum terhubung" : "belum diverifikasi"}.</p>
                 </div>
 

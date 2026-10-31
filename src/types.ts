@@ -1,3 +1,6 @@
+import type { PublicBusinessLookup } from "./lib/publicBusinessLookup";
+import type { SelfCheckItem } from "./lib/checklists/types";
+
 export interface AuditMetric {
   name: string;
   score: number | null;
@@ -25,10 +28,13 @@ export interface AuditReport {
   auditMetrics: AuditMetric[];
   quickWins: string[];
   diagnoses: AuditDiagnosis[];
+  selfCheckItems?: SelfCheckItem[];
   strategicAdvice: string;
-  dataMode?: "ai_estimate";
-  scoreType?: "heuristic_estimate";
+  dataMode?: "ai_assisted_unverified" | "template_only";
+  scoreType?: "not_measured";
+  modelUsed?: string | null;
   dataSources?: string[];
+  publicBusinessLookup?: PublicBusinessLookup;
   placesLookupStatus?: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "configuration_error" | "provider_error";
   publicData?: {
     placeId: string | null;
@@ -42,6 +48,10 @@ export interface AuditReport {
     businessStatus: string | null;
     coordinates: { latitude: number; longitude: number } | null;
   } | null;
+  auditReadiness?: {
+    status: "checklist_only" | "user_evidence_unverified";
+    message: string;
+  };
   rankingMeasurement?: { status: "not_measured"; message: string };
   ownerDataStatus?: "not_connected";
   submittedEvidence?: {
