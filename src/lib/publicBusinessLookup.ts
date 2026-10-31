@@ -38,12 +38,12 @@ let lastRequestAt = 0;
 let requestQueue: Promise<void> = Promise.resolve();
 
 function normalize(value: string): string {
-  return value.normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("id-ID").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+  return value.normalize("NFKD").replace(/[\\u0300-\\u036f]/g, "")
+    .toLocaleLowerCase("id-ID").replace(/[^\\p{L}\\p{N}]+/gu, " ").trim();
 }
 
 function overpassRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return value.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\$&");
 }
 
 function firstTag(tags: Record<string, string>, keys: string[]): string | null {
@@ -63,14 +63,10 @@ function toCandidate(element: OverpassElement, businessName: string): PublicBusi
   const lat = element.lat ?? element.center?.lat;
   const lon = element.lon ?? element.center?.lon;
   const addressParts = [
-    tags["addr:street"],
-    tags["addr:housenumber"],
-    tags["addr:suburb"],
-    tags["addr:city"],
-    tags["addr:postcode"],
+    tags["addr:street"], tags["addr:housenumber"], tags["addr:suburb"],
+    tags["addr:city"], tags["addr:postcode"],
   ].filter(Boolean);
-  const normalizedName = normalize(tags.name);
-  const exactName = normalizedName === normalize(businessName);
+  const exactName = normalize(tags.name) === normalize(businessName);
 
   return {
     name: tags.name.slice(0, 160),
@@ -84,8 +80,7 @@ function toCandidate(element: OverpassElement, businessName: string): PublicBusi
     openingHours: firstTag(tags, ["opening_hours"]),
     cuisine: firstTag(tags, ["cuisine"]),
     coordinates: typeof lat === "number" && typeof lon === "number"
-      ? { latitude: lat, longitude: lon }
-      : null,
+      ? { latitude: lat, longitude: lon } : null,
     matchType: exactName ? "exact_name" : "possible_name",
   };
 }
@@ -95,9 +90,7 @@ function safeWebsite(value: string | null): string | null {
   try {
     const url = new URL(value.startsWith("http") ? value : `https://${value}`);
     return url.protocol === "http:" || url.protocol === "https:" ? url.toString() : null;
-  } catch {
-    return null;
-  }
+  } catch { return null; }
 }
 
 async function waitForSharedInstanceThrottle(): Promise<void> {
@@ -113,6 +106,7 @@ async function waitForSharedInstanceThrottle(): Promise<void> {
 export async function lookupPublicBusiness(
   businessName: string,
   location: string,
+  options: { timeoutMs?: number } = {},
 ): Promise<PublicBusinessLookup> {
   const cacheKey = `${normalize(businessName)}|${normalize(location)}`;
   const cached = cache.get(cacheKey);
@@ -123,14 +117,15 @@ export async function lookupPublicBusiness(
   const base = process.env.OSM_OVERPASS_URL;
   if (!base) {
     return {
-      provider: "OpenStreetMap",
-      status: "provider_error",
-      checkedAt,
-      candidates: [],
+      provider: "OpenStreetMap", status: "provider_error", checkedAt, candidates: [],
       attribution: "© OpenStreetMap contributors",
       message: "Sumber OpenStreetMap belum dikonfigurasi. Tidak ada permintaan eksternal yang dikirim.",
     };
   }
+
+  const timeoutMs = Math.max(1, options.timeoutMs ?? 18000);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
   const namePattern = overpassRegex(businessName.trim());
   const locationPattern = overpassRegex(location.trim());
   const query = [
@@ -138,31 +133,23 @@ export async function lookupPublicBusiness(
     `area["name"~${JSON.stringify(locationPattern)},i]["boundary"="administrative"]->.searchArea;`,
     `(nwr(area.searchArea)["name"~${JSON.stringify(namePattern)},i];);`,
     "out center tags 30;",
-  ].join("\n");
+  ].join("\\n");
 
   try {
     await waitForSharedInstanceThrottle();
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 18000);
-    let response: Response;
-    try {
-      response = await fetch(base, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-          "User-Agent": "KetemuTerusAudit/1.0 (+https://ketemuterus.biz.id)",
-          "Accept": "application/json",
-        },
-        body: new URLSearchParams({ data: query }),
-        signal: controller.signal,
-      });
-    } finally {
-      clearTimeout(timeout);
-    }
+    if (controller.signal.aborted) throw new Error("OpenStreetMap lookup timed out");
+    const response = await fetch(base, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "User-Agent": "KetemuTerusAudit/1.0 (+https://ketemuterus.biz.id)",
+        "Accept": "application/json",
+      },
+      body: new URLSearchParams({ data: query }),
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(`OpenStreetMap provider returned HTTP ${response.status}`);
 
-    if (!response.ok) {
-      throw new Error(`OpenStreetMap provider returned HTTP ${response.status}`);
-    }
     const payload: unknown = await response.json();
     if (typeof payload !== "object" || payload === null || !("elements" in payload) ||
         !Array.isArray((payload as { elements?: unknown }).elements)) {
@@ -176,15 +163,9 @@ export async function lookupPublicBusiness(
       .slice(0, 5);
     const exactCandidates = candidates.filter((candidate) => candidate.matchType === "exact_name");
     const status: PublicBusinessLookup["status"] = exactCandidates.length === 1
-      ? "matched"
-      : exactCandidates.length > 1 || candidates.length > 0
-        ? "ambiguous_match"
-        : "no_match";
+      ? "matched" : exactCandidates.length > 1 || candidates.length > 0 ? "ambiguous_match" : "no_match";
     const result: PublicBusinessLookup = {
-      provider: "OpenStreetMap",
-      status,
-      checkedAt,
-      candidates,
+      provider: "OpenStreetMap", status, checkedAt, candidates,
       attribution: "© OpenStreetMap contributors",
       message: status === "matched"
         ? "Satu entri dengan nama persis ditemukan di data OpenStreetMap. Entri komunitas ini belum membuktikan bahwa bisnis masih aktif atau bahwa data Google Business Profile sama."
@@ -201,12 +182,11 @@ export async function lookupPublicBusiness(
   } catch (error) {
     console.warn("OpenStreetMap public business lookup failed:", error);
     return {
-      provider: "OpenStreetMap",
-      status: "provider_error",
-      checkedAt,
-      candidates: [],
+      provider: "OpenStreetMap", status: "provider_error", checkedAt, candidates: [],
       attribution: "© OpenStreetMap contributors",
-      message: "Sumber data publik sedang tidak tersedia. Hasil audit dilanjutkan tanpa data bisnis eksternal.",
+      message: "Sumber data publik melewati batas waktu atau sedang tidak tersedia. Hasil audit dilanjutkan tanpa data bisnis eksternal.",
     };
+  } finally {
+    clearTimeout(timeout);
   }
 }
