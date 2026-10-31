@@ -130,7 +130,7 @@ export default function AIAuditor() {
 Nama Bisnis: ${report.businessName}
 Kategori: ${report.category}
 Lokasi: ${report.location}
-Skor: belum diukur (data aktual belum terverifikasi)
+Skor: tidak diterbitkan (belum ada pengukuran data aktual)
 Diagnosis prioritas tinggi: ${priorityCount}
 
 Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang sesuai. Saya memahami hasil ini merupakan rekomendasi awal berbantuan AI dan belum diverifikasi dengan data eksternal.`;
