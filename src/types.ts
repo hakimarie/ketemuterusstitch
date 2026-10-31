@@ -28,8 +28,9 @@ export interface AuditReport {
   quickWins: string[];
   diagnoses: AuditDiagnosis[];
   strategicAdvice: string;
-  dataMode?: "ai_estimate";
-  scoreType?: "heuristic_estimate";
+  dataMode?: "ai_assisted_unverified";
+  scoreType?: "not_measured";
+  modelUsed?: string | null;
   dataSources?: string[];
   publicBusinessLookup?: PublicBusinessLookup;
   placesLookupStatus?: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "configuration_error" | "provider_error";
