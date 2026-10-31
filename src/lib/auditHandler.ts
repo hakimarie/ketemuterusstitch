@@ -150,6 +150,7 @@ Aturan wajib:
       },
     });
     let result: string | undefined;
+    let successfulModel: string | null = null;
     const models = ["gemini-3.8-flash", "gemini-3.5-flash-lite"];
     for (const model of models) {
       try {
@@ -185,6 +186,12 @@ Aturan wajib:
         },
         });
         result = response.text?.trim();
+        if (!result) {
+          console.warn(`Gemini model=${model} returned an empty response; trying next configured model.`);
+          continue;
+        }
+        successfulModel = model;
+        console.info(`Gemini audit completed using model=${model}`);
         break;
       } catch (error) {
         const status = typeof error === "object" && error !== null && "status" in error
@@ -223,8 +230,9 @@ Aturan wajib:
     };
     return res.status(200).json({
       ...reportWithoutUnverifiedScores,
-      dataMode: "ai_estimate",
-      scoreType: "heuristic_estimate",
+      dataMode: "ai_assisted_unverified",
+      scoreType: "not_measured",
+      modelUsed: successfulModel,
       dataSources: publicBusinessLookup.candidates.length > 0 ? ["OpenStreetMap"] : [],
       publicBusinessLookup,
       placesLookupStatus: placesStatus,
