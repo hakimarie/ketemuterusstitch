@@ -111,7 +111,7 @@ export default async function handleAudit(req: any, res: any) {
     attribution: "© OpenStreetMap contributors" as const,
     message: "Pencarian OpenStreetMap melewati batas waktu 3 detik atau sedang tidak tersedia. Checklist tetap dibuat tanpa data eksternal.",
   };
-  let publicBusinessLookup = emptyLookup;
+  let publicBusinessLookup: Awaited<ReturnType<typeof lookupPublicBusiness>> = emptyLookup;
   try {
     publicBusinessLookup = await lookupPublicBusiness(businessName.trim(), location.trim(), { timeoutMs: 3000 });
   } catch (error) {
