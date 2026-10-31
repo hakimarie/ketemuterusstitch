@@ -39,7 +39,7 @@ let requestQueue: Promise<void> = Promise.resolve();
 
 function normalize(value: string): string {
   return value.normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("id-ID").replace(/[^\\p{L}\\p{N}]+/gu, " ").trim();
+    .toLocaleLowerCase("id-ID").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 }
 
 function overpassRegex(value: string): string {
