@@ -38,12 +38,12 @@ let lastRequestAt = 0;
 let requestQueue: Promise<void> = Promise.resolve();
 
 function normalize(value: string): string {
-  return value.normalize("NFKD").replace(/[\\u0300-\\u036f]/g, "")
+  return value.normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
     .toLocaleLowerCase("id-ID").replace(/[^\\p{L}\\p{N}]+/gu, " ").trim();
 }
 
 function overpassRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\$&");
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function firstTag(tags: Record<string, string>, keys: string[]): string | null {
@@ -133,7 +133,7 @@ export async function lookupPublicBusiness(
     `area["name"~${JSON.stringify(locationPattern)},i]["boundary"="administrative"]->.searchArea;`,
     `(nwr(area.searchArea)["name"~${JSON.stringify(namePattern)},i];);`,
     "out center tags 30;",
-  ].join("\\n");
+  ].join("\n");
 
   try {
     await waitForSharedInstanceThrottle();
