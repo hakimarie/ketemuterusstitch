@@ -1,5 +1,5 @@
-import { cafeChecklist } from "./cafe";
-import { genericChecklist } from "./generic";
+import { cafeChecklist } from "./cafe.js";
+import { genericChecklist } from "./generic.js";
 import type { ChecklistTemplate } from "./types";
 
 const categoryAliases: Array<{ aliases: string[]; template: ChecklistTemplate }> = [
