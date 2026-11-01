@@ -1,3 +1,14 @@
+import type { PublicBusinessLookup } from "./lib/publicBusinessLookup";
+import type { SelfCheckItem } from "./lib/checklists/types";
+
+export interface QuickWin {
+  id: string;
+  title: string;
+  description: string;
+  priority: "high" | "medium" | "low";
+  estimatedTime: string;
+}
+
 export interface AuditMetric {
   name: string;
   score: number | null;
@@ -15,21 +26,55 @@ export interface AuditDiagnosis {
   validationStep: string;
 }
 
+export interface AuditNextStep {
+  id: string;
+  title: string;
+  priority: "high" | "medium" | "low";
+  action: string;
+  estimatedTime: string;
+}
+
+export interface AuditNextSteps {
+  topPriority: AuditNextStep | null;
+  items: AuditNextStep[];
+  whatsappCta: {
+    intent: "consultation";
+    label: string;
+    context: string;
+  } | null;
+}
+
+export interface OptionalDataPrompt {
+  title: string;
+  message: string;
+  fields: Array<{
+    key: string;
+    label: string;
+    reason: string;
+  }>;
+}
+
 export interface AuditReport {
   businessName: string;
   category: string;
   location: string;
-  overallScore: number | null;
   statusGoogleMaps: string;
   statusGoogleSearch: string;
-  auditMetrics: AuditMetric[];
-  quickWins: string[];
-  diagnoses: AuditDiagnosis[];
+  quickWins: QuickWin[] | string[];
+  // Temporary compatibility fields returned only when INCLUDE_LEGACY_FIELDS=true.
+  overallScore?: null;
+  auditMetrics?: AuditMetric[];
+  diagnoses?: AuditDiagnosis[];
+  selfCheckItems?: SelfCheckItem[];
+  nextSteps?: AuditNextSteps;
+  optionalDataPrompt?: OptionalDataPrompt | null;
   strategicAdvice: string;
-  dataMode?: "ai_estimate";
-  scoreType?: "heuristic_estimate";
+  dataMode?: "ai_assisted_unverified" | "template_only";
+  scoreType?: "not_measured";
+  modelUsed?: string | null;
   dataSources?: string[];
-  placesLookupStatus?: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "configuration_error" | "provider_error";
+  publicBusinessLookup?: PublicBusinessLookup;
+  placesLookupStatus?: PublicBusinessLookup["status"] | "configuration_error";
   publicData?: {
     placeId: string | null;
     name: string;
@@ -42,6 +87,10 @@ export interface AuditReport {
     businessStatus: string | null;
     coordinates: { latitude: number; longitude: number } | null;
   } | null;
+  auditReadiness?: {
+    status: "checklist_only" | "user_evidence_unverified";
+    message: string;
+  };
   rankingMeasurement?: { status: "not_measured"; message: string };
   ownerDataStatus?: "not_connected";
   submittedEvidence?: {
@@ -50,7 +99,6 @@ export interface AuditReport {
     observedReviewCount: number | null;
     websiteUrl: string | null;
     recentReviews30d: number | null;
-    verificationStatus: "user_submitted_unverified";
   };
 }
 
