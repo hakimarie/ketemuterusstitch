@@ -60,7 +60,11 @@ export interface AuditReport {
   location: string;
   statusGoogleMaps: string;
   statusGoogleSearch: string;
-  quickWins: QuickWin[];
+  quickWins: QuickWin[] | string[];
+  // Temporary compatibility fields returned only when INCLUDE_LEGACY_FIELDS=true.
+  overallScore?: null;
+  auditMetrics?: AuditMetric[];
+  diagnoses?: AuditDiagnosis[];
   selfCheckItems?: SelfCheckItem[];
   nextSteps?: AuditNextSteps;
   optionalDataPrompt?: OptionalDataPrompt | null;
@@ -70,7 +74,7 @@ export interface AuditReport {
   modelUsed?: string | null;
   dataSources?: string[];
   publicBusinessLookup?: PublicBusinessLookup;
-  placesLookupStatus?: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "configuration_error" | "provider_error";
+  placesLookupStatus?: PublicBusinessLookup["status"] | "configuration_error";
   publicData?: {
     placeId: string | null;
     name: string;
