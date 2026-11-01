@@ -44,8 +44,9 @@ function normalize(value: string): string {
 }
 
 function overpassRegex(value: string): string {
+  const specialCharacters = "\\.^$|?*+()[]{}";
   return value.split("").map((char) =>
-    "\\\\.^$|?*+()[]{}".includes(char) ? `\\\\${char}` : char
+    specialCharacters.includes(char) ? `\\${char}` : char
   ).join("");
 }
 
