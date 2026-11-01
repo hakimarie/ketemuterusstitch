@@ -15,7 +15,7 @@ export type PublicBusinessCandidate = {
 
 export type PublicBusinessLookup = {
   provider: "OpenStreetMap";
-  status: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "provider_error";
+  status: "matched" | "no_match" | "ambiguous_match" | "disabled" | "not_configured" | "provider_error";
   checkedAt: string;
   candidates: PublicBusinessCandidate[];
   attribution: "© OpenStreetMap contributors";
