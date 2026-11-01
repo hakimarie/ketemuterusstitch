@@ -294,7 +294,7 @@ export async function lookupPublicBusiness(
   const locationPattern = overpassRegex(location.trim());
   const query = [
     "[out:json][timeout:15];",
-    )},i]["boundary"="administrative"]->.searchArea;`,
+    `area["name"~${JSON.stringify("^" + locationPattern + "$")},i]["boundary"="administrative"]->.searchArea;`,
     `(nwr(area.searchArea)["name"~${JSON.stringify(namePattern)},i];);`,
     "out center tags 30;",
   ].join("\n");
