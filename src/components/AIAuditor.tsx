@@ -125,7 +125,7 @@ export default function AIAuditor() {
 
   const getWhatsAppMessage = (intent: "consultation" | "roadmap" = "consultation") => {
     if (!report) return "";
-    const priorityCount = report.diagnoses.filter((item) => item.severity === "high").length;
+    const priorityCount = (report.diagnoses ?? []).filter((item) => item.severity === "high").length;
     const text = `Halo KetemuTerus, saya ingin ${intent === "roadmap" ? "meminta roadmap optimasi 30 hari" : "berkonsultasi tentang hasil audit"} untuk bisnis saya.
 Nama Bisnis: ${report.businessName}
 Kategori: ${report.category}
