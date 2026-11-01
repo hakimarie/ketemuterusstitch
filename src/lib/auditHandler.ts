@@ -95,6 +95,92 @@ function createLegacyMetrics(items: ReturnType<typeof getChecklistForCategory>["
   }));
 }
 
+type NextStepItem = {
+  id: string;
+  title: string;
+  priority: "high" | "medium" | "low";
+  action: string;
+  estimatedTime: string;
+};
+
+function deriveNextSteps(items: ReturnType<typeof getChecklistForCategory>["items"]) {
+  const priorityOrder = { high: 0, medium: 1, low: 2 } as const;
+  const ordered = [...items].sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+  const steps: NextStepItem[] = ordered.slice(0, 3).map((item) => ({
+    id: item.id,
+    title: item.title,
+    priority: item.priority,
+    action: item.whatToCheck,
+    estimatedTime: item.estimatedTime,
+  }));
+  const topPriority = steps[0] ?? null;
+
+  return {
+    topPriority,
+    items: steps,
+    whatsappCta: topPriority
+      ? {
+          intent: "consultation" as const,
+          label: "Konsultasikan prioritas utama",
+          context: `Saya ingin membahas langkah “${topPriority.title}” untuk bisnis saya. Langkah awal yang disarankan: ${topPriority.action}`,
+        }
+      : null,
+  };
+}
+
+function deriveOptionalDataPrompt(evidence: {
+  mapsProfileUrl: string | null;
+  observedRating: number | null;
+  observedReviewCount: number | null;
+  websiteUrl: string | null;
+  recentReviews30d: number | null;
+}) {
+  const fields = [
+    {
+      key: "mapsProfileUrl",
+      label: "Tautan profil Google Maps",
+      reason: "Membantu mengidentifikasi profil yang perlu diperiksa secara manual.",
+      provided: Boolean(evidence.mapsProfileUrl),
+    },
+    {
+      key: "observedRating",
+      label: "Rating yang terlihat di Google Maps",
+      reason: "Memberi konteks rating yang Anda amati sendiri; belum diverifikasi sistem.",
+      provided: evidence.observedRating !== null,
+    },
+    {
+      key: "observedReviewCount",
+      label: "Jumlah ulasan yang terlihat",
+      reason: "Memberi konteks jumlah ulasan yang Anda amati sendiri; belum diverifikasi sistem.",
+      provided: evidence.observedReviewCount !== null,
+    },
+    {
+      key: "recentReviews30d",
+      label: "Jumlah ulasan dalam 30 hari terakhir",
+      reason: "Membantu menilai aktivitas ulasan berdasarkan pengamatan manual.",
+      provided: evidence.recentReviews30d !== null,
+    },
+    {
+      key: "websiteUrl",
+      label: "Website resmi bisnis",
+      reason: "Memungkinkan pemeriksaan lanjutan terhadap konsistensi informasi bisnis.",
+      provided: Boolean(evidence.websiteUrl),
+    },
+  ];
+  const missingFields = fields
+    .filter((field) => !field.provided)
+    .map(({ key, label, reason }) => ({ key, label, reason }));
+
+  if (missingFields.length === 0) return null;
+
+  return {
+    title: "Lengkapi data opsional untuk pemeriksaan lanjutan",
+    message: "Jika tersedia, tambahkan informasi berikut. Semua data tetap dianggap sebagai input pengguna dan belum diverifikasi secara independen.",
+    fields: missingFields,
+    verificationStatus: "user_submitted_unverified" as const,
+  };
+}
+
 export default async function handleAudit(req: any, res: any) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -181,6 +267,8 @@ export default async function handleAudit(req: any, res: any) {
     quickWins,
     diagnoses,
     selfCheckItems,
+    nextSteps: deriveNextSteps(selfCheckItems),
+    optionalDataPrompt: deriveOptionalDataPrompt(submittedEvidence),
     strategicAdvice: hasSubmittedEvidence
       ? "Gunakan data yang Anda masukkan sebagai petunjuk awal untuk pemeriksaan manual. Data tersebut belum diverifikasi independen; cocokkan langsung dengan profil dan kanal resmi bisnis sebelum mengambil keputusan."
       : "Mulai dari checklist pemeriksaan di bawah. Setiap poin adalah hal yang perlu dicek, bukan klaim bahwa profil bisnis Anda bermasalah. Audit lebih mendalam memerlukan data profil dan bukti yang dapat diverifikasi.",
