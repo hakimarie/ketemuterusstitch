@@ -1,6 +1,14 @@
 import type { PublicBusinessLookup } from "./lib/publicBusinessLookup";
 import type { SelfCheckItem } from "./lib/checklists/types";
 
+export interface QuickWin {
+  id: string;
+  title: string;
+  description: string;
+  priority: "high" | "medium" | "low";
+  estimatedTime: string;
+}
+
 export interface AuditMetric {
   name: string;
   score: number | null;
@@ -44,19 +52,15 @@ export interface OptionalDataPrompt {
     label: string;
     reason: string;
   }>;
-  verificationStatus: "user_submitted_unverified";
 }
 
 export interface AuditReport {
   businessName: string;
   category: string;
   location: string;
-  overallScore: number | null;
   statusGoogleMaps: string;
   statusGoogleSearch: string;
-  auditMetrics: AuditMetric[];
-  quickWins: string[];
-  diagnoses: AuditDiagnosis[];
+  quickWins: QuickWin[];
   selfCheckItems?: SelfCheckItem[];
   nextSteps?: AuditNextSteps;
   optionalDataPrompt?: OptionalDataPrompt | null;
@@ -91,7 +95,6 @@ export interface AuditReport {
     observedReviewCount: number | null;
     websiteUrl: string | null;
     recentReviews30d: number | null;
-    verificationStatus: "user_submitted_unverified";
   };
 }
 
