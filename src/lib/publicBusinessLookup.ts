@@ -15,7 +15,7 @@ export type PublicBusinessCandidate = {
 
 export type PublicBusinessLookup = {
   provider: "OpenStreetMap";
-  status: "matched" | "no_match" | "ambiguous_match" | "provider_error";
+  status: "matched" | "no_match" | "ambiguous_match" | "not_configured" | "provider_error";
   checkedAt: string;
   candidates: PublicBusinessCandidate[];
   attribution: "© OpenStreetMap contributors";
@@ -129,7 +129,7 @@ export async function lookupPublicBusiness(
   const base = process.env.OSM_OVERPASS_URL;
   if (!base) {
     return {
-      provider: "OpenStreetMap", status: "provider_error", checkedAt, candidates: [],
+      provider: "OpenStreetMap", status: "not_configured", checkedAt, candidates: [],
       attribution: "© OpenStreetMap contributors",
       message: "Sumber OpenStreetMap belum dikonfigurasi. Tidak ada permintaan eksternal yang dikirim.",
     };
