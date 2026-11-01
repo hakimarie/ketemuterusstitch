@@ -338,9 +338,9 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                         <span className="mt-1 block text-[11px] text-slate-500">Menunggu data aktual terverifikasi</span>
                       </div>
                       <div className="rounded-xl border border-white bg-white/90 p-4">
-                        <span className="block text-xs font-medium text-slate-500">Prioritas tinggi</span>
+                        <span className="block text-xs font-medium text-slate-500">Poin untuk ditinjau</span>
                         <strong className="mt-1 block text-2xl font-extrabold text-rose-600">{(report.diagnoses ?? []).filter((item) => item.severity === "high").length}</strong>
-                        <span className="mt-1 block text-[11px] text-slate-500">Diagnosis yang perlu ditinjau</span>
+                        <span className="mt-1 block text-[11px] text-slate-500">Checklist prioritas, bukan temuan terverifikasi</span>
                       </div>
                       <div className="rounded-xl border border-white bg-white/90 p-4">
                         <span className="block text-xs font-medium text-slate-500">Langkah awal</span>
@@ -375,7 +375,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <h4 className="text-sm font-bold text-slate-800">Data direktori publik OpenStreetMap</h4>
                       <span className="rounded-full border border-sky-200 bg-white px-2.5 py-1 text-[11px] font-bold text-sky-700">
-                        {report.publicBusinessLookup.status === "matched" ? "Nama cocok" : report.publicBusinessLookup.status === "ambiguous_match" ? "Perlu konfirmasi" : report.publicBusinessLookup.status === "no_match" ? "Tidak ditemukan" : "Sumber tidak tersedia"}
+                        {report.publicBusinessLookup.status === "matched" ? "Nama cocok" : report.publicBusinessLookup.status === "ambiguous_match" ? "Perlu konfirmasi" : report.publicBusinessLookup.status === "no_match" ? "Tidak ditemukan" : report.publicBusinessLookup.status === "disabled" ? "Belum diaktifkan" : report.publicBusinessLookup.status === "not_configured" ? "Belum dikonfigurasi" : report.publicBusinessLookup.status === "provider_error" ? "Sumber bermasalah" : "Status tidak diketahui"}
                       </span>
                     </div>
                     <p className="text-xs leading-relaxed text-slate-600">{report.publicBusinessLookup.message}</p>
@@ -426,8 +426,8 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 {/* Evidence-grounded diagnoses */}
                 <div className="space-y-4 text-left">
                   <div>
-                    <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Diagnosis berbasis bukti</h4>
-                    <p className="mt-1 text-xs text-slate-500">Pisahkan input, hipotesis, dan langkah verifikasi. Tingkat keyakinan dibatasi karena data belum diverifikasi otomatis.</p>
+                    <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Checklist pemeriksaan dan hipotesis awal</h4>
+                    <p className="mt-1 text-xs text-slate-500">Bagian ini berisi panduan pemeriksaan awal, bukan diagnosis lapangan. Cocokkan setiap poin dengan kondisi bisnis dan bukti aktual.</p>
                   </div>
                   <div className="grid grid-cols-1 gap-3">
                     {(report.diagnoses ?? []).map((diagnosis, idx) => (
@@ -465,7 +465,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
 
                 {/* Metrics Table / Grid */}
                 <div className="space-y-4 text-left">
-                  <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Performa Indikator Utama</h4>
+                  <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Indikator yang perlu diperiksa</h4>
                   <div className="space-y-3.5">
                     {(report.auditMetrics ?? []).map((metric, idx) => (
                       <div
