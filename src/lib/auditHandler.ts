@@ -2,6 +2,44 @@ import { lookupPublicBusiness } from "./publicBusinessLookup.js";
 import { getChecklistForCategory } from "./checklists/index.js";
 import type { AuditDiagnosis, AuditMetric } from "../types.js";
 
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 10;
+const auditRateLimits = new Map<string, { count: number; resetAt: number }>();
+
+function getClientKey(req: any): string {
+  const forwarded = req.headers?.["x-forwarded-for"];
+  const candidate = Array.isArray(forwarded) ? forwarded[0] : forwarded?.split(",")[0];
+  const ip = typeof candidate === "string" ? candidate.trim().slice(0, 100) : "";
+  return ip || req.socket?.remoteAddress || "unknown";
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function checkRateLimit(key: string): boolean {
+  const now = Date.now();
+  const current = auditRateLimits.get(key);
+  if (!current || current.resetAt <= now) {
+    auditRateLimits.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+  } else if (current.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return false;
+  } else {
+    current.count += 1;
+  }
+  if (auditRateLimits.size > 2000) {
+    for (const [entryKey, entry] of auditRateLimits) {
+      if (entry.resetAt <= now) auditRateLimits.delete(entryKey);
+    }
+    while (auditRateLimits.size > 2000) {
+      const oldestKey = auditRateLimits.keys().next().value;
+      if (!oldestKey) break;
+      auditRateLimits.delete(oldestKey);
+    }
+  }
+  return true;
+}
+
 const allowedCategories = [
   "Cafe / Kedai Kopi", "Restoran", "Salon Kecantikan", "Klinik Medis / Gigi",
   "Gym / Pusat Kebugaran", "Laundry / Binatu", "Bengkel Otomotif",
@@ -63,7 +101,15 @@ export default async function handleAudit(req: any, res: any) {
     return res.status(405).json({ error: "Metode permintaan tidak didukung." });
   }
 
-  const body = req.body ?? {};
+  if (!checkRateLimit(getClientKey(req))) {
+    res.setHeader("Retry-After", "900");
+    return res.status(429).json({ error: "Batas permintaan audit tercapai. Silakan coba lagi dalam 15 menit." });
+  }
+
+  const body = req.body;
+  if (!isRecord(body)) {
+    return res.status(400).json({ error: "Format data permintaan tidak valid." });
+  }
   const { businessName, category, location } = body;
   const mapsProfileUrl = body.mapsProfileUrl ?? "";
   const observedRating = body.observedRating === "" || body.observedRating === undefined || body.observedRating === null ? null : Number(body.observedRating);
