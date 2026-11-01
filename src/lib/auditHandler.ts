@@ -222,7 +222,6 @@ export default async function handleAudit(req: any, res: any) {
     observedReviewCount,
     websiteUrl: safeWebsiteUrl,
     recentReviews30d,
-    verificationStatus: "user_submitted_unverified" as const,
   };
 
   // Basic audit is deterministic and does not depend on Gemini or a paid Google API.
@@ -235,7 +234,7 @@ export default async function handleAudit(req: any, res: any) {
   let publicBusinessLookup: Awaited<ReturnType<typeof lookupPublicBusiness>>;
   if (process.env.ENABLE_PUBLIC_BUSINESS_LOOKUP !== "true") {
     publicBusinessLookup = {
-      provider: "OpenStreetMap", status: "not_configured", checkedAt: new Date().toISOString(), candidates: [],
+      provider: "OpenStreetMap", status: "disabled", checkedAt: new Date().toISOString(), candidates: [],
       attribution: "© OpenStreetMap contributors",
       message: "Pencarian direktori publik belum diaktifkan. Checklist tetap dibuat tanpa data eksternal.",
     };
@@ -258,6 +257,15 @@ export default async function handleAudit(req: any, res: any) {
     submittedEvidence.recentReviews30d !== null
   );
 
+  const legacyFieldsEnabled = process.env.INCLUDE_LEGACY_FIELDS === "true";
+  const legacyFields = legacyFieldsEnabled ? {
+    overallScore: null,
+    auditMetrics: createLegacyMetrics(selfCheckItems),
+    diagnoses: createLegacyDiagnoses(selfCheckItems),
+    quickWins: selfCheckItems.filter((item) => item.priority === "high").slice(0, 3)
+      .map((item) => `${item.title}: ${item.whatToCheck}`),
+  } : {};
+
   return res.status(200).json({
     businessName: businessName.trim(),
     category,
@@ -265,6 +273,7 @@ export default async function handleAudit(req: any, res: any) {
     statusGoogleMaps: "Profil Google Business Profile belum diverifikasi oleh sistem.",
     statusGoogleSearch: "Ranking Google Search belum diukur.",
     quickWins,
+    ...legacyFields,
     selfCheckItems,
     nextSteps: deriveNextSteps(selfCheckItems, businessName.trim()),
     optionalDataPrompt: deriveOptionalDataPrompt(submittedEvidence),
