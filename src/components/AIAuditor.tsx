@@ -339,7 +339,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                       </div>
                       <div className="rounded-xl border border-white bg-white/90 p-4">
                         <span className="block text-xs font-medium text-slate-500">Prioritas tinggi</span>
-                        <strong className="mt-1 block text-2xl font-extrabold text-rose-600">{report.diagnoses.filter((item) => item.severity === "high").length}</strong>
+                        <strong className="mt-1 block text-2xl font-extrabold text-rose-600">{(report.diagnoses ?? []).filter((item) => item.severity === "high").length}</strong>
                         <span className="mt-1 block text-[11px] text-slate-500">Diagnosis yang perlu ditinjau</span>
                       </div>
                       <div className="rounded-xl border border-white bg-white/90 p-4">
@@ -430,7 +430,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                     <p className="mt-1 text-xs text-slate-500">Pisahkan input, hipotesis, dan langkah verifikasi. Tingkat keyakinan dibatasi karena data belum diverifikasi otomatis.</p>
                   </div>
                   <div className="grid grid-cols-1 gap-3">
-                    {report.diagnoses.map((diagnosis, idx) => (
+                    {(report.diagnoses ?? []).map((diagnosis, idx) => (
                       <article key={idx} className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 space-y-3 sm:p-5">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <h5 className="text-sm font-bold text-slate-800">{diagnosis.title}</h5>
@@ -467,7 +467,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                 <div className="space-y-4 text-left">
                   <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Performa Indikator Utama</h4>
                   <div className="space-y-3.5">
-                    {report.auditMetrics.map((metric, idx) => (
+                    {(report.auditMetrics ?? []).map((metric, idx) => (
                       <div
                         key={idx}
                         className="p-4 bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
@@ -506,7 +506,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                     {report.quickWins.map((win, idx) => (
                       <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-700 leading-relaxed font-sans">
                         <CheckCircle2 className="w-4.5 h-4.5 text-brand-secondary fill-current text-white flex-shrink-0 mt-0.5" />
-                        <span>{win}</span>
+                        <span>{typeof win === "string" ? win : `${win.title}: ${win.description}`}</span>
                       </li>
                     ))}
                   </ul>
