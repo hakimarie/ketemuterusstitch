@@ -93,10 +93,22 @@ function safeWebsite(value: string | null): string | null {
   } catch { return null; }
 }
 
-async function waitForSharedInstanceThrottle(): Promise<void> {
+async function waitForSharedInstanceThrottle(signal: AbortSignal): Promise<void> {
   const task = requestQueue.then(async () => {
     const waitMs = Math.max(0, 1100 - (Date.now() - lastRequestAt));
-    if (waitMs) await new Promise((resolve) => setTimeout(resolve, waitMs));
+    if (signal.aborted) throw new Error("OpenStreetMap lookup timed out");
+    if (waitMs) {
+      await new Promise<void>((resolve, reject) => {
+        const timer = setTimeout(resolve, waitMs);
+        const onAbort = () => {
+          clearTimeout(timer);
+          reject(new Error("OpenStreetMap lookup timed out"));
+        };
+        signal.addEventListener("abort", onAbort, { once: true });
+        if (signal.aborted) onAbort();
+      });
+    }
+    if (signal.aborted) throw new Error("OpenStreetMap lookup timed out");
     lastRequestAt = Date.now();
   });
   requestQueue = task.then(() => undefined, () => undefined);
@@ -136,7 +148,7 @@ export async function lookupPublicBusiness(
   ].join("\n");
 
   try {
-    await waitForSharedInstanceThrottle();
+    await waitForSharedInstanceThrottle(controller.signal);
     if (controller.signal.aborted) throw new Error("OpenStreetMap lookup timed out");
     const response = await fetch(base, {
       method: "POST",
