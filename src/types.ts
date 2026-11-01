@@ -18,6 +18,35 @@ export interface AuditDiagnosis {
   validationStep: string;
 }
 
+export interface AuditNextStep {
+  id: string;
+  title: string;
+  priority: "high" | "medium" | "low";
+  action: string;
+  estimatedTime: string;
+}
+
+export interface AuditNextSteps {
+  topPriority: AuditNextStep | null;
+  items: AuditNextStep[];
+  whatsappCta: {
+    intent: "consultation";
+    label: string;
+    context: string;
+  } | null;
+}
+
+export interface OptionalDataPrompt {
+  title: string;
+  message: string;
+  fields: Array<{
+    key: string;
+    label: string;
+    reason: string;
+  }>;
+  verificationStatus: "user_submitted_unverified";
+}
+
 export interface AuditReport {
   businessName: string;
   category: string;
@@ -29,6 +58,8 @@ export interface AuditReport {
   quickWins: string[];
   diagnoses: AuditDiagnosis[];
   selfCheckItems?: SelfCheckItem[];
+  nextSteps?: AuditNextSteps;
+  optionalDataPrompt?: OptionalDataPrompt | null;
   strategicAdvice: string;
   dataMode?: "ai_assisted_unverified" | "template_only";
   scoreType?: "not_measured";
