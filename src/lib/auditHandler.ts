@@ -103,7 +103,7 @@ type NextStepItem = {
   estimatedTime: string;
 };
 
-function deriveNextSteps(items: ReturnType<typeof getChecklistForCategory>["items"]) {
+function deriveNextSteps(items: ReturnType<typeof getChecklistForCategory>["items"], businessName: string) {
   const priorityOrder = { high: 0, medium: 1, low: 2 } as const;
   const ordered = [...items].sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
   const steps: NextStepItem[] = ordered.slice(0, 3).map((item) => ({
@@ -122,7 +122,7 @@ function deriveNextSteps(items: ReturnType<typeof getChecklistForCategory>["item
       ? {
           intent: "consultation" as const,
           label: "Konsultasikan prioritas utama",
-          context: `Saya ingin membahas langkah “${topPriority.title}” untuk bisnis saya. Langkah awal yang disarankan: ${topPriority.action}`,
+          context: `Saya ingin membahas langkah “${topPriority.title}” untuk bisnis ${businessName}. Langkah awal yang disarankan: ${topPriority.action}`,
         }
       : null,
   };
@@ -177,7 +177,6 @@ function deriveOptionalDataPrompt(evidence: {
     title: "Lengkapi data opsional untuk pemeriksaan lanjutan",
     message: "Jika tersedia, tambahkan informasi berikut. Semua data tetap dianggap sebagai input pengguna dan belum diverifikasi secara independen.",
     fields: missingFields,
-    verificationStatus: "user_submitted_unverified" as const,
   };
 }
 
@@ -229,25 +228,28 @@ export default async function handleAudit(req: any, res: any) {
   // Basic audit is deterministic and does not depend on Gemini or a paid Google API.
   const checklist = getChecklistForCategory(category);
   const selfCheckItems = checklist.items;
-  const diagnoses = createLegacyDiagnoses(selfCheckItems);
-  const auditMetrics = createLegacyMetrics(selfCheckItems);
   const quickWins = selfCheckItems.filter((item) => item.priority === "high").slice(0, 3)
-    .map((item) => `${item.title}: ${item.whatToCheck}`);
+    .map((item) => ({ id: item.id, title: item.title, description: item.whatToCheck, priority: item.priority, estimatedTime: item.estimatedTime }));
 
   // OSM is supplemental only. A slow/unavailable provider must never block the basic checklist.
-  const emptyLookup = {
-    provider: "OpenStreetMap" as const,
-    status: "provider_error" as const,
-    checkedAt: new Date().toISOString(),
-    candidates: [],
-    attribution: "© OpenStreetMap contributors" as const,
-    message: "Pencarian OpenStreetMap melewati batas waktu 3 detik atau sedang tidak tersedia. Checklist tetap dibuat tanpa data eksternal.",
-  };
-  let publicBusinessLookup: Awaited<ReturnType<typeof lookupPublicBusiness>> = emptyLookup;
-  try {
-    publicBusinessLookup = await lookupPublicBusiness(businessName.trim(), location.trim(), { timeoutMs: 3000 });
-  } catch (error) {
-    console.warn("OpenStreetMap lookup skipped; template audit continues:", error);
+  let publicBusinessLookup: Awaited<ReturnType<typeof lookupPublicBusiness>>;
+  if (process.env.ENABLE_PUBLIC_BUSINESS_LOOKUP !== "true") {
+    publicBusinessLookup = {
+      provider: "OpenStreetMap", status: "not_configured", checkedAt: new Date().toISOString(), candidates: [],
+      attribution: "© OpenStreetMap contributors",
+      message: "Pencarian direktori publik belum diaktifkan. Checklist tetap dibuat tanpa data eksternal.",
+    };
+  } else {
+    try {
+      publicBusinessLookup = await lookupPublicBusiness(businessName.trim(), location.trim(), { timeoutMs: 3000 });
+    } catch (error) {
+      console.warn("OpenStreetMap lookup skipped; template audit continues:", error);
+      publicBusinessLookup = {
+        provider: "OpenStreetMap", status: "provider_error", checkedAt: new Date().toISOString(), candidates: [],
+        attribution: "© OpenStreetMap contributors",
+        message: "Sumber data publik sedang tidak tersedia. Checklist tetap dibuat tanpa data eksternal.",
+      };
+    }
   }
 
   const hasSubmittedEvidence = Boolean(
@@ -260,14 +262,11 @@ export default async function handleAudit(req: any, res: any) {
     businessName: businessName.trim(),
     category,
     location: location.trim(),
-    overallScore: null,
     statusGoogleMaps: "Profil Google Business Profile belum diverifikasi oleh sistem.",
     statusGoogleSearch: "Ranking Google Search belum diukur.",
-    auditMetrics,
     quickWins,
-    diagnoses,
     selfCheckItems,
-    nextSteps: deriveNextSteps(selfCheckItems),
+    nextSteps: deriveNextSteps(selfCheckItems, businessName.trim()),
     optionalDataPrompt: deriveOptionalDataPrompt(submittedEvidence),
     strategicAdvice: hasSubmittedEvidence
       ? "Gunakan data yang Anda masukkan sebagai petunjuk awal untuk pemeriksaan manual. Data tersebut belum diverifikasi independen; cocokkan langsung dengan profil dan kanal resmi bisnis sebelum mengambil keputusan."
