@@ -32,9 +32,10 @@ type OverpassElement = {
 };
 
 const cache = new Map<string, { expiresAt: number; value: PublicBusinessLookup }>();
-const CACHE_TTL_MS = 15 * 60 * 1000;
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // In-memory only; resets on serverless cold starts.
 const CACHE_MAX_ENTRIES = 500;
 let lastRequestAt = 0;
+let providerCooldownUntil = 0;
 let requestQueue: Promise<void> = Promise.resolve();
 
 function normalize(value: string): string {
@@ -95,6 +96,9 @@ function safeWebsite(value: string | null): string | null {
 
 async function waitForSharedInstanceThrottle(signal: AbortSignal): Promise<void> {
   const task = requestQueue.then(async () => {
+    if (Date.now() < providerCooldownUntil) {
+      throw new Error("OpenStreetMap provider is in cooldown after a rate-limit or overload response");
+    }
     const waitMs = Math.max(0, 1100 - (Date.now() - lastRequestAt));
     if (signal.aborted) throw new Error("OpenStreetMap lookup timed out");
     if (waitMs) {
@@ -142,7 +146,155 @@ export async function lookupPublicBusiness(
   const locationPattern = overpassRegex(location.trim());
   const query = [
     "[out:json][timeout:15];",
-    `area["name"~${JSON.stringify(locationPattern)},i]["boundary"="administrative"]->.searchArea;`,
+    `area["name"~${JSON.stringify(`^${locationPattern}export type PublicBusinessCandidate = {
+  name: string;
+  osmType: string;
+  osmId: number;
+  osmUrl: string;
+  category: string | null;
+  address: string | null;
+  website: string | null;
+  phone: string | null;
+  openingHours: string | null;
+  cuisine: string | null;
+  coordinates: { latitude: number; longitude: number } | null;
+  matchType: "exact_name" | "possible_name";
+};
+
+export type PublicBusinessLookup = {
+  provider: "OpenStreetMap";
+  status: "matched" | "no_match" | "ambiguous_match" | "disabled" | "not_configured" | "provider_error";
+  checkedAt: string;
+  candidates: PublicBusinessCandidate[];
+  attribution: "© OpenStreetMap contributors";
+  message: string;
+};
+
+type OverpassElement = {
+  type?: string;
+  id?: number;
+  lat?: number;
+  lon?: number;
+  center?: { lat?: number; lon?: number };
+  tags?: Record<string, string>;
+};
+
+const cache = new Map<string, { expiresAt: number; value: PublicBusinessLookup }>();
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // In-memory only; resets on serverless cold starts.
+const CACHE_MAX_ENTRIES = 500;
+let lastRequestAt = 0;
+let providerCooldownUntil = 0;
+let requestQueue: Promise<void> = Promise.resolve();
+
+function normalize(value: string): string {
+  return value.normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("id-ID").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+}
+
+function overpassRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function firstTag(tags: Record<string, string>, keys: string[]): string | null {
+  for (const key of keys) {
+    const value = tags[key]?.trim();
+    if (value) return value.slice(0, 300);
+  }
+  return null;
+}
+
+function toCandidate(element: OverpassElement, businessName: string): PublicBusinessCandidate | null {
+  if (!element.type || typeof element.id !== "number" || !element.tags?.name) return null;
+  const tags = element.tags;
+  const category = firstTag(tags, ["amenity", "shop", "tourism", "leisure", "office", "craft", "healthcare"]);
+  if (!category) return null;
+
+  const lat = element.lat ?? element.center?.lat;
+  const lon = element.lon ?? element.center?.lon;
+  const addressParts = [
+    tags["addr:street"], tags["addr:housenumber"], tags["addr:suburb"],
+    tags["addr:city"], tags["addr:postcode"],
+  ].filter(Boolean);
+  const exactName = normalize(tags.name) === normalize(businessName);
+
+  return {
+    name: tags.name.slice(0, 160),
+    osmType: element.type,
+    osmId: element.id,
+    osmUrl: `https://www.openstreetmap.org/${element.type}/${element.id}`,
+    category,
+    address: addressParts.length ? addressParts.join(", ").slice(0, 300) : null,
+    website: safeWebsite(firstTag(tags, ["website", "contact:website"])),
+    phone: firstTag(tags, ["phone", "contact:phone"]),
+    openingHours: firstTag(tags, ["opening_hours"]),
+    cuisine: firstTag(tags, ["cuisine"]),
+    coordinates: typeof lat === "number" && typeof lon === "number"
+      ? { latitude: lat, longitude: lon } : null,
+    matchType: exactName ? "exact_name" : "possible_name",
+  };
+}
+
+function safeWebsite(value: string | null): string | null {
+  if (!value) return null;
+  try {
+    const url = new URL(value.startsWith("http") ? value : `https://${value}`);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.toString() : null;
+  } catch { return null; }
+}
+
+async function waitForSharedInstanceThrottle(signal: AbortSignal): Promise<void> {
+  const task = requestQueue.then(async () => {
+    if (Date.now() < providerCooldownUntil) {
+      throw new Error("OpenStreetMap provider is in cooldown after a rate-limit or overload response");
+    }
+    const waitMs = Math.max(0, 1100 - (Date.now() - lastRequestAt));
+    if (signal.aborted) throw new Error("OpenStreetMap lookup timed out");
+    if (waitMs) {
+      await new Promise<void>((resolve, reject) => {
+        const timer = setTimeout(resolve, waitMs);
+        const onAbort = () => {
+          clearTimeout(timer);
+          reject(new Error("OpenStreetMap lookup timed out"));
+        };
+        signal.addEventListener("abort", onAbort, { once: true });
+        if (signal.aborted) onAbort();
+      });
+    }
+    if (signal.aborted) throw new Error("OpenStreetMap lookup timed out");
+    lastRequestAt = Date.now();
+  });
+  requestQueue = task.then(() => undefined, () => undefined);
+  await task;
+}
+
+export async function lookupPublicBusiness(
+  businessName: string,
+  location: string,
+  options: { timeoutMs?: number } = {},
+): Promise<PublicBusinessLookup> {
+  const cacheKey = `${normalize(businessName)}|${normalize(location)}`;
+  const cached = cache.get(cacheKey);
+  if (cached && cached.expiresAt > Date.now()) return cached.value;
+  if (cached) cache.delete(cacheKey);
+
+  const checkedAt = new Date().toISOString();
+  const base = process.env.OSM_OVERPASS_URL;
+  if (!base) {
+    return {
+      provider: "OpenStreetMap", status: "not_configured", checkedAt, candidates: [],
+      attribution: "© OpenStreetMap contributors",
+      message: "Sumber OpenStreetMap belum dikonfigurasi. Tidak ada permintaan eksternal yang dikirim.",
+    };
+  }
+
+  const timeoutMs = Math.max(1, options.timeoutMs ?? 18000);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  const namePattern = overpassRegex(businessName.trim());
+  const locationPattern = overpassRegex(location.trim());
+  const query = [
+    "[out:json][timeout:15];",
+    )},i]["boundary"="administrative"]->.searchArea;`,
     `(nwr(area.searchArea)["name"~${JSON.stringify(namePattern)},i];);`,
     "out center tags 30;",
   ].join("\n");
@@ -160,7 +312,12 @@ export async function lookupPublicBusiness(
       body: new URLSearchParams({ data: query }),
       signal: controller.signal,
     });
-    if (!response.ok) throw new Error(`OpenStreetMap provider returned HTTP ${response.status}`);
+    if (!response.ok) {
+      if ([429, 406, 504].includes(response.status)) {
+        providerCooldownUntil = Date.now() + 30_000;
+      }
+      throw new Error(`OpenStreetMap provider returned HTTP ${response.status}`);
+    }
 
     const payload: unknown = await response.json();
     if (typeof payload !== "object" || payload === null || !("elements" in payload) ||
