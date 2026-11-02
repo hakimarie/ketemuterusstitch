@@ -240,7 +240,7 @@ export default async function handleAudit(req: any, res: any) {
     };
   } else {
     try {
-      publicBusinessLookup = await lookupPublicBusiness(businessName.trim(), location.trim(), { timeoutMs: 6500 });
+      publicBusinessLookup = await lookupPublicBusiness(businessName.trim(), location.trim(), { timeoutMs: 18000 });
     } catch (error) {
       console.warn("OpenStreetMap lookup skipped; template audit continues:", error);
       publicBusinessLookup = {
