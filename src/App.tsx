@@ -130,7 +130,7 @@ export default function App() {
       </header>
 
       <main>
-        <section className="relative isolate overflow-hidden bg-[#F5F8FF] pb-16 pt-32 sm:pb-24 sm:pt-36 lg:pb-28 lg:pt-40">
+        <section className="relative isolate overflow-hidden bg-[#F5F8FF] pb-24 pt-28 sm:pb-24 sm:pt-36 lg:pb-28 lg:pt-40">
           <div className="pointer-events-none absolute -right-40 -top-28 h-[32rem] w-[32rem] rounded-full bg-blue-200/40 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-44 -left-32 h-[30rem] w-[30rem] rounded-full bg-sky-100/70 blur-3xl" />
           <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-7 lg:grid-cols-[1.05fr_.95fr] lg:gap-16 lg:px-8">
@@ -138,18 +138,15 @@ export default function App() {
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/80 px-4 py-2 text-xs font-bold tracking-wide text-blue-700 shadow-sm">
                 <span className="h-2 w-2 rounded-full bg-emerald-500" /> LOCAL BUSINESS GROWTH PARTNER
               </div>
-              <h1 className="max-w-3xl text-[2.65rem] font-extrabold leading-[1.08] tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-[3.8rem]">
+              <h1 className="max-w-3xl text-[2.15rem] font-extrabold leading-[1.12] tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-[3.8rem]">
                 Bantu Bisnis Lokal Lebih Mudah <span className="text-blue-600">Ditemukan dan Dipilih</span> Pelanggan.
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+              <p className="mt-5 max-w-2xl text-[0.98rem] leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
                 KetemuTerus membantu UMKM membangun visibilitas, kepercayaan, dan pertumbuhan melalui strategi digital yang sesuai dengan kebutuhan serta kesiapan bisnis.
               </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href={waLink("Halo KetemuTerus, saya ingin konsultasi dan mencari tahu strategi digital yang tepat untuk bisnis saya.")} target="_blank" rel="noreferrer" className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-4 text-sm font-bold text-white shadow-xl shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">
-                  Diskusikan Bisnis Anda <ArrowRight className="h-4 w-4" />
-                </a>
-                <a href={waLink("Halo KetemuTerus, saya ingin mengetahui layanan yang paling sesuai dengan kebutuhan bisnis saya.")} target="_blank" rel="noreferrer" className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-7 py-4 text-sm font-bold text-slate-700 transition hover:border-blue-200 hover:text-blue-700">
-                  Tanya Layanan via WhatsApp <MessageCircle className="h-4 w-4" />
+              <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row">
+                <a href={waLink("Halo KetemuTerus, saya ingin konsultasi dan mencari tahu strategi digital yang tepat untuk bisnis saya.")} target="_blank" rel="noreferrer" className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 sm:w-auto sm:px-7">
+                  <MessageCircle className="h-5 w-5" /> Konsultasi via WhatsApp
                 </a>
               </div>
               <p className="mt-5 text-xs leading-6 text-slate-500">Strategi yang menyesuaikan bisnis Anda. Bukan paket yang dipaksakan.</p>
@@ -336,14 +333,14 @@ export default function App() {
             <p className="mt-3 text-sm text-slate-500">Jakarta, Indonesia</p>
           </div>
           <div className="flex items-center gap-3 md:ml-auto md:pt-2" aria-label="Social media KetemuTerus">
-            <a href="https://www.tiktok.com/@ketemuterus.biz.id" target="_blank" rel="noreferrer" aria-label="TikTok KetemuTerus" title="TikTok" className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700">
-              <Music2 className="h-5 w-5" />
+            <a href="https://www.tiktok.com/@ketemuterus.biz.id" target="_blank" rel="noreferrer" aria-label="TikTok KetemuTerus" title="TikTok" className="flex h-12 w-12 items-center justify-center rounded-full bg-[#111111] text-white shadow-sm transition hover:scale-105 hover:bg-black" >
+              <Music2 className="h-6 w-6" strokeWidth={2.8} />
             </a>
-            <a href="https://www.instagram.com/ketemuterus.biz.id/" target="_blank" rel="noreferrer" aria-label="Instagram KetemuTerus" title="Instagram" className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700">
-              <Instagram className="h-5 w-5" />
+            <a href="https://www.instagram.com/ketemuterus.biz.id/" target="_blank" rel="noreferrer" aria-label="Instagram KetemuTerus" title="Instagram" className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-tr from-[#FEDA75] via-[#D62976] to-[#4F5BD5] text-white shadow-sm transition hover:scale-105">
+              <Instagram className="h-6 w-6" strokeWidth={2.8} />
             </a>
-            <a href={waLink("Halo KetemuTerus, saya ingin bertanya tentang layanan Anda.")} target="_blank" rel="noreferrer" aria-label="WhatsApp KetemuTerus" title="WhatsApp" className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700">
-              <MessageCircle className="h-5 w-5" />
+            <a href={waLink("Halo KetemuTerus, saya ingin bertanya tentang layanan Anda.")} target="_blank" rel="noreferrer" aria-label="WhatsApp KetemuTerus" title="WhatsApp" className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-sm transition hover:scale-105 hover:bg-[#1FB85A]">
+              <MessageCircle className="h-6 w-6" strokeWidth={2.8} />
             </a>
           </div>
         </div>
