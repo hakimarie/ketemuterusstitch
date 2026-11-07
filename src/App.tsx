@@ -99,6 +99,7 @@ export default function App() {
     ["Layanan", "#services"],
     ["Cara Kerja", "#process"],
     ["Untuk F&B", "#fnb"],
+    ["Studi Kasus", "#case-studies"],
     ["Tentang Kami", "#approach"],
     ["FAQ", "#faq"]
   ];
@@ -265,6 +266,99 @@ export default function App() {
                 ].map(([title, text]) => <div key={title} className="flex gap-3 border-t border-blue-100 pt-4"><Check className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" /><div><h4 className="font-bold text-slate-900">{title}</h4><p className="mt-1 text-sm leading-6 text-slate-600">{text}</p></div></div>)}
               </div>
               <p className="mt-6 text-xs leading-5 text-slate-500">Kelayakan kampanye ditinjau terlebih dahulu. Hasil iklan tidak dijamin dan bergantung pada penawaran, aset, anggaran, persaingan, serta kualitas pengukuran.</p>
+            </div>
+          </div>
+        </section>
+
+
+        <section id="case-studies" className="scroll-mt-24 bg-[#F7F9FC] py-20 sm:py-24">
+          <div className="mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+              <SectionHeading
+                eyebrow="Studi kasus"
+                title="Strategi nyata untuk tantangan bisnis yang berbeda."
+                description="Setiap bisnis punya kebutuhan yang berbeda. Berikut contoh pekerjaan KetemuTerus dalam membantu bisnis lokal memperkuat kehadiran digital dan menjangkau pelanggan."
+              />
+              <p className="max-w-sm text-sm leading-6 text-slate-500">Dua tantangan. Dua pendekatan. Fokus pada kebutuhan bisnis, bukan solusi seragam.</p>
+            </div>
+
+            <div className="mt-11 grid items-stretch gap-6 lg:grid-cols-2">
+              <article className="flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/5">
+                <div className="bg-slate-950 px-7 py-7 text-white sm:px-8 sm:py-8">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.13em] text-blue-200">Local Business Visibility</span>
+                    <span className="text-xs font-medium text-slate-400">Jagakarsa, Jakarta Selatan</span>
+                  </div>
+                  <h3 className="mt-6 text-2xl font-extrabold leading-tight tracking-tight sm:text-[1.75rem]">Soto Mie Kang Hendi</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">Pendampingan pemulihan akses kepemilikan Google Business Profile setelah enam tahun tidak dapat dikelola.</p>
+                </div>
+                <div className="flex flex-1 flex-col p-7 sm:p-8">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">Tantangan</p>
+                    <p className="mt-2 text-sm leading-7 text-slate-600">Pemilik bisnis kehilangan akses kepemilikan profil Google Business Profile selama sekitar enam tahun. Beberapa upaya klaim atau akuisisi sebelumnya belum berhasil mengembalikan akses.</p>
+                  </div>
+                  <div className="mt-6">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">Pendekatan KetemuTerus</p>
+                    <ul className="mt-3 space-y-2.5 text-sm leading-6 text-slate-700">
+                      <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />Meninjau kondisi dan status kepemilikan profil bisnis.</li>
+                      <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />Mendampingi proses klaim dan pemulihan akses melalui jalur yang tersedia di Google.</li>
+                      <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />Memprioritaskan agar pemilik bisnis kembali memiliki kendali atas aset digitalnya.</li>
+                    </ul>
+                  </div>
+                  <div className="mt-7 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.13em] text-blue-700">Fokus proyek</p>
+                    <p className="mt-1 text-sm font-semibold leading-6 text-slate-800">Pemulihan kendali kepemilikan profil bisnis—bukan sekadar optimasi tampilan Google Maps.</p>
+                  </div>
+                  <p className="mt-5 text-xs leading-5 text-slate-400">Status akhir pemulihan tidak diklaim pada halaman ini sebelum dapat diverifikasi.</p>
+                </div>
+              </article>
+
+              <article className="flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/5">
+                <div className="bg-blue-700 px-7 py-7 text-white sm:px-8 sm:py-8">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.13em] text-blue-100">Digital Advertising</span>
+                    <span className="text-xs font-medium text-blue-100">Cibubur</span>
+                  </div>
+                  <h3 className="mt-6 text-2xl font-extrabold leading-tight tracking-tight sm:text-[1.75rem]">Home Steak x Oemah Kopi</h3>
+                  <p className="mt-2 text-sm leading-6 text-blue-100">Kampanye Google Ads Performance Max dengan fokus pada interaksi lokal dan kunjungan ke lokasi bisnis.</p>
+                </div>
+                <div className="flex flex-1 flex-col p-7 sm:p-8">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">Pendekatan</p>
+                    <p className="mt-2 text-sm leading-7 text-slate-600">Menggunakan Performance Max dengan sasaran dan aset lokal, lalu mengevaluasi tindakan yang tercatat di akun Google Ads untuk memahami respons calon pelanggan.</p>
+                  </div>
+                  <div className="mt-6 grid grid-cols-2 gap-3">
+                    <div className="rounded-2xl bg-slate-50 p-4">
+                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">Rp901 rb</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Total belanja iklan</p>
+                    </div>
+                    <div className="rounded-2xl bg-slate-50 p-4">
+                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">44</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Store Visits dilaporkan Google</p>
+                    </div>
+                    <div className="rounded-2xl bg-slate-50 p-4">
+                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">460</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Get Directions</p>
+                    </div>
+                    <div className="rounded-2xl bg-slate-50 p-4">
+                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">11</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Contact</p>
+                    </div>
+                  </div>
+                  <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.13em] text-blue-700">Catatan pengukuran</p>
+                    <p className="mt-1 text-xs leading-6 text-slate-600">Store Visits merupakan estimasi/model Google, bukan catatan transaksi POS. Get Directions dan Contact adalah tindakan yang dilaporkan Google Ads, bukan bukti penjualan. Angka mengikuti ringkasan akun yang tersedia.</p>
+                  </div>
+                  <p className="mt-5 text-xs leading-5 text-slate-400">Sumber: ringkasan performa akun Google Ads. Periode pelaporan perlu dicantumkan pada versi publik final.</p>
+                </div>
+              </article>
+            </div>
+            <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-6 sm:flex-row sm:items-center sm:p-7">
+              <div>
+                <h3 className="font-extrabold text-slate-950">Punya tantangan serupa?</h3>
+                <p className="mt-1 text-sm leading-6 text-slate-600">Ceritakan kondisi bisnis Anda. Kami bantu petakan langkah yang paling relevan.</p>
+              </div>
+              <a href={waLink("Halo KetemuTerus, saya ingin berdiskusi tentang tantangan digital bisnis saya.")} target="_blank" rel="noreferrer" className="inline-flex min-h-12 w-full shrink-0 items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700 sm:w-auto">Diskusikan Bisnis Anda <ArrowRight className="h-4 w-4" /></a>
             </div>
           </div>
         </section>
