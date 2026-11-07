@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, createElement } from "react";
 import {
   ArrowRight, ArrowUpRight, BarChart3, Check, ChevronDown, Compass,
   Globe2, MapPin, Megaphone, Menu, MessageCircle, Search, ShieldCheck,
@@ -168,7 +168,7 @@ export default function App() {
                     [Target, "Conversion", "Permudah pelanggan untuk menghubungi dan bertindak.", "bg-amber-50 text-amber-700"],
                     [BarChart3, "Growth", "Kembangkan pemasaran berdasarkan tujuan dan data.", "bg-violet-50 text-violet-700"]
                   ] .map(([Icon, title, copy, color]) => <div key={title as string} className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
-                    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${color}`}><Icon className="h-5 w-5" /></span>
+                    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${color}`}>{createElement(Icon as typeof MapPin, { className: "h-5 w-5" })}</span>
                     <div><p className="font-bold text-slate-900">{title as string}</p><p className="mt-1 text-xs leading-5 text-slate-500">{copy as string}</p></div>
                     <Check className="ml-auto h-4 w-4 shrink-0 text-emerald-600" />
                   </div>)}
@@ -243,7 +243,7 @@ export default function App() {
                 [MessageCircle, "Dihubungi", "Permudah pelanggan bertanya, memesan, atau membuka petunjuk arah."],
                 [BarChart3, "Dikembangkan", "Gunakan iklan dan pengukuran untuk menemukan peluang pertumbuhan."]
               ].map(([Icon, title, copy]) => <div key={title as string} className="rounded-3xl border border-white/10 bg-white/[0.06] p-6">
-                <Icon className="h-6 w-6 text-blue-300" />
+                {createElement(Icon as typeof Search, { className: "h-6 w-6 text-blue-300" })}
                 <h3 className="mt-5 text-lg font-bold">{title as string}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-400">{copy as string}</p>
               </div>)}
@@ -297,7 +297,7 @@ export default function App() {
                 [ShieldCheck, "Transparan dan realistis", "Memisahkan data, temuan, asumsi, dan target. Tidak menjanjikan ranking atau hasil yang tidak dapat dikendalikan."],
                 [Zap, "Dari rencana ke implementasi", "Membantu menjalankan solusi yang disepakati, bukan berhenti pada laporan rekomendasi."]
               ].map(([Icon, title, text]) => <div key={title as string} className="flex gap-4 rounded-2xl border border-slate-200 p-5 sm:p-6">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-700"><Icon className="h-5 w-5" /></span>
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-700">{createElement(Icon as typeof Compass, { className: "h-5 w-5" })}</span>
                 <div><h3 className="font-extrabold text-slate-950">{title as string}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{text as string}</p></div>
               </div>)}
             </div>
