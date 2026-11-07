@@ -346,9 +346,6 @@ export default function App() {
         </div>
         <div className="mx-auto mt-10 max-w-7xl border-t border-slate-100 px-5 pt-6 text-xs text-slate-400 sm:px-7 lg:px-8">© {new Date().getFullYear()} KetemuTerus. Lebih Mudah Ditemukan. Lebih Banyak Pelanggan.</div>
       </footer>
-      <a href={waLink("Halo KetemuTerus, saya ingin konsultasi tentang strategi digital untuk bisnis saya.")} target="_blank" rel="noreferrer" className="fixed inset-x-4 bottom-4 z-40 inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-4 text-sm font-extrabold text-white shadow-xl shadow-blue-900/25 ring-1 ring-white/70 transition hover:bg-blue-700 sm:hidden" style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}>
-        <MessageCircle className="h-5 w-5" /> Konsultasi via WhatsApp
-      </a>
     </div>
   );
 }
