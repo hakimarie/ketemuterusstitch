@@ -148,8 +148,8 @@ export default function App() {
                 <a href={waLink("Halo KetemuTerus, saya ingin konsultasi dan mencari tahu strategi digital yang tepat untuk bisnis saya.")} target="_blank" rel="noreferrer" className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-4 text-sm font-bold text-white shadow-xl shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">
                   Diskusikan Bisnis Anda <ArrowRight className="h-4 w-4" />
                 </a>
-                <a href="#services" className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-7 py-4 text-sm font-bold text-slate-700 transition hover:border-blue-200 hover:text-blue-700">
-                  Jelajahi Layanan <ChevronDown className="h-4 w-4" />
+                <a href={waLink("Halo KetemuTerus, saya ingin mengetahui layanan yang paling sesuai dengan kebutuhan bisnis saya.")} target="_blank" rel="noreferrer" className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-7 py-4 text-sm font-bold text-slate-700 transition hover:border-blue-200 hover:text-blue-700">
+                  Tanya Layanan via WhatsApp <MessageCircle className="h-4 w-4" />
                 </a>
               </div>
               <p className="mt-5 text-xs leading-6 text-slate-500">Strategi yang menyesuaikan bisnis Anda. Bukan paket yang dipaksakan.</p>
