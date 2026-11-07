@@ -93,6 +93,8 @@ function SectionHeading({ eyebrow, title, description }: { eyebrow: string; titl
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
+  const [averageGuests, setAverageGuests] = useState(2);
+  const [averageSpend, setAverageSpend] = useState(100000);
 
   const closeMenu = () => setMenuOpen(false);
   const nav = [
@@ -276,10 +278,10 @@ export default function App() {
             <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <SectionHeading
                 eyebrow="Studi kasus"
-                title="Strategi nyata untuk tantangan bisnis yang berbeda."
-                description="Setiap bisnis punya kebutuhan yang berbeda. Berikut contoh pekerjaan KetemuTerus dalam membantu bisnis lokal memperkuat kehadiran digital dan menjangkau pelanggan."
+                title="Dampak digital yang bisa dilihat dari data."
+                description="Dua contoh pekerjaan dengan kebutuhan berbeda: memperkuat visibilitas bisnis lokal dan menjangkau calon pelanggan melalui Google Ads."
               />
-              <p className="max-w-sm text-sm leading-6 text-slate-500">Dua tantangan. Dua pendekatan. Fokus pada kebutuhan bisnis, bukan solusi seragam.</p>
+              <p className="max-w-sm text-sm leading-6 text-slate-500">Data dashboard dan simulasi bisnis kami pisahkan agar hasilnya mudah dipahami dan tetap transparan.</p>
             </div>
 
             <div className="mt-11 grid items-stretch gap-6 lg:grid-cols-2">
@@ -290,66 +292,135 @@ export default function App() {
                     <span className="text-xs font-medium text-slate-400">Jagakarsa, Jakarta Selatan</span>
                   </div>
                   <h3 className="mt-6 text-2xl font-extrabold leading-tight tracking-tight sm:text-[1.75rem]">Soto Mie Kang Hendi</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">Pendampingan pemulihan akses kepemilikan Google Business Profile setelah enam tahun tidak dapat dikelola.</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">Mendampingi bisnis memperkuat kehadiran lokal sekaligus menghadapi kendala akses kepemilikan Google Business Profile.</p>
                 </div>
                 <div className="flex flex-1 flex-col p-7 sm:p-8">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">Tantangan</p>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">Pemilik bisnis kehilangan akses kepemilikan profil Google Business Profile selama sekitar enam tahun. Beberapa upaya klaim atau akuisisi sebelumnya belum berhasil mengembalikan akses.</p>
+                  <div className="rounded-2xl bg-blue-50 p-5">
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-700">Google Business Profile views · 3 bulan</p>
+                    <p className="mt-2 text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl">9.011</p>
+                    <p className="mt-1 text-sm text-slate-600">Penayangan profil bisnis selama periode pengukuran.</p>
+                  </div>
+                  <div className="mt-6 grid grid-cols-2 gap-3">
+                    <div className="rounded-2xl border border-slate-100 p-4">
+                      <p className="text-2xl font-extrabold text-slate-950">94%</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Dari perangkat mobile</p>
+                    </div>
+                    <div className="rounded-2xl border border-slate-100 p-4">
+                      <p className="text-2xl font-extrabold text-slate-950">56%</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Ditemukan melalui Google Maps</p>
+                    </div>
                   </div>
                   <div className="mt-6">
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">Pendekatan KetemuTerus</p>
-                    <ul className="mt-3 space-y-2.5 text-sm leading-6 text-slate-700">
-                      <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />Meninjau kondisi dan status kepemilikan profil bisnis.</li>
-                      <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />Mendampingi proses klaim dan pemulihan akses melalui jalur yang tersedia di Google.</li>
-                      <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />Memprioritaskan agar pemilik bisnis kembali memiliki kendali atas aset digitalnya.</li>
-                    </ul>
+                    <div className="flex items-center justify-between gap-3 text-sm">
+                      <span className="font-semibold text-slate-700">Google Maps</span>
+                      <span className="font-bold tabular-nums text-slate-950">5.034 · 56%</span>
+                    </div>
+                    <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-blue-600" style={{ width: "56%" }} /></div>
+                    <div className="mt-4 flex items-center justify-between gap-3 text-sm">
+                      <span className="font-semibold text-slate-700">Google Search</span>
+                      <span className="font-bold tabular-nums text-slate-950">3.977 · 44%</span>
+                    </div>
+                    <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-amber-500" style={{ width: "44%" }} /></div>
                   </div>
-                  <div className="mt-7 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.13em] text-blue-700">Fokus proyek</p>
-                    <p className="mt-1 text-sm font-semibold leading-6 text-slate-800">Pemulihan kendali kepemilikan profil bisnis—bukan sekadar optimasi tampilan Google Maps.</p>
+                  <div className="mt-6 rounded-2xl border border-slate-200 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.13em] text-slate-500">Apa artinya?</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">Mayoritas penayangan profil terjadi di ponsel. Karena itu, informasi bisnis, foto, ulasan, dan jalur untuk menghubungi atau menemukan lokasi perlu mudah diakses dari perangkat mobile.</p>
                   </div>
-                  <p className="mt-5 text-xs leading-5 text-slate-400">Status akhir pemulihan tidak diklaim pada halaman ini sebelum dapat diverifikasi.</p>
+                  <p className="mt-5 text-xs leading-5 text-slate-400">Sumber: Google Business Profile Performance. Views menunjukkan penayangan profil, bukan jumlah pelanggan atau kunjungan fisik.</p>
                 </div>
               </article>
 
               <article className="flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/5">
                 <div className="bg-blue-700 px-7 py-7 text-white sm:px-8 sm:py-8">
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.13em] text-blue-100">Digital Advertising</span>
+                    <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.13em] text-blue-100">Digital Advertising · Google Ads</span>
                     <span className="text-xs font-medium text-blue-100">Cibubur</span>
                   </div>
                   <h3 className="mt-6 text-2xl font-extrabold leading-tight tracking-tight sm:text-[1.75rem]">Home Steak x Oemah Kopi</h3>
-                  <p className="mt-2 text-sm leading-6 text-blue-100">Kampanye Google Ads Performance Max dengan fokus pada interaksi lokal dan kunjungan ke lokasi bisnis.</p>
+                  <p className="mt-2 text-sm leading-6 text-blue-100">Optimasi kampanye Performance Max untuk menjangkau calon pelanggan lokal dan mendorong tindakan yang relevan dengan lokasi bisnis.</p>
                 </div>
                 <div className="flex flex-1 flex-col p-7 sm:p-8">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">Pendekatan</p>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">Menggunakan Performance Max dengan sasaran dan aset lokal, lalu mengevaluasi tindakan yang tercatat di akun Google Ads untuk memahami respons calon pelanggan.</p>
-                  </div>
-                  <div className="mt-6 grid grid-cols-2 gap-3">
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">Hasil campaign · keseluruhan periode pada dashboard</p>
+                  <div className="mt-4 grid grid-cols-2 gap-3">
                     <div className="rounded-2xl bg-slate-50 p-4">
-                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">Rp901 rb</p>
-                      <p className="mt-1 text-xs leading-5 text-slate-500">Total belanja iklan</p>
+                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">14.032</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Impressions</p>
                     </div>
                     <div className="rounded-2xl bg-slate-50 p-4">
-                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">44</p>
-                      <p className="mt-1 text-xs leading-5 text-slate-500">Store Visits dilaporkan Google</p>
+                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">919</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Clicks</p>
                     </div>
                     <div className="rounded-2xl bg-slate-50 p-4">
-                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">460</p>
-                      <p className="mt-1 text-xs leading-5 text-slate-500">Get Directions</p>
+                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">462</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Google Ads conversions</p>
                     </div>
                     <div className="rounded-2xl bg-slate-50 p-4">
-                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">11</p>
-                      <p className="mt-1 text-xs leading-5 text-slate-500">Contact</p>
+                      <p className="text-2xl font-extrabold tracking-tight text-slate-950">Rp846 rb</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Ad spend · Rp846.167</p>
                     </div>
                   </div>
-                  <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.13em] text-blue-700">Catatan pengukuran</p>
-                    <p className="mt-1 text-xs leading-6 text-slate-600">Store Visits merupakan estimasi/model Google, bukan catatan transaksi POS. Get Directions dan Contact adalah tindakan yang dilaporkan Google Ads, bukan bukti penjualan. Angka mengikuti ringkasan akun yang tersedia.</p>
+                  <div className="mt-4 grid grid-cols-2 gap-3">
+                    <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
+                      <p className="text-2xl font-extrabold text-blue-800">6,55%</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-600">CTR</p>
+                    </div>
+                    <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
+                      <p className="text-2xl font-extrabold text-blue-800">Rp1.832</p>
+                      <p className="mt-1 text-xs leading-5 text-slate-600">Cost per conversion</p>
+                    </div>
                   </div>
-                  <p className="mt-5 text-xs leading-5 text-slate-400">Sumber: ringkasan performa akun Google Ads. Periode pelaporan perlu dicantumkan pada versi publik final.</p>
+
+                  <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-800">Sinyal kunjungan lokasi dari Google</p>
+                    <div className="mt-2 flex items-end gap-2">
+                      <p className="text-4xl font-extrabold tracking-tight text-slate-950">44</p>
+                      <p className="pb-1 text-sm font-semibold text-slate-600">Store Visits</p>
+                    </div>
+                    <p className="mt-2 text-xs leading-5 text-slate-600">Google melaporkan 44 Store Visits pada pelacakan campaign. Angka ini adalah estimasi/model Google, bukan catatan transaksi POS atau bukti bahwa setiap kunjungan berasal hanya dari iklan.</p>
+                  </div>
+
+                  <div className="mt-6 rounded-2xl border border-slate-200 p-5">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Simulasi potensi nilai penjualan</p>
+                      <h4 className="mt-2 text-lg font-extrabold text-slate-950">Bagaimana jika setiap kunjungan datang berdua?</h4>
+                      <p className="mt-1 text-sm leading-6 text-slate-600">Ubah asumsi di bawah untuk melihat estimasi nilai penjualan dan rasio terhadap biaya iklan.</p>
+                    </div>
+                    <div className="mt-5">
+                      <div className="flex items-center justify-between gap-3">
+                        <label htmlFor="case-guests" className="text-sm font-semibold text-slate-700">Rata-rata orang per kunjungan</label>
+                        <output htmlFor="case-guests" className="text-sm font-extrabold tabular-nums text-slate-950">{averageGuests} orang</output>
+                      </div>
+                      <input id="case-guests" type="range" min="2" max="4" step="1" value={averageGuests} onChange={(event) => setAverageGuests(Number(event.target.value))} className="mt-3 w-full accent-blue-600" />
+                      <div className="mt-1 flex justify-between text-xs text-slate-400"><span>2 orang</span><span>4 orang</span></div>
+                    </div>
+                    <div className="mt-5">
+                      <div className="flex items-center justify-between gap-3">
+                        <label htmlFor="case-spend" className="text-sm font-semibold text-slate-700">Rata-rata belanja per orang</label>
+                        <output htmlFor="case-spend" className="text-sm font-extrabold tabular-nums text-slate-950">Rp{averageSpend.toLocaleString("id-ID")}</output>
+                      </div>
+                      <input id="case-spend" type="range" min="75000" max="125000" step="5000" value={averageSpend} onChange={(event) => setAverageSpend(Number(event.target.value))} className="mt-3 w-full accent-blue-600" />
+                      <div className="mt-1 flex justify-between text-xs text-slate-400"><span>Rp75 ribu</span><span>Rp125 ribu</span></div>
+                    </div>
+                    <div className="mt-6 grid grid-cols-2 gap-3" aria-live="polite">
+                      <div className="rounded-2xl bg-slate-950 p-4 text-white">
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-wide text-slate-300">Estimasi revenue</p>
+                        <p className="mt-2 text-xl font-extrabold tracking-tight sm:text-2xl">Rp{(44 * averageGuests * averageSpend).toLocaleString("id-ID")}</p>
+                        <p className="mt-1 text-xs text-slate-400">{44 * averageGuests} orang · asumsi</p>
+                      </div>
+                      <div className="rounded-2xl bg-blue-50 p-4">
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-wide text-blue-700">Simulasi ROAS</p>
+                        <p className="mt-2 text-2xl font-extrabold tracking-tight text-blue-900">{((44 * averageGuests * averageSpend) / 846167).toFixed(1).replace(".", ",")}x</p>
+                        <p className="mt-1 text-xs text-slate-500">Revenue simulasi ÷ ad spend</p>
+                      </div>
+                    </div>
+                    <p className="mt-4 text-xs leading-5 text-slate-500">Simulasi, bukan revenue atau ROAS aktual. Mengasumsikan setiap Store Visit setara satu kunjungan, rata-rata jumlah orang sesuai pilihan, dan setiap orang membelanjakan nilai yang dipilih. Kunjungan dan transaksi aktual perlu diverifikasi melalui data outlet/POS.</p>
+                  </div>
+
+                  <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.13em] text-amber-800">Cara membaca angka</p>
+                    <p className="mt-1 text-xs leading-6 text-slate-700">462 adalah total conversions yang tercatat pada dashboard campaign. Store Visits ditampilkan sebagai tindakan kunjungan yang dilaporkan Google dan tidak dijumlahkan lagi di atas angka 462. Conversion Google Ads bukan otomatis transaksi penjualan.</p>
+                  </div>
+                  <p className="mt-5 text-xs leading-5 text-slate-400">Sumber: dashboard Google Ads untuk campaign Home Steak x Oemah Kopi. Impression, click, conversion, dan biaya adalah metrik campaign; Store Visits merupakan estimasi Google.</p>
                 </div>
               </article>
             </div>
