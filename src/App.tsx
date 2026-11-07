@@ -111,8 +111,7 @@ export default function App() {
       <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-7 lg:px-8">
           <a href="#top" className="flex items-center gap-2.5" aria-label="KetemuTerus beranda" onClick={closeMenu}>
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-lg shadow-blue-600/20"><MapPin className="h-5 w-5" /></span>
-            <span className="text-xl font-extrabold tracking-tight text-slate-950">KetemuTerus</span>
+            <img src="https://i.ibb.co.com/bMx2jVkG/logo-ketemu-terus-Hitamfix.jpg" alt="Logo KetemuTerus" className="h-10 w-auto max-w-[180px] object-contain" />
           </a>
           <nav className="hidden items-center gap-7 lg:flex">
             {nav.map(([label, href]) => <a key={href} href={href} className="text-sm font-medium text-slate-600 transition hover:text-blue-600">{label}</a>)}
@@ -140,6 +139,9 @@ export default function App() {
             <div>
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/80 px-4 py-2 text-xs font-bold tracking-wide text-blue-700 shadow-sm">
                 <span className="h-2 w-2 rounded-full bg-emerald-500" /> LOCAL BUSINESS GROWTH PARTNER
+              </div>
+              <div className="mb-6 flex items-center">
+                <img src="https://i.ibb.co.com/bMx2jVkG/logo-ketemu-terus-Hitamfix.jpg" alt="Logo KetemuTerus" className="h-12 w-auto max-w-[220px] object-contain sm:h-14" />
               </div>
               <h1 className="max-w-3xl text-[2.15rem] font-extrabold leading-[1.12] tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-[3.8rem]">
                 Bantu Bisnis Lokal <span className="text-blue-600">Tumbuh Lebih Cepat.</span>
@@ -496,7 +498,7 @@ export default function App() {
       <footer className="border-t border-slate-200 bg-white pb-24 pt-12 sm:pb-12">
         <div className="mx-auto flex max-w-7xl flex-col gap-9 px-5 sm:px-7 md:flex-row md:items-start md:justify-between lg:px-8">
           <div className="max-w-md">
-            <a href="#top" className="inline-flex items-center gap-2.5"><span className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white"><MapPin className="h-4 w-4" /></span><span className="text-lg font-extrabold text-slate-950">KetemuTerus</span></a>
+            <a href="#top" className="inline-flex items-center gap-2.5"><img src="https://i.ibb.co.com/bMx2jVkG/logo-ketemu-terus-Hitamfix.jpg" alt="Logo KetemuTerus" className="h-9 w-auto max-w-[160px] object-contain" /></a>
             <p className="mt-4 text-sm leading-7 text-slate-500">Local Business Growth Partner. Membantu bisnis lokal lebih mudah ditemukan, dipercaya, dan dipilih pelanggan.</p>
             <p className="mt-3 text-sm text-slate-500">Jakarta, Indonesia</p>
           </div>
