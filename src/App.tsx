@@ -167,7 +167,7 @@ export default function App() {
                     [ShieldCheck, "Credibility", "Informasi dan reputasi membantu membangun kepercayaan.", "bg-emerald-50 text-emerald-700"],
                     [Target, "Conversion", "Permudah pelanggan untuk menghubungi dan bertindak.", "bg-amber-50 text-amber-700"],
                     [BarChart3, "Growth", "Kembangkan pemasaran berdasarkan tujuan dan data.", "bg-violet-50 text-violet-700"]
-                  ].map(([Icon, title, copy, color]) => <div key={title as string} className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
+                  ] .map(([Icon, title, copy, color]) => <div key={title as string} className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
                     <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${color}`}><Icon className="h-5 w-5" /></span>
                     <div><p className="font-bold text-slate-900">{title as string}</p><p className="mt-1 text-xs leading-5 text-slate-500">{copy as string}</p></div>
                     <Check className="ml-auto h-4 w-4 shrink-0 text-emerald-600" />
