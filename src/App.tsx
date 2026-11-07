@@ -2,7 +2,7 @@ import { useState, createElement } from "react";
 import {
   ArrowRight, ArrowUpRight, BarChart3, Check, ChevronDown, Compass,
   Globe2, MapPin, Megaphone, Menu, MessageCircle, Search, ShieldCheck,
-  Store, Target, TrendingUp, Utensils, Workflow, X, Zap
+  Store, Target, TrendingUp, Utensils, Workflow, X, Zap, Instagram, Music2
 } from "lucide-react";
 
 const WA = "https://wa.me/6281584229797?text=";
@@ -335,10 +335,16 @@ export default function App() {
             <p className="mt-4 text-sm leading-7 text-slate-500">Local Business Growth Partner. Membantu bisnis lokal lebih mudah ditemukan, dipercaya, dan dipilih pelanggan.</p>
             <p className="mt-3 text-sm text-slate-500">Jakarta, Indonesia</p>
           </div>
-          <div className="flex flex-col gap-3 text-sm font-medium text-slate-600 md:items-end">
-            <a href="https://www.instagram.com/ketemuterus.biz.id/" target="_blank" rel="noreferrer" className="hover:text-blue-600">Instagram @ketemuterus.biz.id</a>
-            <a href="https://www.tiktok.com/@ketemuterus.biz.id" target="_blank" rel="noreferrer" className="hover:text-blue-600">TikTok @ketemuterus.biz.id</a>
-            <a href={waLink("Halo KetemuTerus, saya ingin bertanya tentang layanan Anda.")} target="_blank" rel="noreferrer" className="hover:text-blue-600">WhatsApp: Konsultasi</a>
+          <div className="flex items-center gap-3 md:ml-auto md:pt-2" aria-label="Social media KetemuTerus">
+            <a href="https://www.tiktok.com/@ketemuterus.biz.id" target="_blank" rel="noreferrer" aria-label="TikTok KetemuTerus" title="TikTok" className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700">
+              <Music2 className="h-5 w-5" />
+            </a>
+            <a href="https://www.instagram.com/ketemuterus.biz.id/" target="_blank" rel="noreferrer" aria-label="Instagram KetemuTerus" title="Instagram" className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700">
+              <Instagram className="h-5 w-5" />
+            </a>
+            <a href={waLink("Halo KetemuTerus, saya ingin bertanya tentang layanan Anda.")} target="_blank" rel="noreferrer" aria-label="WhatsApp KetemuTerus" title="WhatsApp" className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700">
+              <MessageCircle className="h-5 w-5" />
+            </a>
           </div>
         </div>
         <div className="mx-auto mt-10 max-w-7xl border-t border-slate-100 px-5 pt-6 text-xs text-slate-400 sm:px-7 lg:px-8">© {new Date().getFullYear()} KetemuTerus. Lebih Mudah Ditemukan. Lebih Banyak Pelanggan.</div>
