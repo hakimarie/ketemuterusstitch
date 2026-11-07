@@ -77,8 +77,20 @@ const faqs = [
   {
     q: "Apakah KetemuTerus menjamin bisnis masuk peringkat pertama Google?",
     a: "Tidak. Peringkat Google dipengaruhi banyak faktor di luar kendali satu penyedia jasa. Kami berfokus pada praktik optimasi yang relevan, transparan, dan dapat dievaluasi—tanpa menjanjikan posisi tertentu."
+  },
+  {
+    q: "Apakah UMKM dengan budget terbatas bisa menggunakan Google Ads?",
+    a: "Bisa, tetapi Google Ads belum tentu menjadi langkah pertama yang paling tepat. Kami akan menilai tujuan bisnis, target pelanggan, persaingan, anggaran, dan kesiapan aset digital terlebih dahulu. Jika fondasinya belum siap, kami dapat menyarankan langkah yang lebih prioritas sebelum mulai beriklan."
+  },
+  {
+    q: "Apakah biaya iklan sudah termasuk biaya jasa KetemuTerus?",
+    a: "Tidak. Biaya iklan dibayarkan langsung ke platform seperti Google atau Meta dan terpisah dari biaya jasa pengelolaan. Rincian anggaran media dan biaya jasa akan dijelaskan sejak awal agar alokasi biaya transparan."
+  },
+  {
+    q: "Bagaimana KetemuTerus mengukur keberhasilan strategi digital?",
+    a: "Pengukuran disesuaikan dengan tujuan bisnis. Indikatornya dapat mencakup visibilitas di Google, kunjungan website, klik telepon, permintaan petunjuk arah, pesan WhatsApp, leads, hingga data konversi kampanye. Kami membedakan metrik aktivitas dan hasil bisnis agar laporan tidak menyesatkan."
   }
-];
+];;
 
 function SectionHeading({ eyebrow, title, description }: { eyebrow: string; title: string; description?: string }) {
   return (
