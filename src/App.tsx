@@ -142,9 +142,12 @@ export default function App() {
                 <span className="h-2 w-2 rounded-full bg-emerald-500" /> LOCAL BUSINESS GROWTH PARTNER
               </div>
               <h1 className="max-w-3xl text-[2.15rem] font-extrabold leading-[1.12] tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-[3.8rem]">
-                Bisnis Anda Punya Potensi. <span className="text-blue-600">Mari Buat Lebih Banyak Pelanggan Menemukannya.</span>
+                Bantu Bisnis Lokal <span className="text-blue-600">Tumbuh Lebih Cepat.</span>
               </h1>
-              <p className="mt-5 max-w-2xl text-[0.98rem] leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
+              <p className="mt-4 text-lg font-bold leading-snug tracking-tight text-blue-700 sm:mt-5 sm:text-xl">
+                Lebih Mudah Ditemukan. Lebih Banyak Pelanggan.
+              </p>
+              <p className="mt-4 max-w-2xl text-[0.98rem] leading-7 text-slate-600 sm:mt-5 sm:text-lg sm:leading-8">
                 KetemuTerus membantu bisnis lokal meningkatkan visibilitas, membangun kepercayaan, dan mendapatkan lebih banyak peluang pelanggan melalui strategi digital yang tepat.
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row">
