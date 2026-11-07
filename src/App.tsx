@@ -173,7 +173,7 @@ export default function App() {
               <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-blue-200/70 via-white to-sky-100/80 blur-2xl" />
               <div className="relative rounded-[2rem] border border-white bg-white p-5 shadow-2xl shadow-blue-950/10 sm:p-7">
                 <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-5">
-                  <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">OUR GROWTH APPROACH</p><h2 className="mt-1 text-xl font-extrabold text-slate-950">Dari ditemukan, dipercaya, hingga dipilih pelanggan.</h2><p className="mt-2 text-xs leading-5 text-slate-500">Setiap tahap punya tantangan dan membutuhkan strategi yang berbeda.</p></div>
+                  <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">PENDEKATAN PERTUMBUHAN KAMI</p><h2 className="mt-1 text-xl font-extrabold text-slate-950">Dari ditemukan, dipercaya, hingga dipilih pelanggan.</h2><p className="mt-2 text-xs leading-5 text-slate-500">Setiap tahap punya tantangan dan membutuhkan strategi yang berbeda.</p></div>
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-700"><TrendingUp className="h-5 w-5" /></span>
                 </div>
                 <div className="space-y-3 py-5">
