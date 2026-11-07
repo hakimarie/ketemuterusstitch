@@ -142,31 +142,31 @@ export default function App() {
                 <span className="h-2 w-2 rounded-full bg-emerald-500" /> LOCAL BUSINESS GROWTH PARTNER
               </div>
               <h1 className="max-w-3xl text-[2.15rem] font-extrabold leading-[1.12] tracking-[-0.045em] text-slate-950 sm:text-5xl lg:text-[3.8rem]">
-                Bantu Bisnis Lokal Lebih Mudah <span className="text-blue-600">Ditemukan dan Dipilih</span> Pelanggan.
+                Bisnis Anda Punya Potensi. <span className="text-blue-600">Mari Buat Lebih Banyak Pelanggan Menemukannya.</span>
               </h1>
               <p className="mt-5 max-w-2xl text-[0.98rem] leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8">
-                KetemuTerus membantu UMKM membangun visibilitas, kepercayaan, dan pertumbuhan melalui strategi digital yang sesuai dengan kebutuhan serta kesiapan bisnis.
+                KetemuTerus membantu bisnis lokal meningkatkan visibilitas, membangun kepercayaan, dan mendapatkan lebih banyak peluang pelanggan melalui strategi digital yang tepat.
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row">
                 <a href={waLink("Halo KetemuTerus, saya ingin konsultasi dan mencari tahu strategi digital yang tepat untuk bisnis saya.")} target="_blank" rel="noreferrer" className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 sm:w-auto sm:px-7">
                   <MessageCircle className="h-5 w-5" /> Konsultasi via WhatsApp
                 </a>
               </div>
-              <p className="mt-5 text-xs leading-6 text-slate-500">Strategi yang menyesuaikan bisnis Anda. Bukan paket yang dipaksakan.</p>
+              <p className="mt-5 text-xs leading-6 text-slate-500">Strategi disesuaikan dengan kebutuhan dan kesiapan bisnis. Bukan paket layanan yang dipaksakan.</p>
             </div>
             <div className="relative mx-auto w-full max-w-xl">
               <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-blue-200/70 via-white to-sky-100/80 blur-2xl" />
               <div className="relative rounded-[2rem] border border-white bg-white p-5 shadow-2xl shadow-blue-950/10 sm:p-7">
                 <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-5">
-                  <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">A practical growth approach</p><h2 className="mt-1 text-xl font-extrabold text-slate-950">Dari ditemukan hingga bertumbuh.</h2></div>
+                  <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-600">OUR GROWTH APPROACH</p><h2 className="mt-1 text-xl font-extrabold text-slate-950">Dari ditemukan, dipercaya, hingga dipilih pelanggan.</h2><p className="mt-2 text-xs leading-5 text-slate-500">Setiap tahap punya tantangan dan membutuhkan strategi yang berbeda.</p></div>
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-700"><TrendingUp className="h-5 w-5" /></span>
                 </div>
                 <div className="space-y-3 py-5">
                   {[
-                    [MapPin, "Visibility", "Calon pelanggan bisa menemukan bisnis Anda.", "bg-blue-50 text-blue-700"],
-                    [ShieldCheck, "Credibility", "Informasi dan reputasi membantu membangun kepercayaan.", "bg-emerald-50 text-emerald-700"],
-                    [Target, "Conversion", "Permudah pelanggan untuk menghubungi dan bertindak.", "bg-amber-50 text-amber-700"],
-                    [BarChart3, "Growth", "Kembangkan pemasaran berdasarkan tujuan dan data.", "bg-violet-50 text-violet-700"]
+                    [MapPin, "Visibility", "Pastikan bisnis Anda hadir ketika calon pelanggan mencari produk atau layanan yang Anda tawarkan.", "bg-blue-50 text-blue-700"],
+                    [ShieldCheck, "Credibility", "Bangun kepercayaan melalui informasi bisnis yang jelas, reputasi yang baik, dan kehadiran digital yang profesional.", "bg-emerald-50 text-emerald-700"],
+                    [Target, "Conversion", "Permudah calon pelanggan mengambil tindakan, mulai dari bertanya, menghubungi, hingga datang ke lokasi.", "bg-amber-50 text-amber-700"],
+                    [BarChart3, "Growth", "Gunakan data dan evaluasi untuk memahami hasil pemasaran serta menentukan langkah pertumbuhan berikutnya.", "bg-violet-50 text-violet-700"]
                   ] .map(([Icon, title, copy, color]) => <div key={title as string} className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50/70 p-4">
                     <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${color}`}>{createElement(Icon as typeof MapPin, { className: "h-5 w-5" })}</span>
                     <div><p className="font-bold text-slate-900">{title as string}</p><p className="mt-1 text-xs leading-5 text-slate-500">{copy as string}</p></div>
@@ -174,8 +174,8 @@ export default function App() {
                   </div>)}
                 </div>
                 <div className="rounded-2xl bg-slate-950 px-5 py-4 text-white">
-                  <p className="text-sm font-bold">Satu partner. Strategi yang relevan.</p>
-                  <p className="mt-1 text-xs leading-5 text-slate-300">Mulai dari kebutuhan paling penting untuk bisnis Anda saat ini.</p>
+                  <p className="text-sm font-bold">Satu partner. Solusi sesuai kebutuhan bisnis Anda.</p>
+                  <p className="mt-1 text-xs leading-5 text-slate-300">Mulai dari yang paling dibutuhkan. Berkembang sesuai potensi.</p>
                 </div>
               </div>
             </div>
