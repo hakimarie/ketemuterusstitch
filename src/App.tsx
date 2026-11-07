@@ -179,16 +179,16 @@ export default function App() {
           </div>
         </section>
 
-        <section className="border-y border-slate-100 bg-white py-8">
+        <section className="border-y border-slate-100 bg-white py-6 sm:py-8">
           <div className="mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
-            <p className="mb-5 text-center text-xs font-bold uppercase tracking-[0.18em] text-slate-400">Mendukung berbagai jenis bisnis lokal</p>
-            <div className="flex flex-wrap items-center justify-center gap-x-9 gap-y-4 text-sm font-semibold text-slate-500">
-              {["F&B & Coffee Shop", "Retail Lokal", "Barbershop & Salon", "Jasa Profesional", "Bisnis Lokal"].map((name, i) => <span key={name} className="inline-flex items-center gap-2"><Store className="h-4 w-4 text-blue-500" />{name}</span>)}
+            <p className="mb-4 text-center text-[0.68rem] font-bold uppercase leading-5 tracking-[0.16em] text-slate-400 sm:mb-5 sm:text-xs sm:tracking-[0.18em]">Mendukung berbagai jenis bisnis lokal</p>
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
+              {["F&B & Coffee Shop", "Retail Lokal", "Barbershop & Salon", "Jasa Profesional", "Bisnis Lokal"].map((name, i) => <div key={name} className={`flex min-h-12 items-center justify-center gap-2 rounded-xl border border-slate-100 bg-slate-50/70 px-2.5 py-3 text-center text-[0.78rem] font-semibold leading-5 text-slate-600 sm:min-h-14 sm:px-3 sm:text-sm ${i === 4 ? "col-span-2 sm:col-span-1" : ""}`}><Store className="h-4 w-4 shrink-0 text-blue-600" /><span>{name}</span></div>)}
             </div>
           </div>
         </section>
 
-        <section className="bg-white py-20 sm:py-24">
+        <section className="bg-white py-14 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
             <SectionHeading eyebrow="Tantangan bisnis lokal" title="Punya bisnis bagus saja belum cukup." description="Calon pelanggan perlu menemukan bisnis Anda, merasa yakin, lalu tahu langkah berikutnya. Kami membantu menghubungkan ketiga hal tersebut." />
             <div className="mt-11 grid gap-5 md:grid-cols-3">
