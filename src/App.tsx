@@ -8,6 +8,22 @@ import {
 const WA = "https://wa.me/6281584229797?text=";
 const waLink = (message: string) => WA + encodeURIComponent(message);
 
+declare global {
+  interface Window {
+    gtag?: (command: "event", eventName: string, eventParams: Record<string, string>) => void;
+  }
+}
+
+const trackWhatsAppClick = (ctaLocation: string) => {
+  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+
+  window.gtag("event", "whatsapp_click", {
+    cta_location: ctaLocation,
+    link_domain: "wa.me",
+    page_path: window.location.pathname
+  });
+};
+
 const services = [
   {
     number: "01",
@@ -130,7 +146,7 @@ export default function App() {
           <nav className="hidden items-center gap-7 lg:flex">
             {nav.map(([label, href]) => <a key={href} href={href} className="text-sm font-medium text-slate-600 transition hover:text-blue-600">{label}</a>)}
           </nav>
-          <a href={waLink("Halo KetemuTerus, saya ingin konsultasi tentang strategi digital untuk bisnis saya.")} target="_blank" rel="noreferrer" className="hidden items-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/15 transition hover:-translate-y-0.5 hover:bg-blue-700 lg:inline-flex">
+          <a href={waLink("Halo KetemuTerus, saya ingin konsultasi tentang strategi digital untuk bisnis saya.")} onClick={() => trackWhatsAppClick("navbar_desktop")} target="_blank" rel="noreferrer" className="hidden items-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/15 transition hover:-translate-y-0.5 hover:bg-blue-700 lg:inline-flex">
             Konsultasi Bisnis <ArrowUpRight className="h-4 w-4" />
           </a>
           <button className="rounded-xl border border-slate-200 p-2.5 text-slate-700 lg:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Tutup menu" : "Buka menu"}>
@@ -140,7 +156,7 @@ export default function App() {
         {menuOpen && <div className="border-t border-slate-100 bg-white px-5 py-4 shadow-lg lg:hidden">
           <nav className="mx-auto flex max-w-7xl flex-col gap-1">
             {nav.map(([label, href]) => <a key={href} href={href} onClick={closeMenu} className="rounded-lg px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">{label}</a>)}
-            <a href={waLink("Halo KetemuTerus, saya ingin konsultasi tentang strategi digital untuk bisnis saya.")} target="_blank" rel="noreferrer" onClick={closeMenu} className="mt-2 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white">Konsultasi Bisnis <ArrowUpRight className="h-4 w-4" /></a>
+            <a href={waLink("Halo KetemuTerus, saya ingin konsultasi tentang strategi digital untuk bisnis saya.")} onClick={() => { trackWhatsAppClick("navbar_mobile"); closeMenu(); }} target="_blank" rel="noreferrer" className="mt-2 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white">Konsultasi Bisnis <ArrowUpRight className="h-4 w-4" /></a>
           </nav>
         </div>}
       </header>
@@ -164,7 +180,7 @@ export default function App() {
                 KetemuTerus membantu bisnis lokal meningkatkan visibilitas, membangun kepercayaan, dan mendapatkan lebih banyak peluang pelanggan melalui strategi digital yang tepat.
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row">
-                <a href={waLink("Halo KetemuTerus, saya ingin konsultasi dan mencari tahu strategi digital yang tepat untuk bisnis saya.")} target="_blank" rel="noreferrer" className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 sm:w-auto sm:px-7">
+                <a href={waLink("Halo KetemuTerus, saya ingin konsultasi dan mencari tahu strategi digital yang tepat untuk bisnis saya.")} onClick={() => trackWhatsAppClick("hero")} target="_blank" rel="noreferrer" className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 sm:w-auto sm:px-7">
                   <MessageCircle className="h-5 w-5" /> Konsultasi via WhatsApp
                 </a>
               </div>
@@ -250,7 +266,7 @@ export default function App() {
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-blue-300">F&B sebagai fokus utama</p>
               <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">Bisnis kuliner perlu lebih dari sekadar promosi.</h2>
               <p className="mt-5 text-base leading-8 text-slate-300">Kami memahami perjalanan pelanggan lokal: mencari tempat makan, membandingkan pilihan, melihat menu dan ulasan, lalu memutuskan untuk datang atau memesan.</p>
-              <a href={waLink("Halo KetemuTerus, saya menjalankan bisnis F&B dan ingin mendiskusikan strategi pertumbuhan digital.")} target="_blank" rel="noreferrer" className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-blue-50">Diskusikan Bisnis F&B <ArrowRight className="h-4 w-4" /></a>
+              <a href={waLink("Halo KetemuTerus, saya menjalankan bisnis F&B dan ingin mendiskusikan strategi pertumbuhan digital.")} onClick={() => trackWhatsAppClick("fnb_section")} target="_blank" rel="noreferrer" className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-slate-950 transition hover:bg-blue-50">Diskusikan Bisnis F&B <ArrowRight className="h-4 w-4" /></a>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {[
@@ -272,7 +288,7 @@ export default function App() {
             <div>
               <SectionHeading eyebrow="Advertising yang fleksibel" title="Belum punya website? Tetap ada opsi untuk beriklan." description="Website bisa menjadi aset penting, tetapi bukan syarat mutlak untuk memulai setiap strategi pemasaran digital." />
               <p className="mt-5 text-sm leading-7 text-slate-600">Kami dapat mengevaluasi pemanfaatan Google Business Profile dan kampanye Google Ads—termasuk Performance Max dengan sasaran lokal—untuk bisnis yang memenuhi persyaratan dan memiliki tujuan kampanye yang sesuai.</p>
-              <a href={waLink("Halo KetemuTerus, bisnis saya belum memiliki website. Saya ingin mengetahui opsi Google Ads yang sesuai.")} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800">Tanyakan opsi untuk bisnis Anda <ArrowUpRight className="h-4 w-4" /></a>
+              <a href={waLink("Halo KetemuTerus, bisnis saya belum memiliki website. Saya ingin mengetahui opsi Google Ads yang sesuai.")} onClick={() => trackWhatsAppClick("google_ads_section")} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800">Tanyakan opsi untuk bisnis Anda <ArrowUpRight className="h-4 w-4" /></a>
             </div>
             <div className="rounded-[1.75rem] border border-blue-100 bg-[#F5F8FF] p-7 sm:p-9">
               <div className="flex items-center gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-blue-700 shadow-sm"><Megaphone className="h-6 w-6" /></span><div><p className="text-xs font-bold uppercase tracking-widest text-blue-700">Google Ads</p><h3 className="text-xl font-extrabold text-slate-950">Strategi sesuai kesiapan bisnis</h3></div></div>
@@ -513,7 +529,7 @@ export default function App() {
                 <h3 className="font-extrabold text-slate-950">Punya tantangan serupa?</h3>
                 <p className="mt-1 text-sm leading-6 text-slate-600">Ceritakan kondisi bisnis Anda. Kami bantu petakan langkah yang paling relevan.</p>
               </div>
-              <a href={waLink("Halo KetemuTerus, saya ingin berdiskusi tentang tantangan digital bisnis saya.")} target="_blank" rel="noreferrer" className="inline-flex min-h-12 w-full shrink-0 items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700 sm:w-auto">Diskusikan Bisnis Anda <ArrowRight className="h-4 w-4" /></a>
+              <a href={waLink("Halo KetemuTerus, saya ingin berdiskusi tentang tantangan digital bisnis saya.")} onClick={() => trackWhatsAppClick("case_studies")} target="_blank" rel="noreferrer" className="inline-flex min-h-12 w-full shrink-0 items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700 sm:w-auto">Diskusikan Bisnis Anda <ArrowRight className="h-4 w-4" /></a>
             </div>
           </div>
         </section>
@@ -535,7 +551,7 @@ export default function App() {
           <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-7 lg:grid-cols-[1fr_1fr] lg:items-center lg:px-8">
             <div>
               <SectionHeading eyebrow="Kenapa KetemuTerus" title="Partner yang memahami kondisi bisnis, bukan sekadar menjual layanan." description="Kebutuhan setiap bisnis berbeda. Kami membantu memilih langkah yang relevan, menjelaskan ruang lingkupnya, lalu mengoptimalkan berdasarkan data yang tersedia." />
-              <a href={waLink("Halo KetemuTerus, saya ingin mengenal cara kerja dan layanan KetemuTerus.")} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3.5 text-sm font-bold text-white hover:bg-blue-700">Kenali cara kerja kami <ArrowRight className="h-4 w-4" /></a>
+              <a href={waLink("Halo KetemuTerus, saya ingin mengenal cara kerja dan layanan KetemuTerus.")} onClick={() => trackWhatsAppClick("approach_section")} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3.5 text-sm font-bold text-white hover:bg-blue-700">Kenali cara kerja kami <ArrowRight className="h-4 w-4" /></a>
             </div>
             <div className="space-y-4">
               {[
@@ -569,7 +585,7 @@ export default function App() {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-100">Mulai dari kebutuhan bisnis Anda</p>
             <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">Mari temukan strategi digital yang tepat untuk bisnis Anda.</h2>
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-blue-100 sm:text-base">Ceritakan kondisi dan tujuan bisnis Anda. Kita diskusikan langkah yang paling relevan—tanpa harus mengambil semua layanan.</p>
-            <a href={waLink("Halo KetemuTerus, saya ingin konsultasi tentang strategi digital untuk bisnis saya.")} target="_blank" rel="noreferrer" className="mt-8 inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-extrabold text-blue-700 transition hover:-translate-y-0.5 hover:bg-blue-50">Konsultasi Gratis via WhatsApp <MessageCircle className="h-4 w-4" /></a>
+            <a href={waLink("Halo KetemuTerus, saya ingin konsultasi tentang strategi digital untuk bisnis saya.")} onClick={() => trackWhatsAppClick("final_cta")} target="_blank" rel="noreferrer" className="mt-8 inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-extrabold text-blue-700 transition hover:-translate-y-0.5 hover:bg-blue-50">Konsultasi Gratis via WhatsApp <MessageCircle className="h-4 w-4" /></a>
           </div>
         </section>
       </main>
@@ -588,7 +604,7 @@ export default function App() {
             <a href="https://www.instagram.com/ketemuterus.biz.id/" target="_blank" rel="noreferrer" aria-label="Instagram KetemuTerus" title="Instagram" className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-tr from-[#FEDA75] via-[#D62976] to-[#4F5BD5] text-white shadow-sm transition hover:scale-105">
               <Instagram className="h-6 w-6" strokeWidth={2.8} />
             </a>
-            <a href={waLink("Halo KetemuTerus, saya ingin bertanya tentang layanan Anda.")} target="_blank" rel="noreferrer" aria-label="WhatsApp KetemuTerus" title="WhatsApp" className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-sm transition hover:scale-105 hover:bg-[#1FB85A]">
+            <a href={waLink("Halo KetemuTerus, saya ingin bertanya tentang layanan Anda.")} onClick={() => trackWhatsAppClick("footer")} target="_blank" rel="noreferrer" aria-label="WhatsApp KetemuTerus" title="WhatsApp" className="flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-sm transition hover:scale-105 hover:bg-[#1FB85A]">
               <MessageCircle className="h-6 w-6" strokeWidth={2.8} />
             </a>
           </div>
