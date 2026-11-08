@@ -299,40 +299,60 @@ export default function App() {
               />
               <p className="max-w-sm text-sm leading-6 text-slate-500">Ruang lingkup ditampilkan sesuai pekerjaan yang ditangani KetemuTerus pada masing-masing proyek.</p>
             </div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                { name: "Soto Mie Kang Hendi Jagakarsa", industry: "F&B", work: "Google Business Profile — akuisisi & maintenance", logo: "/images/clients/soto%20mie%20kang%20hendi%20logo.jpeg" },
-                { name: "Tubruk Original", industry: "F&B", work: "Google Business Profile — maintenance", logo: "/images/clients/logo%20tubruk%20original.png" },
-                { name: "Labana Kebab Jagakarsa", industry: "F&B", work: "Google Business Profile — setup & maintenance", logo: "/images/clients/logo%20labana%20kebab.png" },
-                { name: "Avenue Coffee & Eatery", industry: "F&B", work: "NFC Tap-to-Review Google — solusi dari KetemuTerus", logo: "/images/clients/logo%20avenue%20coffee%20%26%20eatery.png" },
-                { name: "Home Steak & Oemah Kopi", industry: "F&B", work: "Google Ads — Performance Max optimization", logo: "/images/clients/home_steak_logo_transparent.png" },
-                { name: "Doel's Barbershop", industry: "Barbershop", work: "Google Business Profile — pendampingan akuisisi", logo: "/images/clients/Logo%20doels%20barbershop.png" },
-                { name: "Monarchy Coffee", industry: "Coffee Roastery", work: "E-commerce website development & maintenance", logo: "/images/clients/logo%20monarchy%20coffee.png" }
-              ].map((client, index) => (
-                <article key={client.name} className="group flex min-h-[250px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
-                  <div className="flex h-32 items-center justify-center border-b border-slate-100 bg-slate-50/70 px-7 py-5">
-                    <img
-                      src={client.logo}
-                      alt={`Logo ${client.name}`}
-                      loading="lazy"
-                      decoding="async"
-                      className="max-h-24 w-full object-contain"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-blue-600">{client.industry}</p>
-                        <h3 className="mt-2 text-lg font-extrabold leading-snug tracking-tight text-slate-950">{client.name}</h3>
-                      </div>
-                      <span className="text-xs font-bold tabular-nums text-slate-300">0{index + 1}</span>
-                    </div>
-                    <div className="mt-auto border-t border-slate-100 pt-4">
-                      <p className="text-sm leading-6 text-slate-600">{client.work}</p>
-                    </div>
-                  </div>
+
+            <div className="mt-10 grid gap-5 lg:grid-cols-2">
+              <article className="group grid overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-950/5 sm:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
+                <div className="flex min-h-44 items-center justify-center border-b border-slate-100 bg-[#F5F8FF] px-7 py-8 sm:min-h-56 sm:border-b-0 sm:border-r">
+                  <img src="/images/clients/home_steak_logo_transparent.png" alt="Logo Home Steak & Oemah Kopi" loading="lazy" decoding="async" className="h-auto max-h-24 w-full max-w-[210px] object-contain" />
+                </div>
+                <div className="flex flex-col justify-center p-6 sm:p-7">
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-blue-600">F&B · Cibubur</p>
+                  <h3 className="mt-2 text-xl font-extrabold leading-snug tracking-tight text-slate-950">Home Steak & Oemah Kopi</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">Google Ads — Performance Max campaign optimization.</p>
+                  <a href="#case-studies" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 transition hover:text-blue-800">Lihat studi kasus <ArrowUpRight className="h-4 w-4" /></a>
+                </div>
+              </article>
+
+              <article className="group grid overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-950/5 sm:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
+                <div className="flex min-h-44 items-center justify-center border-b border-slate-100 bg-[#F5F8FF] px-7 py-8 sm:min-h-56 sm:border-b-0 sm:border-r">
+                  <img src="/images/clients/soto%20mie%20kang%20hendi%20logo.jpeg" alt="Logo Soto Mie Kang Hendi" loading="lazy" decoding="async" className="h-auto max-h-20 w-full max-w-[190px] object-contain" />
+                </div>
+                <div className="flex flex-col justify-center p-6 sm:p-7">
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-blue-600">F&B · Jagakarsa</p>
+                  <h3 className="mt-2 text-xl font-extrabold leading-snug tracking-tight text-slate-950">Soto Mie Kang Hendi Jagakarsa</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">Google Business Profile — akuisisi & maintenance.</p>
+                  <a href="#case-studies" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 transition hover:text-blue-800">Lihat studi kasus <ArrowUpRight className="h-4 w-4" /></a>
+                </div>
+              </article>
+            </div>
+
+            <div className="mt-10">
+              <div className="mb-5 flex items-center justify-between gap-4">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">Klien & proyek lainnya</p>
+                <span className="hidden text-xs text-slate-400 sm:inline">Selected collaborations</span>
+              </div>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+                <article className="flex min-h-[164px] flex-col items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center transition hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+                  <div className="flex h-16 w-full items-center justify-center"><img src="/images/clients/logo%20tubruk%20original.png" alt="Logo Tubruk Original" loading="lazy" decoding="async" className="h-auto max-h-12 w-auto max-w-[145px] object-contain" /></div>
+                  <div><h3 className="text-sm font-extrabold text-slate-950">Tubruk Original</h3><p className="mt-1 text-xs leading-5 text-slate-500">F&B · GBP maintenance</p></div>
                 </article>
-              ))}
+                <article className="flex min-h-[164px] flex-col items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center transition hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+                  <div className="flex h-16 w-full items-center justify-center"><img src="/images/clients/logo%20labana%20kebab.png" alt="Logo Labana Kebab" loading="lazy" decoding="async" className="h-auto max-h-12 w-auto max-w-[145px] object-contain" /></div>
+                  <div><h3 className="text-sm font-extrabold text-slate-950">Labana Kebab Jagakarsa</h3><p className="mt-1 text-xs leading-5 text-slate-500">F&B · GBP setup & maintenance</p></div>
+                </article>
+                <article className="flex min-h-[164px] flex-col items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center transition hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+                  <div className="flex h-16 w-full items-center justify-center"><img src="/images/clients/logo%20avenue%20coffee%20%26%20eatery.png" alt="Logo Avenue Coffee & Eatery" loading="lazy" decoding="async" className="h-auto max-h-12 w-auto max-w-[145px] object-contain" /></div>
+                  <div><h3 className="text-sm font-extrabold text-slate-950">Avenue Coffee & Eatery</h3><p className="mt-1 text-xs leading-5 text-slate-500">F&B · NFC Tap-to-Review</p></div>
+                </article>
+                <article className="flex min-h-[164px] flex-col items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center transition hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+                  <div className="flex h-16 w-full items-center justify-center"><img src="/images/clients/Logo%20doels%20barbershop.png" alt="Logo Doel's Barbershop" loading="lazy" decoding="async" className="h-auto max-h-12 w-auto max-w-[145px] object-contain" /></div>
+                  <div><h3 className="text-sm font-extrabold text-slate-950">Doel's Barbershop</h3><p className="mt-1 text-xs leading-5 text-slate-500">Barbershop · GBP acquisition</p></div>
+                </article>
+                <article className="col-span-2 flex min-h-[164px] flex-col items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center transition hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5 sm:col-span-1">
+                  <div className="flex h-16 w-full items-center justify-center"><img src="/images/clients/logo%20monarchy%20coffee.png" alt="Logo Monarchy Coffee" loading="lazy" decoding="async" className="h-auto max-h-12 w-auto max-w-[145px] object-contain" /></div>
+                  <div><h3 className="text-sm font-extrabold text-slate-950">Monarchy Coffee</h3><p className="mt-1 text-xs leading-5 text-slate-500">Coffee Roastery · E-commerce</p></div>
+                </article>
+              </div>
             </div>
           </div>
         </section>
