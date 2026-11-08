@@ -111,6 +111,7 @@ export default function App() {
   const closeMenu = () => setMenuOpen(false);
   const nav = [
     ["Layanan", "#services"],
+    ["Klien", "#clients"],
     ["Cara Kerja", "#process"],
     ["Untuk F&B", "#fnb"],
     ["Studi Kasus", "#case-studies"],
@@ -287,6 +288,74 @@ export default function App() {
           </div>
         </section>
 
+
+        <section id="clients" className="scroll-mt-24 bg-white py-16 sm:py-20">
+          <div className="mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+              <SectionHeading
+                eyebrow="Selected clients & projects"
+                title="Kolaborasi nyata dengan bisnis lokal."
+                description="Berbagai kebutuhan, satu pendekatan: memahami kondisi bisnis dan menjalankan solusi digital yang relevan."
+              />
+              <p className="max-w-sm text-sm leading-6 text-slate-500">Ruang lingkup ditampilkan sesuai pekerjaan yang ditangani KetemuTerus pada masing-masing proyek.</p>
+            </div>
+
+            <div className="mt-10 grid gap-5 lg:grid-cols-2">
+              <article className="group grid overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-950/5 sm:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
+                <div className="flex min-h-44 items-center justify-center border-b border-slate-100 bg-[#F5F8FF] px-7 py-8 sm:min-h-56 sm:border-b-0 sm:border-r">
+                  <img src="/images/clients/home_steak_logo_transparent.png" alt="Logo Home Steak & Oemah Kopi" loading="lazy" decoding="async" className="h-auto max-h-32 w-full max-w-[250px] object-contain" />
+                </div>
+                <div className="flex flex-col justify-center p-6 sm:p-7">
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-blue-600">F&B · Cibubur</p>
+                  <h3 className="mt-2 text-xl font-extrabold leading-snug tracking-tight text-slate-950">Home Steak & Oemah Kopi</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">Google Ads — Performance Max campaign optimization.</p>
+                  <a href="#case-studies" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 transition hover:text-blue-800">Lihat studi kasus <ArrowUpRight className="h-4 w-4" /></a>
+                </div>
+              </article>
+
+              <article className="group grid overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-950/5 sm:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
+                <div className="flex min-h-44 items-center justify-center border-b border-slate-100 bg-[#F5F8FF] px-7 py-8 sm:min-h-56 sm:border-b-0 sm:border-r">
+                  <img src="/images/clients/soto%20mie%20kang%20hendi%20logo.jpeg" alt="Logo Soto Mie Kang Hendi" loading="lazy" decoding="async" className="h-auto max-h-28 w-full max-w-[230px] object-contain" />
+                </div>
+                <div className="flex flex-col justify-center p-6 sm:p-7">
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-blue-600">F&B · Jagakarsa</p>
+                  <h3 className="mt-2 text-xl font-extrabold leading-snug tracking-tight text-slate-950">Soto Mie Kang Hendi Jagakarsa</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">Google Business Profile — akuisisi & maintenance.</p>
+                  <a href="#case-studies" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 transition hover:text-blue-800">Lihat studi kasus <ArrowUpRight className="h-4 w-4" /></a>
+                </div>
+              </article>
+            </div>
+
+            <div className="mt-10">
+              <div className="mb-5 flex items-center justify-between gap-4">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">Klien & proyek lainnya</p>
+                <span className="hidden text-xs text-slate-400 sm:inline">Selected collaborations</span>
+              </div>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+                <article className="flex min-h-[164px] flex-col items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center transition hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+                  <div className="flex h-16 w-full items-center justify-center"><img src="/images/clients/logo%20tubruk%20original.png" alt="Logo Tubruk Original" loading="lazy" decoding="async" className="h-auto max-h-16 w-auto max-w-[175px] object-contain" /></div>
+                  <div><h3 className="text-sm font-extrabold text-slate-950">Tubruk Original</h3><p className="mt-1 text-xs leading-5 text-slate-500">F&B · GBP maintenance</p></div>
+                </article>
+                <article className="flex min-h-[164px] flex-col items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center transition hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+                  <div className="flex h-16 w-full items-center justify-center"><img src="/images/clients/logo%20labana%20kebab.png" alt="Logo Labana Kebab" loading="lazy" decoding="async" className="h-auto max-h-16 w-auto max-w-[175px] object-contain" /></div>
+                  <div><h3 className="text-sm font-extrabold text-slate-950">Labana Kebab Jagakarsa</h3><p className="mt-1 text-xs leading-5 text-slate-500">F&B · GBP setup & maintenance</p></div>
+                </article>
+                <article className="flex min-h-[164px] flex-col items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center transition hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+                  <div className="flex h-16 w-full items-center justify-center"><img src="/images/clients/logo%20avenue%20coffee%20%26%20eatery.png" alt="Logo Avenue Coffee & Eatery" loading="lazy" decoding="async" className="h-auto max-h-16 w-auto max-w-[175px] object-contain" /></div>
+                  <div><h3 className="text-sm font-extrabold text-slate-950">Avenue Coffee & Eatery</h3><p className="mt-1 text-xs leading-5 text-slate-500">F&B · NFC Tap-to-Review</p></div>
+                </article>
+                <article className="flex min-h-[164px] flex-col items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center transition hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+                  <div className="flex h-16 w-full items-center justify-center"><img src="/images/clients/Logo%20doels%20barbershop.png" alt="Logo Doel's Barbershop" loading="lazy" decoding="async" className="h-auto max-h-16 w-auto max-w-[175px] object-contain" /></div>
+                  <div><h3 className="text-sm font-extrabold text-slate-950">Doel's Barbershop</h3><p className="mt-1 text-xs leading-5 text-slate-500">Barbershop · GBP acquisition</p></div>
+                </article>
+                <article className="col-span-2 flex min-h-[164px] flex-col items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center transition hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5 sm:col-span-1">
+                  <div className="flex h-16 w-full items-center justify-center"><img src="/images/clients/logo%20monarchy%20coffee.png" alt="Logo Monarchy Coffee" loading="lazy" decoding="async" className="h-auto max-h-16 w-auto max-w-[175px] object-contain" /></div>
+                  <div><h3 className="text-sm font-extrabold text-slate-950">Monarchy Coffee</h3><p className="mt-1 text-xs leading-5 text-slate-500">Coffee Roastery · Setup Webcommerce</p></div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section id="case-studies" className="scroll-mt-24 bg-[#F7F9FC] py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
