@@ -301,24 +301,35 @@ export default function App() {
             </div>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                { name: "Soto Mie Kang Hendi Jagakarsa", industry: "F&B", work: "Google Business Profile — akuisisi & maintenance" },
-                { name: "Tubruk Original", industry: "F&B", work: "Google Business Profile — maintenance" },
-                { name: "Labana Kebab Jagakarsa", industry: "F&B", work: "Google Business Profile — setup & maintenance" },
-                { name: "Avenue Coffee & Eatery", industry: "F&B", work: "NFC Tap-to-Review Google — solusi dari KetemuTerus" },
-                { name: "Home Steak & Oemah Kopi", industry: "F&B", work: "Google Ads — Performance Max optimization" },
-                { name: "Doel's Barbershop", industry: "Barbershop", work: "Google Business Profile — pendampingan akuisisi" },
-                { name: "Monarchy Coffee", industry: "Coffee Roastery", work: "E-commerce website development & maintenance" }
+                { name: "Soto Mie Kang Hendi Jagakarsa", industry: "F&B", work: "Google Business Profile — akuisisi & maintenance", logo: "/images/clients/soto%20mie%20kang%20hendi%20logo.jpeg" },
+                { name: "Tubruk Original", industry: "F&B", work: "Google Business Profile — maintenance", logo: "/images/clients/logo%20tubruk%20original.png" },
+                { name: "Labana Kebab Jagakarsa", industry: "F&B", work: "Google Business Profile — setup & maintenance", logo: "/images/clients/logo%20labana%20kebab.png" },
+                { name: "Avenue Coffee & Eatery", industry: "F&B", work: "NFC Tap-to-Review Google — solusi dari KetemuTerus", logo: "/images/clients/logo%20avenue%20coffee%20%26%20eatery.png" },
+                { name: "Home Steak & Oemah Kopi", industry: "F&B", work: "Google Ads — Performance Max optimization", logo: "/images/clients/home_steak_logo_transparent.png" },
+                { name: "Doel's Barbershop", industry: "Barbershop", work: "Google Business Profile — pendampingan akuisisi", logo: "/images/clients/Logo%20doels%20barbershop.png" },
+                { name: "Monarchy Coffee", industry: "Coffee Roastery", work: "E-commerce website development & maintenance", logo: "/images/clients/logo%20monarchy%20coffee.png" }
               ].map((client, index) => (
-                <article key={client.name} className="group flex min-h-[178px] flex-col rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-blue-600">{client.industry}</p>
-                      <h3 className="mt-3 text-lg font-extrabold leading-snug tracking-tight text-slate-950">{client.name}</h3>
-                    </div>
-                    <span className="text-xs font-bold tabular-nums text-slate-300">0{index + 1}</span>
+                <article key={client.name} className="group flex min-h-[250px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+                  <div className="flex h-32 items-center justify-center border-b border-slate-100 bg-slate-50/70 px-7 py-5">
+                    <img
+                      src={client.logo}
+                      alt={`Logo ${client.name}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-24 w-full object-contain"
+                    />
                   </div>
-                  <div className="mt-auto border-t border-slate-100 pt-4">
-                    <p className="text-sm leading-6 text-slate-600">{client.work}</p>
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-blue-600">{client.industry}</p>
+                        <h3 className="mt-2 text-lg font-extrabold leading-snug tracking-tight text-slate-950">{client.name}</h3>
+                      </div>
+                      <span className="text-xs font-bold tabular-nums text-slate-300">0{index + 1}</span>
+                    </div>
+                    <div className="mt-auto border-t border-slate-100 pt-4">
+                      <p className="text-sm leading-6 text-slate-600">{client.work}</p>
+                    </div>
                   </div>
                 </article>
               ))}
