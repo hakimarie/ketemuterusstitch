@@ -111,6 +111,7 @@ export default function App() {
   const closeMenu = () => setMenuOpen(false);
   const nav = [
     ["Layanan", "#services"],
+    ["Klien", "#clients"],
     ["Cara Kerja", "#process"],
     ["Untuk F&B", "#fnb"],
     ["Studi Kasus", "#case-studies"],
@@ -287,6 +288,43 @@ export default function App() {
           </div>
         </section>
 
+
+        <section id="clients" className="scroll-mt-24 bg-white py-16 sm:py-20">
+          <div className="mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+              <SectionHeading
+                eyebrow="Selected clients & projects"
+                title="Kolaborasi nyata dengan bisnis lokal."
+                description="Berbagai kebutuhan, satu pendekatan: memahami kondisi bisnis dan menjalankan solusi digital yang relevan."
+              />
+              <p className="max-w-sm text-sm leading-6 text-slate-500">Ruang lingkup ditampilkan sesuai pekerjaan yang ditangani KetemuTerus pada masing-masing proyek.</p>
+            </div>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { name: "Soto Mie Kang Hendi Jagakarsa", industry: "F&B", work: "Google Business Profile — akuisisi & maintenance" },
+                { name: "Tubruk Original", industry: "F&B", work: "Google Business Profile — maintenance" },
+                { name: "Labana Kebab Jagakarsa", industry: "F&B", work: "Google Business Profile — setup & maintenance" },
+                { name: "Avenue Coffee & Eatery", industry: "F&B", work: "NFC Tap-to-Review Google — solusi dari KetemuTerus" },
+                { name: "Home Steak & Oemah Kopi", industry: "F&B", work: "Google Ads — Performance Max optimization" },
+                { name: "Doel's Barbershop", industry: "Barbershop", work: "Google Business Profile — pendampingan akuisisi" },
+                { name: "Monarchy Coffee", industry: "Coffee Roastery", work: "E-commerce website development & maintenance" }
+              ].map((client, index) => (
+                <article key={client.name} className="group flex min-h-[178px] flex-col rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-blue-600">{client.industry}</p>
+                      <h3 className="mt-3 text-lg font-extrabold leading-snug tracking-tight text-slate-950">{client.name}</h3>
+                    </div>
+                    <span className="text-xs font-bold tabular-nums text-slate-300">0{index + 1}</span>
+                  </div>
+                  <div className="mt-auto border-t border-slate-100 pt-4">
+                    <p className="text-sm leading-6 text-slate-600">{client.work}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <section id="case-studies" className="scroll-mt-24 bg-[#F7F9FC] py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
