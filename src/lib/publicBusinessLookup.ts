@@ -32,9 +32,10 @@ type OverpassElement = {
 };
 
 const cache = new Map<string, { expiresAt: number; value: PublicBusinessLookup }>();
-const CACHE_TTL_MS = 15 * 60 * 1000;
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // In-memory only; resets on serverless cold starts.
 const CACHE_MAX_ENTRIES = 500;
 let lastRequestAt = 0;
+let providerCooldownUntil = 0;
 let requestQueue: Promise<void> = Promise.resolve();
 
 function normalize(value: string): string {
@@ -43,7 +44,10 @@ function normalize(value: string): string {
 }
 
 function overpassRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const specialCharacters = "\\.^$|?*+()[]{}";
+  return value.split("").map((char) =>
+    specialCharacters.includes(char) ? `\\${char}` : char
+  ).join("");
 }
 
 function firstTag(tags: Record<string, string>, keys: string[]): string | null {
@@ -95,6 +99,9 @@ function safeWebsite(value: string | null): string | null {
 
 async function waitForSharedInstanceThrottle(signal: AbortSignal): Promise<void> {
   const task = requestQueue.then(async () => {
+    if (Date.now() < providerCooldownUntil) {
+      throw new Error("OpenStreetMap provider is in cooldown after a rate-limit or overload response");
+    }
     const waitMs = Math.max(0, 1100 - (Date.now() - lastRequestAt));
     if (signal.aborted) throw new Error("OpenStreetMap lookup timed out");
     if (waitMs) {
@@ -142,7 +149,7 @@ export async function lookupPublicBusiness(
   const locationPattern = overpassRegex(location.trim());
   const query = [
     "[out:json][timeout:15];",
-    `area["name"~${JSON.stringify(locationPattern)},i]["boundary"="administrative"]->.searchArea;`,
+    `area["name"~${JSON.stringify("^" + locationPattern + "$")},i]["boundary"="administrative"]->.searchArea;`,
     `(nwr(area.searchArea)["name"~${JSON.stringify(namePattern)},i];);`,
     "out center tags 30;",
   ].join("\n");
@@ -160,7 +167,12 @@ export async function lookupPublicBusiness(
       body: new URLSearchParams({ data: query }),
       signal: controller.signal,
     });
-    if (!response.ok) throw new Error(`OpenStreetMap provider returned HTTP ${response.status}`);
+    if (!response.ok) {
+      if ([429, 406, 504].includes(response.status)) {
+        providerCooldownUntil = Date.now() + 30_000;
+      }
+      throw new Error(`OpenStreetMap provider returned HTTP ${response.status}`);
+    }
 
     const payload: unknown = await response.json();
     if (typeof payload !== "object" || payload === null || !("elements" in payload) ||
