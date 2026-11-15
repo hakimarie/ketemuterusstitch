@@ -4,6 +4,7 @@ import {
   Globe2, MapPin, Megaphone, Menu, MessageCircle, Search, ShieldCheck,
   Store, Target, TrendingUp, Utensils, Workflow, X, Zap, Instagram, Music2
 } from "lucide-react";
+import posthog from "./lib/posthog";
 
 const WA = "https://wa.me/6281584229797?text=";
 const waLink = (message: string) => WA + encodeURIComponent(message);
@@ -15,6 +16,9 @@ declare global {
 }
 
 const trackWhatsAppClick = (ctaLocation: string) => {
+  posthog.capture("whatsapp_consultation_clicked", { cta_location: ctaLocation });
+  posthog.logger.info("whatsapp consultation requested", { cta_location: ctaLocation });
+
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
 
   window.gtag("event", "whatsapp_click", {

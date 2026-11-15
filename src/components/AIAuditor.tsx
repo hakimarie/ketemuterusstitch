@@ -21,7 +21,7 @@ export default function AIAuditor() {
   const [auditStep, setAuditStep] = useState(0);
 
   useEffect(() => {
-    const openAuditForm = () => { setAuditStep(0); setShowForm(true); };
+    const openAuditForm = () => { setAuditStep(0); setShowForm(true); }; 
     window.addEventListener("ketemuterus:open-audit", openAuditForm);
     return () => window.removeEventListener("ketemuterus:open-audit", openAuditForm);
   }, []);
@@ -105,6 +105,7 @@ export default function AIAuditor() {
       setLoading(false);
     }
   };
+
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return "text-emerald-500 stroke-emerald-500 bg-emerald-50 border-emerald-100";

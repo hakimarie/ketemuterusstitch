@@ -1,5 +1,6 @@
 import { lookupPublicBusiness } from "./publicBusinessLookup.js";
 import { getChecklistForCategory } from "./checklists/index.js";
+import { posthogLogger } from "./posthogLogs.js";
 import type { AuditDiagnosis, AuditMetric } from "../types.js";
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
@@ -265,6 +266,16 @@ export default async function handleAudit(req: any, res: any) {
     quickWins: selfCheckItems.filter((item) => item.priority === "high").slice(0, 3)
       .map((item) => `${item.title}: ${item.whatToCheck}`),
   } : {};
+
+  posthogLogger.emit({
+    severityText: "info",
+    body: "audit checklist generated",
+    attributes: {
+      audit_category: category,
+      public_lookup_status: publicBusinessLookup.status,
+      data_mode: "template_only",
+    },
+  });
 
   return res.status(200).json({
     businessName: businessName.trim(),
