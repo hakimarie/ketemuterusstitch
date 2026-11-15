@@ -1,10 +1,9 @@
+import "dotenv/config";
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import dotenv from "dotenv";
 import handleAudit from "./src/lib/auditHandler";
-
-dotenv.config();
+import { posthogLogger, shutdownPostHogLogs } from "./src/lib/posthogLogs";
 
 async function startServer() {
   const app = express();
@@ -49,9 +48,23 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
+  const server = app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    posthogLogger.emit({
+      severityText: "info",
+      body: "api server started",
+      attributes: { port: PORT },
+    });
   });
+
+  const shutdown = () => {
+    server.close(() => {
+      void shutdownPostHogLogs().finally(() => process.exit(0));
+    });
+  };
+
+  process.once("SIGINT", shutdown);
+  process.once("SIGTERM", shutdown);
 }
 
 startServer().catch((err) => {
