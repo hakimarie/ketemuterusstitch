@@ -1,4 +1,5 @@
 import { useState, createElement } from "react";
+import posthog, { isPostHogEnabled } from "./lib/posthog";
 import {
   ArrowRight, ArrowUpRight, BarChart3, Check, ChevronDown, Compass,
   Globe2, MapPin, Megaphone, Menu, MessageCircle, Search, ShieldCheck,
@@ -15,6 +16,10 @@ declare global {
 }
 
 const trackWhatsAppClick = (ctaLocation: string) => {
+  if (isPostHogEnabled) {
+    posthog.capture("whatsapp_click", { cta_location: ctaLocation, link_domain: "wa.me" });
+  }
+
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
 
   window.gtag("event", "whatsapp_click", {

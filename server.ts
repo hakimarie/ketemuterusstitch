@@ -3,8 +3,17 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
 import handleAudit from "./src/lib/auditHandler";
+import { createPostHogServerLogs } from "./src/lib/posthogServerLogs";
 
 dotenv.config();
+
+const posthogLogs = createPostHogServerLogs();
+
+for (const signal of ["SIGINT", "SIGTERM"] as const) {
+  process.once(signal, () => {
+    void posthogLogs.shutdown().finally(() => process.exit(0));
+  });
+}
 
 async function startServer() {
   const app = express();
@@ -14,6 +23,12 @@ async function startServer() {
 
   // Lightweight per-process rate limit. Use a shared store for multi-instance production deployments.
   const auditRequests = new Map<string, { count: number; resetAt: number }>();
+  app.use("/api/audit", (req, res, next) => {
+    res.on("finish", () => {
+      posthogLogs.emit("audit request completed", { status_code: res.statusCode });
+    });
+    next();
+  });
   app.use("/api/audit", (req, res, next) => {
     const now = Date.now();
     const key = req.ip || req.socket.remoteAddress || "unknown";
@@ -51,6 +66,7 @@ async function startServer() {
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    posthogLogs.emit("api server started", { port: PORT });
   });
 }
 

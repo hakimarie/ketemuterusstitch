@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Search, MapPin, Sparkles, CheckCircle2, ArrowRight, MessageCircle, RefreshCw, Trophy, Target, Zap, Compass, AlertCircle, ClipboardCheck, PhoneCall, TrendingUp } from "lucide-react";
 import { AuditReport } from "../types";
+import posthog, { isPostHogEnabled } from "../lib/posthog";
 
 export default function AIAuditor() {
   const [businessName, setBusinessName] = useState("");
@@ -21,7 +22,11 @@ export default function AIAuditor() {
   const [auditStep, setAuditStep] = useState(0);
 
   useEffect(() => {
-    const openAuditForm = () => { setAuditStep(0); setShowForm(true); };
+    const openAuditForm = () => {
+      if (isPostHogEnabled) posthog.capture("audit_started");
+      setAuditStep(0);
+      setShowForm(true);
+    };
     window.addEventListener("ketemuterus:open-audit", openAuditForm);
     return () => window.removeEventListener("ketemuterus:open-audit", openAuditForm);
   }, []);
@@ -52,6 +57,8 @@ export default function AIAuditor() {
       setError("Nama bisnis dan lokasi maksimal 120 karakter.");
       return;
     }
+
+    if (isPostHogEnabled) posthog.capture("audit_submitted");
 
     setError(null);
     setLoading(true);
@@ -96,10 +103,17 @@ export default function AIAuditor() {
         throw new Error("Layanan audit mengirim respons yang tidak valid. Periksa log fungsi /api/audit.");
       }
       const data = payload as AuditReport;
+      if (isPostHogEnabled) {
+        posthog.capture("audit_completed");
+        posthog.logger.info("audit report displayed", { report_type: "template" });
+      }
       setReport(data);
       setShowForm(false);
     } catch (err: unknown) {
       console.error("Audit request failed:", err);
+      if (isPostHogEnabled) {
+        posthog.logger.warn("audit request failed", { failure_stage: "request_or_response" });
+      }
       setError(err instanceof Error ? err.message : "Terjadi kesalahan saat menjalankan audit. Silakan coba lagi.");
     } finally {
       setLoading(false);
@@ -159,7 +173,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
             <div className="w-full min-w-0 rounded-3xl border border-blue-100 bg-white p-6 text-left shadow-xl shadow-blue-900/5 sm:p-8 lg:w-1/2">
               <div className="mb-5 flex items-center justify-between gap-3"><span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700">GRATIS · 3 LANGKAH</span><span className="text-xs font-medium text-slate-400">± 2 menit</span></div><h3 className="font-display text-2xl font-bold text-slate-900">Kenali peluang bisnis Anda di Google</h3>
               <p className="mt-3 text-sm leading-6 text-slate-600">Masukkan nama bisnis, kategori, dan lokasi. Anda akan mendapat checklist pemeriksaan dan langkah optimasi awal—tanpa klaim skor atau ranking yang belum diukur.</p>
-              <button type="button" onClick={() => { setAuditStep(0); setShowForm(true); }} className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-200">
+              <button type="button" onClick={() => { if (isPostHogEnabled) posthog.capture("audit_started"); setAuditStep(0); setShowForm(true); }} className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-200">
                 Mulai Audit Gratis <ArrowRight className="h-4 w-4" />
               </button>
               <div className="mt-5 grid grid-cols-3 gap-2 text-center">{["Isi bisnis", "Pilih kategori", "Dapatkan arahan"].map((step, index) => <div key={step} className="rounded-xl bg-slate-50 p-3"><span className="block text-lg font-extrabold text-blue-700">0{index + 1}</span><span className="mt-1 block text-[11px] font-medium text-slate-600">{step}</span></div>)}</div><p className="mt-4 text-xs leading-5 text-slate-500">Checklist dan rekomendasi awal, bukan pengukuran skor atau posisi Google.</p>
@@ -594,6 +608,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                       href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("consultation")}`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => { if (isPostHogEnabled) posthog.capture("audit_consultation_requested"); }}
                       className="group block w-full min-w-0 rounded-lg bg-emerald-600 p-4 text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-300"
                     >
                       <span className="flex items-center gap-2 text-sm font-extrabold"><PhoneCall className="h-5 w-5" /> Konsultasi hasil audit</span>
@@ -606,6 +621,7 @@ Mohon bantu jelaskan langkah yang paling berdampak dan opsi pendampingan yang se
                       href={`https://wa.me/6281584229797?text=${getWhatsAppMessage("roadmap")}`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => { if (isPostHogEnabled) posthog.capture("audit_roadmap_requested"); }}
                       className="group block w-full min-w-0 rounded-lg border border-slate-300 bg-white p-4 text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400"
                     >
                       <span className="flex items-center gap-2 text-sm font-extrabold"><TrendingUp className="h-5 w-5" /> Minta roadmap 30 hari</span>
