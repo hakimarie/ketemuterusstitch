@@ -82,6 +82,18 @@ function SectionHeading({ eyebrow, title, description }: { eyebrow: string; titl
 }
 
 export default function LocalSeoGoogleMapsPage() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => setMenuOpen(false);
+  const navItems = [
+    ["Layanan", "/#services"],
+    ["Klien", "/#clients"],
+    ["Cara Kerja", "/#process"],
+    ["Untuk F&B", "/#fnb"],
+    ["Studi Kasus", "/#case-studies"],
+    ["Tentang Kami", "/#approach"],
+    ["FAQ", "/#faq"],
+  ] as const;
+
   return (
     <div className="min-h-screen overflow-x-clip bg-white font-sans text-slate-800 antialiased">
       <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
