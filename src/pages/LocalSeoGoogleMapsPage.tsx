@@ -108,14 +108,14 @@ export default function LocalSeoGoogleMapsPage() {
           <nav className="hidden items-center gap-5 xl:flex" aria-label="Navigasi utama">
             {navItems.map(([label, href]) => <a key={href} href={href} className="whitespace-nowrap text-sm font-medium text-slate-600 transition hover:text-blue-600">{label}</a>)}
           </nav>
-          <a href={consultationLink} target="_blank" rel="noreferrer" className="ml-auto hidden items-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/15 transition hover:-translate-y-0.5 hover:bg-blue-700 lg:inline-flex">
+          <a href={consultationLink} target="_blank" rel="noreferrer" className="ml-auto hidden items-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/15 transition hover:-translate-y-0.5 hover:bg-blue-700 xl:inline-flex">
             Konsultasi Bisnis <ArrowUpRight className="h-4 w-4" />
           </a>
-          <button className="rounded-xl border border-slate-200 p-2.5 text-slate-700 lg:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Tutup menu" : "Buka menu"} aria-expanded={menuOpen}>
+          <button className="rounded-xl border border-slate-200 p-2.5 text-slate-700 xl:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Tutup menu" : "Buka menu"} aria-expanded={menuOpen}>
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
-        {menuOpen && <div className="border-t border-slate-100 bg-white px-5 py-4 shadow-lg lg:hidden">
+        {menuOpen && <div className="border-t border-slate-100 bg-white px-5 py-4 shadow-lg xl:hidden">
           <nav className="mx-auto flex max-w-7xl flex-col gap-1" aria-label="Navigasi mobile">
             {navItems.map(([label, href]) => <a key={href} href={href} onClick={closeMenu} className="rounded-lg px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">{label}</a>)}
             <a href={consultationLink} onClick={closeMenu} target="_blank" rel="noreferrer" className="mt-2 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white">Konsultasi Bisnis <ArrowUpRight className="h-4 w-4" /></a>
