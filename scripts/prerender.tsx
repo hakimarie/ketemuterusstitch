@@ -41,6 +41,26 @@ function renderRouteDocument(source: string, appHtml: string) {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "Organization",
+        "@id": "https://www.ketemuterus.biz.id/#organization",
+        name: "KetemuTerus",
+        url: "https://www.ketemuterus.biz.id/",
+        description: "Mitra pertumbuhan digital untuk UMKM dan bisnis lokal di Indonesia.",
+        areaServed: {"@type": "Country", name: "Indonesia"},
+        sameAs: [
+          "https://www.instagram.com/ketemuterus.biz.id/",
+          "https://www.tiktok.com/@ketemuterus.biz.id",
+        ],
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.ketemuterus.biz.id/#website",
+        url: "https://www.ketemuterus.biz.id/",
+        name: "KetemuTerus",
+        inLanguage: "id-ID",
+        publisher: {"@id": "https://www.ketemuterus.biz.id/#organization"},
+      },
+      {
         "@type": "WebPage",
         "@id": `${url}#webpage`,
         url,
