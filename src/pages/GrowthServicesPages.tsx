@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   ArrowRight, ArrowUpRight, BarChart3, Bot, CheckCircle2, CircleDollarSign,
   Facebook, Gauge, GitBranch, LineChart, Mail, Megaphone, MessageCircle,
-  MousePointerClick, Search, Settings2, ShieldCheck, Smartphone, Sparkles,
+  MousePointerClick, Search, Settings2, ShieldCheck, Smartphone, Sparkles, Star,
   Target, Workflow, Menu, X, Zap
 } from "lucide-react";
 
