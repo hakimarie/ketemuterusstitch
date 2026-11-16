@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -9,6 +10,8 @@ import {
   Star,
   Store,
   TrendingUp,
+  Menu,
+  X,
 } from "lucide-react";
 
 const WA = "https://wa.me/6281584229797?text=";
