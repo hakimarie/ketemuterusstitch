@@ -75,7 +75,8 @@ function renderRouteDocument(source: string, appHtml: string) {
   let html = source.replace("<!--app-html-->", appHtml);
   html = html.replace("<title>KetemuTerus — Local Business Growth Partner</title>", `<title>${safeTitle}</title>`);
   html = html.replace('content="KetemuTerus adalah mitra pertumbuhan digital untuk UMKM dan bisnis lokal di Indonesia. Tingkatkan visibilitas Google Search dan Maps, website, Google Ads, Meta Ads, serta otomasi pemasaran."', `content="${safeDescription}"`);
-  html = html.replace('href="https://www.ketemuterus.biz.id/"', `href="${url}"`);
+  html = html.replace('<link rel="canonical" href="https://www.ketemuterus.biz.id/" />', `<link rel="canonical" href="${url}" />`);
+  html = html.replace('<meta property="og:url" content="https://www.ketemuterus.biz.id/" />', `<meta property="og:url" content="${url}" />`);
   html = html.replace('content="KetemuTerus — Local Business Growth Partner"', `content="${safeTitle}"`);
   html = html.replace('content="Partner pertumbuhan digital untuk UMKM dan bisnis lokal. Bangun visibilitas, kepercayaan, dan pertumbuhan dengan strategi yang sesuai kebutuhan bisnis."', `content="${safeDescription}"`);
   html = html.replace('content="Mitra pertumbuhan digital untuk UMKM dan bisnis lokal di Indonesia."', `content="${safeDescription}"`);
