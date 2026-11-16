@@ -256,6 +256,7 @@ export default function App() {
                 </ul>
                 <div className="mt-7 rounded-2xl bg-blue-50/80 px-4 py-3 text-sm font-semibold text-blue-900">{outcome}</div>
                 {number === "01" && <a href="/layanan/local-seo-google-maps/" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800">Pelajari layanan Local SEO & Google Maps <ArrowUpRight className="h-4 w-4" /></a>}
+                {number === "02" && <a href="/layanan/website-umkm/" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800">Pelajari layanan Website UMKM <ArrowUpRight className="h-4 w-4" /></a>}
               </article>)}
             </div>
           </div>
