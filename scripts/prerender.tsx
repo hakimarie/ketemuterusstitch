@@ -1,20 +1,122 @@
-import {readFile, writeFile} from "node:fs/promises";
-import {resolve} from "node:path";
-import {StrictMode} from "react";
+import {mkdir, readFile, writeFile} from "node:fs/promises";
+import {resolve, dirname} from "node:path";
+import {ReactElement, StrictMode} from "react";
 import {renderToString} from "react-dom/server";
 import App from "../src/App";
+import LocalSeoGoogleMapsPage from "../src/pages/LocalSeoGoogleMapsPage";
+import WebsiteUmkmPage from "../src/pages/WebsiteUmkmPage";
+import {localSeoGoogleMapsMetadata, websiteUmkmMetadata} from "../src/pages/pageMetadata";
 
-const outputPath = resolve(process.cwd(), "dist/index.html");
-const html = await readFile(outputPath, "utf8");
-const appHtml = renderToString(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
-
-if (!html.includes("<!--app-html-->")) {
+const distPath = resolve(process.cwd(), "dist");
+const homepagePath = resolve(distPath, "index.html");
+const template = await readFile(homepagePath, "utf8");
+if (!template.includes("<!--app-html-->")) {
   throw new Error("Prerender placeholder <!--app-html--> was not found in dist/index.html");
 }
 
-await writeFile(outputPath, html.replace("<!--app-html-->", appHtml), "utf8");
-console.log(`Prerendered KetemuTerus homepage (${appHtml.length.toLocaleString("en-US")} HTML characters).`);
+const render = (element: ReactElement) =>
+  renderToString(<StrictMode>{element}</StrictMode>);
+
+const homepageHtml = render(<App />);
+await writeFile(homepagePath, template.replace("<!--app-html-->", homepageHtml), "utf8");
+console.log(`Prerendered KetemuTerus homepage (${homepageHtml.length.toLocaleString("en-US")} HTML characters).`);
+
+function escapeHtml(value: string) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function replaceJsonLd(html: string, jsonLd: object) {
+  const startTag = '<script type="application/ld+json">';
+  const start = html.indexOf(startTag);
+  if (start === -1) throw new Error("JSON-LD script tag was not found in the HTML template.");
+  const end = html.indexOf("</script>", start);
+  if (end === -1) throw new Error("JSON-LD script closing tag was not found in the HTML template.");
+  return html.slice(0, start) + startTag + JSON.stringify(jsonLd) + html.slice(end + "</script>".length);
+}
+
+type PageMetadata = typeof localSeoGoogleMapsMetadata | typeof websiteUmkmMetadata;
+
+function renderRouteDocument(source: string, appHtml: string, metadata: PageMetadata) {
+  const {title, description, url, pageName, serviceName, serviceType} = metadata;
+  const safeTitle = escapeHtml(title);
+  const safeDescription = escapeHtml(description);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.ketemuterus.biz.id/#organization",
+        name: "KetemuTerus",
+        url: "https://www.ketemuterus.biz.id/",
+        description: "Mitra pertumbuhan digital untuk UMKM dan bisnis lokal di Indonesia.",
+        areaServed: {"@type": "Country", name: "Indonesia"},
+        sameAs: [
+          "https://www.instagram.com/ketemuterus.biz.id/",
+          "https://www.tiktok.com/@ketemuterus.biz.id",
+        ],
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.ketemuterus.biz.id/#website",
+        url: "https://www.ketemuterus.biz.id/",
+        name: "KetemuTerus",
+        inLanguage: "id-ID",
+        publisher: {"@id": "https://www.ketemuterus.biz.id/#organization"},
+      },
+      {
+        "@type": "WebPage",
+        "@id": `${url}#webpage`,
+        url,
+        name: pageName,
+        description,
+        inLanguage: "id-ID",
+        isPartOf: {"@id": "https://www.ketemuterus.biz.id/#website"},
+        about: {"@id": "https://www.ketemuterus.biz.id/#organization"},
+        mainEntity: {"@id": `${url}#service`},
+      },
+      {
+        "@type": "Service",
+        "@id": `${url}#service`,
+        name: serviceName,
+        serviceType,
+        description,
+        provider: {"@id": "https://www.ketemuterus.biz.id/#organization"},
+        areaServed: {"@type": "Country", name: "Indonesia"},
+        url,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {"@type": "ListItem", position: 1, name: "Beranda", item: "https://www.ketemuterus.biz.id/"},
+          {"@type": "ListItem", position: 2, name: "Layanan", item: "https://www.ketemuterus.biz.id/#services"},
+          {"@type": "ListItem", position: 3, name: pageName, item: url},
+        ],
+      },
+    ],
+  };
+
+  let html = source.replace("<!--app-html-->", appHtml);
+  html = html.replace("<title>KetemuTerus — Local Business Growth Partner</title>", `<title>${safeTitle}</title>`);
+  html = html.replace('content="KetemuTerus adalah mitra pertumbuhan digital untuk UMKM dan bisnis lokal di Indonesia. Tingkatkan visibilitas Google Search dan Maps, website, Google Ads, Meta Ads, serta otomasi pemasaran."', `content="${safeDescription}"`);
+  html = html.replace('<link rel="canonical" href="https://www.ketemuterus.biz.id/" />', `<link rel="canonical" href="${url}" />`);
+  html = html.replace('<meta property="og:url" content="https://www.ketemuterus.biz.id/" />', `<meta property="og:url" content="${url}" />`);
+  html = html.replace('<meta property="og:title" content="KetemuTerus — Local Business Growth Partner" />', `<meta property="og:title" content="${safeTitle}" />`);
+  html = html.replace('<meta name="twitter:title" content="KetemuTerus — Local Business Growth Partner" />', `<meta name="twitter:title" content="${safeTitle}" />`);
+  html = html.replace('content="Partner pertumbuhan digital untuk UMKM dan bisnis lokal. Bangun visibilitas, kepercayaan, dan pertumbuhan dengan strategi yang sesuai kebutuhan bisnis."', `content="${safeDescription}"`);
+  html = html.replace('content="Mitra pertumbuhan digital untuk UMKM dan bisnis lokal di Indonesia."', `content="${safeDescription}"`);
+  html = replaceJsonLd(html, structuredData);
+  return html;
+}
+
+const routes = [
+  {metadata: localSeoGoogleMapsMetadata, element: <LocalSeoGoogleMapsPage />},
+  {metadata: websiteUmkmMetadata, element: <WebsiteUmkmPage />},
+];
+
+for (const route of routes) {
+  const routeHtml = renderRouteDocument(template, render(route.element), route.metadata);
+  const routeOutput = resolve(distPath, route.metadata.path.replace(/^\/+/, ""), "index.html");
+  await mkdir(dirname(routeOutput), {recursive: true});
+  await writeFile(routeOutput, routeHtml, "utf8");
+  console.log(`Prerendered ${route.metadata.path} (${routeHtml.length.toLocaleString("en-US")} HTML characters).`);
+}
