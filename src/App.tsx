@@ -223,6 +223,66 @@ export default function App() {
           </div>
         </section>
 
+        <section id="fnb-google-maps-video" className="scroll-mt-24 border-y border-slate-100 bg-[#F5F8FF] py-16 sm:py-20">
+          <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 sm:px-7 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:px-8">
+            <div className="mx-auto w-full max-w-[320px]">
+              <div className="overflow-hidden rounded-[2rem] border-[6px] border-white bg-slate-950 shadow-2xl shadow-blue-950/15">
+                <video
+                  className="aspect-[9/16] w-full bg-slate-950 object-contain"
+                  controls
+                  playsInline
+                  preload="none"
+                  poster="/images/melek-google-maps-fnb-poster.webp"
+                  aria-label="Video edukasi Melek Google Maps untuk pemilik bisnis F&B"
+                >
+                  <source src="/videos/melek-google-maps-fnb-720p.mp4" type="video/mp4" />
+                  Browser Anda belum mendukung pemutaran video.
+                </video>
+              </div>
+              <p className="mt-3 text-center text-xs font-medium text-slate-500">Melek Google Maps · Edukasi F&B · 58 detik</p>
+            </div>
+            <div className="max-w-2xl">
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-blue-600">Edukasi untuk pemilik bisnis F&B</p>
+              <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-4xl lg:text-[2.7rem]">
+                Sudah terdaftar di Google Maps, tapi apakah bisnis Anda mudah ditemukan dan dipilih?
+              </h2>
+              <p className="mt-5 text-base leading-7 text-slate-600">
+                Pelanggan tidak hanya mencari lokasi. Mereka juga membandingkan kategori, informasi, foto, dan ulasan sebelum memutuskan tempat makan.
+              </p>
+              <ul className="mt-6 space-y-3">
+                {[
+                  "Pastikan profil bisnis relevan dan informasinya lengkap.",
+                  "Bangun kepercayaan melalui foto serta informasi yang akurat.",
+                  "Kelola ulasan pelanggan secara autentik dan sesuai kebijakan Google."
+                ].map((item) => <li key={item} className="flex items-start gap-3 text-sm leading-6 text-slate-700">
+                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                  <span>{item}</span>
+                </li>)}
+              </ul>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href={waLink("Halo KetemuTerus, saya ingin konsultasi tentang Google Business Profile dan Google Maps untuk bisnis F&B saya.")}
+                  onClick={() => trackWhatsAppClick("fnb_google_maps_video")}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-600/15 transition hover:-translate-y-0.5 hover:bg-blue-700"
+                >
+                  <MessageCircle className="h-4 w-4" /> Konsultasi Google Maps
+                </a>
+                <a href="/layanan/local-seo-google-maps/" className="inline-flex min-h-13 items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3.5 text-sm font-bold text-slate-700 transition hover:border-blue-300 hover:text-blue-700">
+                  Pelajari layanan Local SEO <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+              <details className="mt-7 rounded-2xl border border-blue-100 bg-white/80 p-5">
+                <summary className="cursor-pointer text-sm font-bold text-slate-800">Apa yang dibahas dalam video ini?</summary>
+                <p className="mt-3 text-sm leading-7 text-slate-600">
+                  Video ini membahas mengapa sekadar mendaftarkan bisnis di Google Maps belum cukup, bagaimana relevansi, jarak, dan prominensi berperan dalam hasil lokal, pentingnya kategori bisnis, pengelolaan ulasan, serta cara meminta ulasan secara netral tanpa memberikan imbalan.
+                </p>
+              </details>
+            </div>
+          </div>
+        </section>
+
         <section className="bg-white py-14 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
             <SectionHeading eyebrow="Tantangan bisnis lokal" title="Punya bisnis bagus saja belum cukup." description="Calon pelanggan perlu menemukan bisnis Anda, merasa yakin, lalu tahu langkah berikutnya. Kami membantu menghubungkan ketiga hal tersebut." />
