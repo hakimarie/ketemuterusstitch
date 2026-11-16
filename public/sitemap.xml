@@ -15,4 +15,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-</urlset>
+  <url>\n    <loc>https://www.ketemuterus.biz.id/layanan/digital-advertising/</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>\n  <url>\n    <loc>https://www.ketemuterus.biz.id/layanan/growth-automation/</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>\n</urlset>
