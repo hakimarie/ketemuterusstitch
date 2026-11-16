@@ -24,6 +24,15 @@ function escapeHtml(value: string) {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
+function replaceJsonLd(html: string, jsonLd: object) {
+  const startTag = '<script type="application/ld+json">';
+  const start = html.indexOf(startTag);
+  if (start === -1) throw new Error("JSON-LD script tag was not found in the HTML template.");
+  const end = html.indexOf("</script>", start);
+  if (end === -1) throw new Error("JSON-LD script closing tag was not found in the HTML template.");
+  return html.slice(0, start) + startTag + JSON.stringify(jsonLd) + html.slice(end + "</script>".length);
+}
+
 function renderRouteDocument(source: string, appHtml: string) {
   const {title, description, url, pageName} = localSeoGoogleMapsMetadata;
   const safeTitle = escapeHtml(title);
@@ -64,15 +73,13 @@ function renderRouteDocument(source: string, appHtml: string) {
   };
 
   let html = source.replace("<!--app-html-->", appHtml);
-  html = html.replace(/<title>[^<]*<\\/title>/, `<title>${safeTitle}</title>`);
-  html = html.replace(/<meta name="description" content="[^"]*"\\s*\\/>/, `<meta name="description" content="${safeDescription}" />`);
-  html = html.replace(/<link rel="canonical" href="[^"]*"\\s*\\/>/, `<link rel="canonical" href="${url}" />`);
-  html = html.replace(/<meta property="og:title" content="[^"]*"\\s*\\/>/, `<meta property="og:title" content="${safeTitle}" />`);
-  html = html.replace(/<meta property="og:description" content="[^"]*"\\s*\\/>/, `<meta property="og:description" content="${safeDescription}" />`);
-  html = html.replace(/<meta property="og:url" content="[^"]*"\\s*\\/>/, `<meta property="og:url" content="${url}" />`);
-  html = html.replace(/<meta name="twitter:title" content="[^"]*"\\s*\\/>/, `<meta name="twitter:title" content="${safeTitle}" />`);
-  html = html.replace(/<meta name="twitter:description" content="[^"]*"\\s*\\/>/, `<meta name="twitter:description" content="${safeDescription}" />`);
-  html = html.replace(/<script type="application\\/ld\\+json">[\\s\\S]*?<\\/script>/, `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`);
+  html = html.replace("<title>KetemuTerus — Local Business Growth Partner</title>", `<title>${safeTitle}</title>`);
+  html = html.replace('content="KetemuTerus adalah mitra pertumbuhan digital untuk UMKM dan bisnis lokal di Indonesia. Tingkatkan visibilitas Google Search dan Maps, website, Google Ads, Meta Ads, serta otomasi pemasaran."', `content="${safeDescription}"`);
+  html = html.replace('href="https://www.ketemuterus.biz.id/"', `href="${url}"`);
+  html = html.replace('content="KetemuTerus — Local Business Growth Partner"', `content="${safeTitle}"`);
+  html = html.replace('content="Partner pertumbuhan digital untuk UMKM dan bisnis lokal. Bangun visibilitas, kepercayaan, dan pertumbuhan dengan strategi yang sesuai kebutuhan bisnis."', `content="${safeDescription}"`);
+  html = html.replace('content="Mitra pertumbuhan digital untuk UMKM dan bisnis lokal di Indonesia."', `content="${safeDescription}"`);
+  html = replaceJsonLd(html, structuredData);
   return html;
 }
 
