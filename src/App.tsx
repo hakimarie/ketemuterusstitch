@@ -249,14 +249,12 @@ export default function App() {
                   <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-700"><Icon className="h-7 w-7" /></span>
                   <span className="text-sm font-extrabold tracking-widest text-slate-300">{number}</span>
                 </div>
-                <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-slate-950">{number === "01" ? <a href="/layanan/local-seo-google-maps/">{title}</a> : number === "02" ? <a href="/layanan/website-umkm/">{title}</a> : title}</h3>
+                <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-slate-950">{number === "01" ? <a href="/layanan/local-seo-google-maps/" className="inline-flex items-center gap-2 text-blue-700 underline decoration-blue-200 decoration-2 underline-offset-4 transition hover:text-blue-800 hover:decoration-blue-500 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">{title}<ArrowRight className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" /></a> : number === "02" ? <a href="/layanan/website-umkm/" className="inline-flex items-center gap-2 text-blue-700 underline decoration-blue-200 decoration-2 underline-offset-4 transition hover:text-blue-800 hover:decoration-blue-500 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">{title}<ArrowRight className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" /></a> : title}</h3>
                 <p className="mt-3 max-w-xl text-sm leading-7 text-slate-600">{intro}</p>
                 <ul className="mt-6 grid gap-3 sm:grid-cols-2">
                   {items.map(item => <li key={item} className="flex items-start gap-2 text-sm font-medium text-slate-700"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />{item}</li>)}
                 </ul>
                 <div className="mt-7 rounded-2xl bg-blue-50/80 px-4 py-3 text-sm font-semibold text-blue-900">{outcome}</div>
-                {number === "01" && <a href="/layanan/local-seo-google-maps/" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-blue-200 bg-white px-5 py-2.5 text-sm font-bold text-blue-700 transition hover:border-blue-400 hover:bg-blue-50">Pelajari Local SEO & Google Maps <ArrowRight className="h-4 w-4" /></a>}
-                {number === "02" && <a href="/layanan/website-umkm/" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-blue-200 bg-white px-5 py-2.5 text-sm font-bold text-blue-700 transition hover:border-blue-400 hover:bg-blue-50">Pelajari Website UMKM <ArrowRight className="h-4 w-4" /></a>}
               </article>)}
             </div>
           </div>
