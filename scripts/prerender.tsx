@@ -1,6 +1,6 @@
 import {mkdir, readFile, writeFile} from "node:fs/promises";
 import {resolve, dirname} from "node:path";
-import {StrictMode} from "react";
+import {ReactElement, StrictMode} from "react";
 import {renderToString} from "react-dom/server";
 import App from "../src/App";
 import LocalSeoGoogleMapsPage from "../src/pages/LocalSeoGoogleMapsPage";
@@ -10,7 +10,7 @@ const distPath = resolve(process.cwd(), "dist");
 const homepagePath = resolve(distPath, "index.html");
 const template = await readFile(homepagePath, "utf8");
 
-const render = (element: React.ReactElement) =>
+const render = (element: ReactElement) =>
   renderToString(<StrictMode>{element}</StrictMode>);
 
 const homepageHtml = render(<App />);
@@ -77,7 +77,8 @@ function renderRouteDocument(source: string, appHtml: string) {
   html = html.replace('content="KetemuTerus adalah mitra pertumbuhan digital untuk UMKM dan bisnis lokal di Indonesia. Tingkatkan visibilitas Google Search dan Maps, website, Google Ads, Meta Ads, serta otomasi pemasaran."', `content="${safeDescription}"`);
   html = html.replace('<link rel="canonical" href="https://www.ketemuterus.biz.id/" />', `<link rel="canonical" href="${url}" />`);
   html = html.replace('<meta property="og:url" content="https://www.ketemuterus.biz.id/" />', `<meta property="og:url" content="${url}" />`);
-  html = html.replace('content="KetemuTerus — Local Business Growth Partner"', `content="${safeTitle}"`);
+  html = html.replace('<meta property="og:title" content="KetemuTerus — Local Business Growth Partner" />', `<meta property="og:title" content="${safeTitle}" />`);
+  html = html.replace('<meta name="twitter:title" content="KetemuTerus — Local Business Growth Partner" />', `<meta name="twitter:title" content="${safeTitle}" />`);
   html = html.replace('content="Partner pertumbuhan digital untuk UMKM dan bisnis lokal. Bangun visibilitas, kepercayaan, dan pertumbuhan dengan strategi yang sesuai kebutuhan bisnis."', `content="${safeDescription}"`);
   html = html.replace('content="Mitra pertumbuhan digital untuk UMKM dan bisnis lokal di Indonesia."', `content="${safeDescription}"`);
   html = replaceJsonLd(html, structuredData);
