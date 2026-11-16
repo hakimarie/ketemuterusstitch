@@ -255,6 +255,7 @@ export default function App() {
                   {items.map(item => <li key={item} className="flex items-start gap-2 text-sm font-medium text-slate-700"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />{item}</li>)}
                 </ul>
                 <div className="mt-7 rounded-2xl bg-blue-50/80 px-4 py-3 text-sm font-semibold text-blue-900">{outcome}</div>
+                {number === "01" && <a href="/layanan/local-seo-google-maps/" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800">Pelajari layanan Local SEO & Google Maps <ArrowUpRight className="h-4 w-4" /></a>}
               </article>)}
             </div>
           </div>
