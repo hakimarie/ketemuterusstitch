@@ -255,6 +255,8 @@ export default function App() {
                   {items.map(item => <li key={item} className="flex items-start gap-2 text-sm font-medium text-slate-700"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />{item}</li>)}
                 </ul>
                 <div className="mt-7 rounded-2xl bg-blue-50/80 px-4 py-3 text-sm font-semibold text-blue-900">{outcome}</div>
+                {number === "01" && <a href="/layanan/local-seo-google-maps/" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-blue-200 bg-white px-5 py-2.5 text-sm font-bold text-blue-700 transition hover:border-blue-400 hover:bg-blue-50">Pelajari Local SEO & Google Maps <ArrowRight className="h-4 w-4" /></a>}
+                {number === "02" && <a href="/layanan/website-umkm/" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-blue-200 bg-white px-5 py-2.5 text-sm font-bold text-blue-700 transition hover:border-blue-400 hover:bg-blue-50">Pelajari Website UMKM <ArrowRight className="h-4 w-4" /></a>}
               </article>)}
             </div>
           </div>
