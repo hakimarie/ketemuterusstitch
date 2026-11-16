@@ -17,3 +17,24 @@ export const websiteUmkmMetadata = {
   serviceName: "Pembuatan Website UMKM",
   serviceType: ["Website Development", "Business Website", "Landing Page Development", "Website Conversion Optimization"],
 } as const;
+
+
+export const digitalAdvertisingMetadata = {
+  path: "/layanan/digital-advertising/",
+  title: "Jasa Google Ads & Meta Ads untuk Bisnis Lokal | KetemuTerus",
+  description: "Jasa pengelolaan Google Ads, Performance Max, dan Meta Ads untuk UMKM dan bisnis lokal. Strategi kampanye, optimasi, tracking, dan evaluasi yang terukur.",
+  url: "https://www.ketemuterus.biz.id/layanan/digital-advertising/",
+  pageName: "Jasa Digital Advertising untuk Bisnis Lokal",
+  serviceName: "Digital Advertising — Google Ads dan Meta Ads",
+  serviceType: ["Google Ads Management", "Performance Max Campaign Management", "Meta Ads Management", "Campaign Optimization", "Conversion Tracking"],
+} as const;
+
+export const growthAutomationMetadata = {
+  path: "/layanan/growth-automation/",
+  title: "Growth Strategy & AI Automation untuk UMKM | KetemuTerus",
+  description: "Strategi growth, AI workflow, marketing automation, lead management, dan review management untuk membantu bisnis lokal bekerja lebih efisien.",
+  url: "https://www.ketemuterus.biz.id/layanan/growth-automation/",
+  pageName: "Growth Strategy dan Automation untuk Bisnis Lokal",
+  serviceName: "Growth Strategy dan Business Automation",
+  serviceType: ["Growth Strategy", "Marketing Automation", "AI Workflow Automation", "Lead Management", "Review Management"],
+} as const;

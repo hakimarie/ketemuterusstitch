@@ -5,7 +5,8 @@ import {renderToString} from "react-dom/server";
 import App from "../src/App";
 import LocalSeoGoogleMapsPage from "../src/pages/LocalSeoGoogleMapsPage";
 import WebsiteUmkmPage from "../src/pages/WebsiteUmkmPage";
-import {localSeoGoogleMapsMetadata, websiteUmkmMetadata} from "../src/pages/pageMetadata";
+import {DigitalAdvertisingPage, GrowthAutomationPage} from "../src/pages/GrowthServicesPages";
+import {localSeoGoogleMapsMetadata, websiteUmkmMetadata, digitalAdvertisingMetadata, growthAutomationMetadata} from "../src/pages/pageMetadata";
 
 const distPath = resolve(process.cwd(), "dist");
 const homepagePath = resolve(distPath, "index.html");
@@ -34,7 +35,7 @@ function replaceJsonLd(html: string, jsonLd: object) {
   return html.slice(0, start) + startTag + JSON.stringify(jsonLd) + html.slice(end + "</script>".length);
 }
 
-type PageMetadata = typeof localSeoGoogleMapsMetadata | typeof websiteUmkmMetadata;
+type PageMetadata = typeof localSeoGoogleMapsMetadata | typeof websiteUmkmMetadata | typeof digitalAdvertisingMetadata | typeof growthAutomationMetadata;
 
 function renderRouteDocument(source: string, appHtml: string, metadata: PageMetadata) {
   const {title, description, url, pageName, serviceName, serviceType} = metadata;
@@ -111,6 +112,8 @@ function renderRouteDocument(source: string, appHtml: string, metadata: PageMeta
 const routes = [
   {metadata: localSeoGoogleMapsMetadata, element: <LocalSeoGoogleMapsPage />},
   {metadata: websiteUmkmMetadata, element: <WebsiteUmkmPage />},
+  {metadata: digitalAdvertisingMetadata, element: <DigitalAdvertisingPage />},
+  {metadata: growthAutomationMetadata, element: <GrowthAutomationPage />},
 ];
 
 for (const route of routes) {
