@@ -182,14 +182,19 @@ def main():
         if page.get("status") is not None and 200 <= page["status"] < 300 and page.get("final_url"):
             live[path] = page
 
-    if live and not state.get("first_live_date"):
+    released = {path: page for path, page in live.items()
+                if page["final_url"].rstrip("/") in sitemap["urls"] or page["url"].rstrip("/") in sitemap["urls"]}
+    if released and not state.get("first_live_date"):
         state["first_live_date"] = TODAY.isoformat()
         state["audit_due_date"] = (TODAY + dt.timedelta(days=7)).isoformat()
         print(f"FIRST VERIFIED RELEASE: {state['first_live_date']}; SEO audit due {state['audit_due_date']} (Asia/Jakarta).")
-        for path, page in live.items():
-            print(f"- {page['url']} HTTP {page['status']} -> {page['final_url']}; sitemap={'yes' if page['final_url'].rstrip('/') in sitemap['urls'] or page['url'].rstrip('/') in sitemap['urls'] else 'no'}")
-        state["pages"] = {path: {"first_live_date": TODAY.isoformat(), "last_status": page["status"]} for path, page in live.items()}
+        for path, page in released.items():
+            print(f"- {page['url']} HTTP {page['status']} -> {page['final_url']}; sitemap=yes")
+        state["pages"] = {path: {"first_live_date": TODAY.isoformat(), "last_status": page["status"]} for path, page in released.items()}
         save_state(state)
+        return 0
+    if live and not released and not state.get("first_live_date"):
+        print("TARGET URL(S) RESPOND 2xx, BUT NONE IS CONFIRMED IN sitemap.xml. Release clock not started.")
         return 0
 
     # Before audit date: remain silent except persist newly discovered live URLs.
